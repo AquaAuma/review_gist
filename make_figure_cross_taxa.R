@@ -105,29 +105,16 @@ cumul_desc <- taxonomies %>%
   group_by(taxa, year) %>% 
   summarize(nbr_description = length(canonical)) %>% 
   mutate(temp_sum=cumsum(nbr_description))
+cumul_desc <- data.frame(cumul_desc)
 
 # make figure
-ggplot(data = cumul_desc, aes(y = temp_sum, x = year)) + 
-  geom_line(lwd=1.5, color="black") + #geom_point(pch=1, size=0.5) + 
-  facet_wrap( ~ taxa, nrow=1, scales = "free_y") +
-  xlab("Year of description") + ylab("Cumulative number of descriptions") +
-  scale_x_continuous(breaks = c(1750,1800,1850,1900,1950,2000), 
-                     labels = c(1750,1800,1850,1900,1950,2000),
-                     ) +
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 45, size=10, hjust=1),
-        axis.ticks.length.x = unit(.25, "cm"),
-        strip.background = element_blank(),
-        strip.text.x = element_blank()) +
-  add_phylopic(img = crab_img, alpha=1, color="black")
-
 
 taxa <- unique(taxonomies$taxa)
 plots_cumul <- list()
 
 for(i in 1:length(taxa)){
 
-    dat <- subset(cumul_desc, taxa==taxa[i])
+    dat <- cumul_desc[cumul_desc$taxa == taxa[i],]
     
     p <- ggplot(data = dat, aes(y=temp_sum, x=year)) +
     geom_line(lwd=1.5, color="black") +
@@ -135,13 +122,13 @@ for(i in 1:length(taxa)){
     scale_x_continuous(breaks = c(1750,1800,1850,1900,1950,2000), 
                        labels = c(1750,1800,1850,1900,1950,2000)) +
     theme_bw() +
-    theme(axis.text.x = element_text(angle = 45, size=20, hjust=1),
+    theme(axis.text.x = element_text(angle = 45, size=25, hjust=1),
           axis.ticks.length.x = unit(.25, "cm"),
           strip.background = element_blank(),
           strip.text.x = element_blank(),
           panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
-          text = element_text(size=20),
+          text = element_text(size=25),
           axis.text = element_text(size=20)) 
     
     # add silhouette
