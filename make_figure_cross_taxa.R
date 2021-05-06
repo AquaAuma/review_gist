@@ -14,6 +14,9 @@ library(ggplot2)
 library(tidyverse)
 library(readxl)
 library(rphylopic)
+library(egg)
+library(grid)
+library(png)
 
 
 ################################################################################
@@ -79,8 +82,22 @@ ggplot() + geom_bar(data = descriptions, aes(y = nbr_description, x = as.factor(
   theme_bw()
 
 
+
 ################################################################################
 ### 5.Cumulative descriptions / year / group
+################################################################################
+# get silhouettes & save as png files
+crab_uuid <- image_get(uuid = "01dd976b-f6e9-4204-bae1-c15a32234f73")
+crab_img <- image_data(crab_uuid$uid, size = "512")[[1]]
+save_png(crab_img, target = "figures/silhouette_crabs.png")
+
+dragon_uuid <- image_get(uuid = "8af9c80d-92f9-4ba8-87c0-8ffa026c770c")
+dragon_img <- image_data(dragon_uuid$uid, size="512")[[1]]
+save_png(dragon_img, target = "figures/silhouette_odonates.png")
+
+
+################################################################################
+### 6.Cumulative descriptions / year / group
 ################################################################################
 
 # make summary of data with yearly accumulation
@@ -95,7 +112,8 @@ ggplot(data = cumul_desc, aes(y = temp_sum, x = year)) +
   facet_wrap( ~ taxa, nrow=1, scales = "free_y") +
   xlab("Year of description") + ylab("Cumulative number of descriptions") +
   scale_x_continuous(breaks = c(1750,1800,1850,1900,1950,2000), 
-                   labels = c(1750,1800,1850,1900,1950,2000)) +
+                     labels = c(1750,1800,1850,1900,1950,2000),
+                     ) +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, size=10, hjust=1),
         axis.ticks.length.x = unit(.25, "cm"),
@@ -104,21 +122,44 @@ ggplot(data = cumul_desc, aes(y = temp_sum, x = year)) +
   add_phylopic(img = crab_img, alpha=1, color="black")
 
 
-# get silhouettes
-crab_uuid <- image_get(uuid = "01dd976b-f6e9-4204-bae1-c15a32234f73")
-crab_img <- image_data(crab_uuid$uid, size = "512")[[1]]
+taxa <- unique(taxonomies$taxa)
+plots_cumul <- list()
 
-dragon_uuid <- image_get(uuid = "8af9c80d-92f9-4ba8-87c0-8ffa026c770c")
-dragon_img <- image_data(dragon_uuid$uid, size="512")[[1]]
+for(i in 1:length(taxa)){
 
-ggplot(data = cumul_desc[cumul_desc$taxa=="crabs",], aes(y=temp_sum, x=year)) +
-  geom_line(lwd=1.5, color="black") +
-  xlab("Year of description") + ylab("Cumulative number of descriptions") +
-  scale_x_continuous(breaks = c(1750,1800,1850,1900,1950,2000), 
-                     labels = c(1750,1800,1850,1900,1950,2000)) +
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 45, size=10, hjust=1),
-        axis.ticks.length.x = unit(.25, "cm"),
-        strip.background = element_blank(),
-        strip.text.x = element_blank()) +
-  add_phylopic(img = crab_img, alpha=1, color="black", y = 7500, x= 1780, ysize = 0.8)
+    dat <- subset(cumul_desc, taxa==taxa[i])
+    
+    p <- ggplot(data = dat, aes(y=temp_sum, x=year)) +
+    geom_line(lwd=1.5, color="black") +
+    xlab("Year of description") + ylab("Cumulative number of descriptions") +
+    scale_x_continuous(breaks = c(1750,1800,1850,1900,1950,2000), 
+                       labels = c(1750,1800,1850,1900,1950,2000)) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, size=20, hjust=1),
+          axis.ticks.length.x = unit(.25, "cm"),
+          strip.background = element_blank(),
+          strip.text.x = element_blank(),
+          panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          text = element_text(size=20),
+          axis.text = element_text(size=20)) 
+    
+    # add silhouette
+    silhouette <- readPNG(paste0("figures/silhouette_",taxa[i],".png"))
+    silhouette <- rasterGrob(silhouette, interpolate = TRUE)
+    min_y <- max(dat$temp_sum)-0.1*max(dat$temp_sum)
+    p <- p +
+      annotation_custom(silhouette, ymin = min_y, xmin = 1760, xmax = 1800)
+    
+   if(i !=1){p <- p + ylab("")}
+    
+    plots_cumul[[length(plots_cumul)+1]] <- p
+    rm(p)
+}
+
+# save main plot
+ppi <- 300
+png(paste0("figures/taxa_plot_",date,".png"),
+    width = 20*ppi, height = 10*ppi, res=ppi)
+print(ggarrange(plots = plots_cumul, nrow=1, ncol=2))
+dev.off()
