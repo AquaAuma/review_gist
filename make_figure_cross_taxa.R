@@ -87,6 +87,7 @@ ggplot() + geom_bar(data = descriptions, aes(y = nbr_description, x = as.factor(
 ### 5.Cumulative descriptions / year / group
 ################################################################################
 # silhouette uuid are found online on this website: http://phylopic.org/
+# uuid in the webpage url
 
 # get silhouettes & save as png files
 crab_uuid <- image_get(uuid = "01dd976b-f6e9-4204-bae1-c15a32234f73")
