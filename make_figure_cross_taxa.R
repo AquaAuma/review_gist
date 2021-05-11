@@ -46,13 +46,19 @@ lepidoptera <- read.csv("data/SpList_Lepi(overview,110521).csv") %>%
                                is.na(Subspecies) ~ "species"),
          group = "butterflies",
          status = "accepted",
-         accid = 0) %>% 
+         accid = 0) %>%
+  filter(!is.na(Year)) %>% # a few species don't have authorship, so they should be removed
   rename(canonical = ValidBinomial,
          authorship = Year,
          id = X) %>% 
   select(accid,canonical,taxonRank,status,authorship,id,group)
 
-write_xlsx(lepidoptera, file = "data/Lepidoptera.xlsx")
+unique(lepidoptera$taxonRank)
+unique(lepidoptera$accid)
+unique(lepidoptera$status) # assumed accepted because not specified in file provided
+
+# save correct excel file
+write_xlsx(lepidoptera, path = "data/Lepidoptera.xlsx")
 
 
 ################################################################################
@@ -63,7 +69,8 @@ identical(names(odonata),names(brachyura))
 taxonomies <- rbind(odonata, brachyura)
 identical(names(taxonomies),names(anomura))
 taxonomies <- rbind(taxonomies, anomura)
-
+identical(names(taxonomies),names(lepidoptera))
+taxonomies <- rbind(taxonomies,lepidoptera)
 unique(taxonomies$group)
 
 
@@ -76,6 +83,8 @@ taxonomies <- taxonomies %>%
          year = as.numeric(year),
          taxa = ifelse(group %in% c("anomurans","brachyurans"),"crabs",group))
 sort(unique(taxonomies$year)) # problem with years for 5 odonate spp
+summary(taxonomies$year) 
+# verify there is no NA, there are 4 odonates spp with NA and 2 brachyuran spp with NA
 
 
 ################################################################################
@@ -99,7 +108,7 @@ ggplot() + geom_bar(data = descriptions, aes(y = nbr_description, x = as.factor(
 
 
 ################################################################################
-### 5.Cumulative descriptions / year / group
+### 5.Get the silhouette for each group
 ################################################################################
 # silhouette uuid are found online on this website: http://phylopic.org/
 # uuid in the webpage url
@@ -113,6 +122,10 @@ dragon_uuid <- image_get(uuid = "8af9c80d-92f9-4ba8-87c0-8ffa026c770c")
 dragon_img <- image_data(dragon_uuid$uid, size="512")[[1]]
 save_png(dragon_img, target = "figures/silhouette_odonates.png")
 
+butter_uuid <- image_get(uuid = "ab6182d2-5093-444b-92e5-84468218ebf0")
+butter_img <- image_data(butter_uuid$uid, size="512")[[1]]
+save_png(butter_img, target = "figures/silhouette_butterflies.png")
+
 
 ################################################################################
 ### 6.Cumulative descriptions / year / group
@@ -120,7 +133,7 @@ save_png(dragon_img, target = "figures/silhouette_odonates.png")
 
 # make summary of data with yearly accumulation
 cumul_desc <- taxonomies %>% 
-  group_by(taxa, year) %>% 
+  group_by(taxa, taxonRank, year) %>% 
   summarize(nbr_description = length(canonical)) %>% 
   mutate(temp_sum=cumsum(nbr_description))
 cumul_desc <- data.frame(cumul_desc)
@@ -134,8 +147,8 @@ for(i in 1:length(taxa)){
 
     dat <- cumul_desc[cumul_desc$taxa == taxa[i],]
     
-    p <- ggplot(data = dat, aes(y=temp_sum, x=year)) +
-    geom_line(lwd=1.5, color="black") +
+    p <- ggplot(data = dat, aes(y=temp_sum, x=year, group=taxonRank)) +
+    geom_line(lwd=1.5, color="black", aes(linetype = taxonRank)) +
     xlab("Year of description") + ylab("Cumulative number of descriptions") +
     scale_x_continuous(breaks = c(1750,1800,1850,1900,1950,2000), 
                        labels = c(1750,1800,1850,1900,1950,2000)) +
@@ -147,14 +160,15 @@ for(i in 1:length(taxa)){
           panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
           text = element_text(size=25),
-          axis.text = element_text(size=20)) 
+          axis.text = element_text(size=20),
+          legend.position = "none") 
     
     # add silhouette
     silhouette <- readPNG(paste0("figures/silhouette_",taxa[i],".png"))
     silhouette <- rasterGrob(silhouette, interpolate = TRUE)
     min_y <- max(dat$temp_sum)-0.1*max(dat$temp_sum)
     p <- p +
-      annotation_custom(silhouette, ymin = min_y, xmin = 1760, xmax = 1800)
+      annotation_custom(silhouette, ymin = min_y, xmin = 1750, xmax = 1800)
     
    if(i !=1){p <- p + ylab("")}
     
@@ -165,6 +179,6 @@ for(i in 1:length(taxa)){
 # save main plot
 ppi <- 300
 png(paste0("figures/taxa_plot_",date,".png"),
-    width = 20*ppi, height = 10*ppi, res=ppi)
-print(ggarrange(plots = plots_cumul, nrow=1, ncol=2))
+    width = 20*ppi, height = 7.5*ppi, res=ppi)
+print(ggarrange(plots = plots_cumul, nrow=1, ncol=3))
 dev.off()
