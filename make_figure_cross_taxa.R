@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '6MAY2021'
+date <- '11MAY2021'
 
 # libraries
 library(ggplot2)
@@ -17,6 +17,7 @@ library(rphylopic)
 library(egg)
 library(grid)
 library(png)
+library(writexl)
 
 
 ################################################################################
@@ -38,6 +39,20 @@ brachyura <- read_excel("data/Brachyura.xlsx")
 unique(brachyura$accid)
 unique(brachyura$taxonRank)
 unique(brachyura$status)
+
+# Butterlfies
+lepidoptera <- read.csv("data/SpList_Lepi(overview,110521).csv") %>% 
+  mutate(taxonRank = case_when(!is.na(Subspecies) ~ "subspecies",
+                               is.na(Subspecies) ~ "species"),
+         group = "butterflies",
+         status = "accepted",
+         accid = 0) %>% 
+  rename(canonical = ValidBinomial,
+         authorship = Year,
+         id = X) %>% 
+  select(accid,canonical,taxonRank,status,authorship,id,group)
+
+write_xlsx(lepidoptera, file = "data/Lepidoptera.xlsx")
 
 
 ################################################################################
