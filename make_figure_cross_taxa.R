@@ -25,12 +25,21 @@ library(writexl)
 ################################################################################
 
 # Dragonflies
+# /!\ 4 species had authorship problems with missing part of it with the year and had to be corrected by hand
+# /!\ one species was present twice and was removed
+# /!\ Paracercion ambiguum Kompier & Yu in Ning, Kompier, Yu & Bu, 2016
+# Palaiargia susannae Kovács & Theischinger in Kovács, Theischinger, Juhász & Danyik, 2015
+# Drepanosticta batanta Kovács & Theischinger in Kovács, Theischinger, Juhász & Danyik, 2015
+# Diplacina olahi Theischinger & Kovács in Kovács, Theischinger, Juhász & Danyik, 2015
+
 odonata <- read_excel("data/Odonata.xlsx")
 unique(odonata$accid) #check accid, should be 0
 unique(odonata$taxonRank) # check rank, should be species/subspecies or alike
 unique(odonata$status) # check status, should be accepted
 
 # Crabs
+# /!\ 2 species with missing years that had to be re-entered manually:
+# /!\ Arcotheres ocularius & Cymonomus tesseris
 anomura <- read_excel("data/Anomura.xlsx")
 unique(anomura$accid) 
 unique(anomura$taxonRank)
@@ -47,7 +56,7 @@ lepidoptera <- read.csv("data/SpList_Lepi(overview,110521).csv") %>%
          group = "butterflies",
          status = "accepted",
          accid = 0) %>%
-  filter(!is.na(Year)) %>% # a few species don't have authorship, so they should be removed
+  filter(!is.na(Year)) %>% # 6 few species don't have authorship, so they should be removed for now, then checked with Stefan
   rename(canonical = ValidBinomial,
          authorship = Year,
          id = X) %>% 
@@ -58,7 +67,7 @@ unique(lepidoptera$accid)
 unique(lepidoptera$status) # assumed accepted because not specified in file provided
 
 # save correct excel file
-write_xlsx(lepidoptera, path = "data/Lepidoptera.xlsx")
+#write_xlsx(lepidoptera, path = "data/Lepidoptera.xlsx")
 
 
 ################################################################################
@@ -97,7 +106,7 @@ descriptions <- taxonomies %>%
   summarize(nbr_description = length(canonical))
 
 # make figure
-ggplot() + geom_bar(data = descriptions, aes(y = nbr_description, x = as.factor(year)),
+desc_year_plot <- ggplot() + geom_bar(data = descriptions, aes(y = nbr_description, x = as.factor(year)),
                     stat = "identity") +
   facet_wrap( ~ taxa, nrow=1) +
   xlab("Year of description") + ylab("Number of descriptions") +
@@ -105,6 +114,12 @@ ggplot() + geom_bar(data = descriptions, aes(y = nbr_description, x = as.factor(
                    labels = c(1750,1800,1850,1900,1950,2000)) +
   theme_bw()
 
+# save main plot
+ppi <- 300
+png(paste0("figures/taxa_plot_desc_per_year_",date,".png"),
+    width = 20*ppi, height = 7.5*ppi, res=ppi)
+print(desc_year_plot)
+dev.off()
 
 
 ################################################################################
@@ -139,7 +154,6 @@ cumul_desc <- taxonomies %>%
 cumul_desc <- data.frame(cumul_desc)
 
 # make figure
-
 taxa <- unique(taxonomies$taxa)
 plots_cumul <- list()
 
@@ -179,6 +193,6 @@ for(i in 1:length(taxa)){
 # save main plot
 ppi <- 300
 png(paste0("figures/taxa_plot_",date,".png"),
-    width = 20*ppi, height = 7.5*ppi, res=ppi)
+    width = 20*ppi, height = 6.5*ppi, res=ppi)
 print(ggarrange(plots = plots_cumul, nrow=1, ncol=3))
 dev.off()
