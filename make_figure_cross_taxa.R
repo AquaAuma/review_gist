@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '11MAY2021'
+date <- '12MAY2021'
 
 # libraries
 library(ggplot2)
@@ -69,6 +69,16 @@ unique(lepidoptera$status) # assumed accepted because not specified in file prov
 # save correct excel file
 #write_xlsx(lepidoptera, path = "data/Lepidoptera.xlsx")
 
+# Ants
+formicidae <- read.csv("data/Formicidae.csv") %>% 
+  rename(accid = 'ï..accid') %>% 
+  filter(accid==0)
+
+unique(formicidae$taxonRank)
+unique(formicidae$accid)
+unique(formicidae$status) # assumed accepted because not specified in file provided
+
+
 
 ################################################################################
 ### 2. Merge taxonomies
@@ -80,6 +90,8 @@ identical(names(taxonomies),names(anomura))
 taxonomies <- rbind(taxonomies, anomura)
 identical(names(taxonomies),names(lepidoptera))
 taxonomies <- rbind(taxonomies,lepidoptera)
+identical(names(taxonomies),names(formicidae))
+taxonomies <- rbind(taxonomies,formicidae)
 unique(taxonomies$group)
 
 
@@ -93,7 +105,8 @@ taxonomies <- taxonomies %>%
          taxa = ifelse(group %in% c("anomurans","brachyurans"),"crabs",group))
 sort(unique(taxonomies$year)) # problem with years for 5 odonate spp
 summary(taxonomies$year) 
-# verify there is no NA, there are 4 odonates spp with NA and 2 brachyuran spp with NA
+# verify there is no NA, there are 4 odonates spp with NA and 2 brachyuran spp with NA, fixed by hand
+# no problem for butterflies and ants
 
 
 ################################################################################
@@ -140,6 +153,10 @@ save_png(dragon_img, target = "figures/silhouette_odonates.png")
 butter_uuid <- image_get(uuid = "ab6182d2-5093-444b-92e5-84468218ebf0")
 butter_img <- image_data(butter_uuid$uid, size="512")[[1]]
 save_png(butter_img, target = "figures/silhouette_butterflies.png")
+
+ant_uuid <- image_get(uuid = "f4d28481-3b28-4cdb-9877-9b9d4f07e5f2")
+ant_img <- image_data(ant_uuid$uid, size="512")[[1]]
+save_png(ant_img, target = "figures/silhouette_ants.png")
 
 
 ################################################################################
@@ -193,6 +210,6 @@ for(i in 1:length(taxa)){
 # save main plot
 ppi <- 300
 png(paste0("figures/taxa_plot_",date,".png"),
-    width = 20*ppi, height = 6.5*ppi, res=ppi)
-print(ggarrange(plots = plots_cumul, nrow=1, ncol=3))
+    width = 20*ppi, height = 5*ppi, res=ppi)
+print(ggarrange(plots = plots_cumul, nrow=1, ncol=4))
 dev.off()
