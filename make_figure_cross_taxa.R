@@ -70,9 +70,7 @@ unique(lepidoptera$status) # assumed accepted because not specified in file prov
 #write_xlsx(lepidoptera, path = "data/Lepidoptera.xlsx")
 
 # Ants
-formicidae <- read.csv("data/Formicidae.csv") %>% 
-  rename(accid = 'ï..accid') %>% 
-  filter(accid==0)
+formicidae <- read_excel("data/Formicidae.xlsx")
 
 unique(formicidae$taxonRank)
 unique(formicidae$accid)
