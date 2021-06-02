@@ -1,13 +1,13 @@
 ###############################################################################
 #### Figures showing the taxonomic descriptions through time across taxa
 #### Coding and data processing: Aurore Maureaud
-#### May 2021
+#### June 2021
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '12MAY2021'
+date <- '2JUN2021'
 
 # libraries
 library(ggplot2)
@@ -76,6 +76,14 @@ unique(formicidae$taxonRank)
 unique(formicidae$accid)
 unique(formicidae$status) # assumed accepted because not specified in file provided
 
+# Terrestrial mammals
+mammalia <- read_excel("data/mammals_MDD_May2021.xlsx") %>% 
+  select(accid, canonical, taxonRank, status, authorship, id, group)
+
+unique(mammalia$taxonRank)
+unique(mammalia$accid)
+unique(mammalia$status) # all ok
+length(unique(mammalia$canonical)) # all ok
 
 
 ################################################################################
@@ -90,6 +98,8 @@ identical(names(taxonomies),names(lepidoptera))
 taxonomies <- rbind(taxonomies,lepidoptera)
 identical(names(taxonomies),names(formicidae))
 taxonomies <- rbind(taxonomies,formicidae)
+identical(names(taxonomies),names(mammalia))
+taxonomies <- rbind(taxonomies, mammalia)
 unique(taxonomies$group)
 
 
@@ -156,6 +166,10 @@ ant_uuid <- image_get(uuid = "f4d28481-3b28-4cdb-9877-9b9d4f07e5f2")
 ant_img <- image_data(ant_uuid$uid, size="512")[[1]]
 save_png(ant_img, target = "figures/silhouette_ants.png")
 
+mammal_uuid <- image_get(uuid = "baa41c61-362b-45e0-a3be-b5db2891226f")
+mammal_img <- image_data(mammal_uuid, size="512")[[1]]
+save_png(mammal_img, target = "figures/silhouette_mammals.png")
+
 
 ################################################################################
 ### 6.Cumulative descriptions / year / group
@@ -178,7 +192,7 @@ for(i in 1:length(taxa)){
     
     p <- ggplot(data = dat, aes(y=temp_sum, x=year, group=taxonRank)) +
     geom_line(lwd=1.5, color="black", aes(linetype = taxonRank)) +
-    xlab("Year of description") + ylab("Cumulative number of descriptions") +
+    xlab("Year of description") + ylab("Number of descriptions") +
     scale_x_continuous(breaks = c(1750,1800,1850,1900,1950,2000), 
                        labels = c(1750,1800,1850,1900,1950,2000)) +
     theme_bw() +
@@ -189,7 +203,7 @@ for(i in 1:length(taxa)){
           panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
           text = element_text(size=25),
-          axis.text = element_text(size=20),
+          axis.text = element_text(size=25),
           legend.position = "none") 
     
     # add silhouette
@@ -199,7 +213,9 @@ for(i in 1:length(taxa)){
     p <- p +
       annotation_custom(silhouette, ymin = min_y, xmin = 1750, xmax = 1800)
     
-   if(i !=1){p <- p + ylab("")}
+    if(i !=1){p <- p + ylab("")}
+    if(i %in% c(1,2,3)){p <- p + xlab("") + theme(axis.text.x = element_blank())}
+    if(i==4){p <- p + xlab("")}
     
     plots_cumul[[length(plots_cumul)+1]] <- p
     rm(p)
@@ -208,6 +224,6 @@ for(i in 1:length(taxa)){
 # save main plot
 ppi <- 300
 png(paste0("figures/taxa_plot_",date,".png"),
-    width = 20*ppi, height = 5*ppi, res=ppi)
-print(ggarrange(plots = plots_cumul, nrow=1, ncol=4))
+    width = 20*ppi, height = 10*ppi, res=ppi)
+print(ggarrange(plots = plots_cumul, nrow=2, ncol=3))
 dev.off()
