@@ -152,7 +152,7 @@ plot_scoring <- ggplot(scores2) + geom_point(aes(x = total, y = fct_reorder(leve
   theme_bw() +
   #scale_y_discrete(limits = level_order) +
   scale_color_manual(values = c("lightblue","darkseagreen")) +
-  scale_size_continuous(range = c(5,30)) +
+  scale_size_continuous(range = c(10,40)) +
   ylab("Taxonomic level") + xlab("Score") +
   geom_text(data = scores2, aes(x = total, y = fct_reorder(level,level_order,.desc=TRUE),
                 label = group), size=5) +
