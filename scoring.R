@@ -134,40 +134,32 @@ crab_img <- readPNG("figures/silhouette_crabs.png")
 
 scores <- read_excel("data/scoring.xlsx")
 
-nb_spp <- taxonomies %>% 
-  group_by(taxa) %>% 
-  summarise(nbr_spp = length(canonical))
+# nb_spp <- taxonomies %>% 
+#   group_by(taxa) %>% 
+#   summarise(nbr_spp = length(canonical))
+# 
+# scores <- data.frame(left_join(scores, nb_spp, by=c("group"="taxa")))
 
-scores <- data.frame(left_join(scores, nb_spp, by=c("group"="taxa")))
+level_order <-c("family","infraorder","suborder","order","class","kingdom")
+# 
+# scores2 <- scores %>% 
+#   filter(!is.na(nbr_spp)) %>% 
+#   mutate(level = as.factor(level),
+#          realm = as.factor(realm))
 
-level_order <-c("family","infraorder","suborder","order","class")
-
-scores2 <- scores %>% 
-  filter(!is.na(nbr_spp)) %>% 
-  mutate(level = as.factor(level),
-         realm = as.factor(realm))
-
-plot_scoring <- ggplot(scores2) + geom_point(aes(x = total, y = fct_reorder(level,level_order,.desc=TRUE), 
+plot_scoring <- ggplot(scores[scores$group %in% c("dragonflies","plants","ants","butterflies",
+                                                  "crabs","mammals"),]) + geom_point(aes(x = total, y = level, 
                                                  size = nbr_spp, color = realm), alpha=0.8) +
   theme_bw() +
-  #scale_y_discrete(limits = level_order) +
+  scale_y_discrete(limits = level_order) +
   scale_color_manual(values = c("lightblue","darkseagreen")) +
-  scale_size_continuous(range = c(10,40)) +
+  scale_size_continuous(range = c(5,50), trans = "log10") +
   ylab("Taxonomic level") + xlab("Score") +
-  geom_text(data = scores2, aes(x = total, y = fct_reorder(level,level_order,.desc=TRUE),
+  geom_text(aes(x = total, y = level,
                 label = group), size=5) +
   scale_x_continuous(limits = c(0,8)) +
   theme(text = element_text(size=25),
         axis.text = element_text(size=25))
-
-# taxa <- unique(taxonomies$taxa)
-# for(i in 1:length(taxa)){
-#   # add silhouette
-#   silhouette <- readPNG(paste0("figures/silhouette_",taxa[i],".png"))
-#   silhouette <- rasterGrob(silhouette, interpolate = TRUE)
-#   scoring_plot <- scoring_plot +
-#     annotation_custom(silhouette)
-# }
 
 # save plot
 ppi <- 300
