@@ -223,14 +223,14 @@ dev.off()
 
 
 ################################################################################
-### 6. Load scores & make version 2 figures
+### 6. Load scores & make version 2 figures: boxplots & total scores
 ################################################################################
 scores <- read_excel("data/scoring.xlsx") %>% 
   filter(group %in% unique(taxonomies$taxa)) %>% 
   pivot_longer(cols = 2:9, names_to = "category", values_to = "scores")
 
 # boxplot of scores per group and per category
-
+# x axis are the group and taxa
 grades_per_taxa <- ggplot(scores) + geom_boxplot(aes(x = group, y = scores)) + 
   geom_point(aes(x = group, y = scores, color = category), 
              position=position_dodge(width = 0.45), alpha = 0.5,
@@ -244,7 +244,7 @@ grades_per_taxa <- ggplot(scores) + geom_boxplot(aes(x = group, y = scores)) +
         legend.title = element_text(size = 24)) +
   xlab("") + ylab("")
 
-
+# x axis is the category evaluated
 grades_per_category <- ggplot(scores) + geom_boxplot(aes(x = category, y = scores)) + 
   geom_point(aes(x = category, y = scores, shape = group), 
              position=position_dodge(width = 0.45), alpha = 0.5,
@@ -263,3 +263,9 @@ png("figures/scoring_boxplots.png", width = 25*ppi, height = 15*ppi, res=ppi)
 print(egg::ggarrange(grades_per_taxa, grades_per_category, 
                      nrow = 2, labels = c("","")))
 dev.off()
+
+
+# make summary plot of the total score
+total_scores <- ggplot(scores) +
+  geom_bar()
+  coord_flip()

@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '2JUN2021'
+date <- '29JUN2021'
 
 # libraries
 library(ggplot2)
@@ -85,6 +85,24 @@ unique(mammalia$accid)
 unique(mammalia$status) # all ok
 length(unique(mammalia$canonical)) # all ok
 
+# Plants
+tracheophyta <- read_delim(file = "data/Vascular.Plants.Master.Taxonomyv5.5-10.06.2021.txt",
+                           delim = "|") %>% 
+  rename(canonical = Accepted_Name,
+         taxonRank = Accepted_Taxon_level,
+         authorship = Publication_Year,
+         status = Status) %>% 
+  mutate(group = "plants",
+         taxonRank = ifelse(taxonRank == "Hybrid", "hybrid", taxonRank),
+         accid = 0,
+         id = NA_integer_) %>% 
+  filter(!is.na(authorship),
+         authorship > 1700, # there is one year that is 188, should be a mistake
+         authorship < 2022, # there are years higher than 2022, up to 9192
+         status == "accepted") %>% 
+  select(accid, canonical, taxonRank, status, authorship, id, group) %>% 
+  distinct()
+
 
 ################################################################################
 ### 2. Merge taxonomies
@@ -100,6 +118,8 @@ identical(names(taxonomies),names(formicidae))
 taxonomies <- rbind(taxonomies,formicidae)
 identical(names(taxonomies),names(mammalia))
 taxonomies <- rbind(taxonomies, mammalia)
+identical(names(taxonomies),names(tracheophyta))
+taxonomies <- rbind(taxonomies, tracheophyta)
 unique(taxonomies$group)
 
 
@@ -110,8 +130,15 @@ unique(taxonomies$group)
 taxonomies <- taxonomies %>% 
   mutate(year = str_extract(authorship, "[0-9]+"),
          year = as.numeric(year),
-         taxa = ifelse(group %in% c("anomurans","brachyurans"),"crabs",group))
-sort(unique(taxonomies$year)) # problem with years for 5 odonate spp
+         taxa = group,
+         taxa = case_when(group %in% c("anomurans","brachyurans") ~ "crabs",
+                          group == "odonates" ~ "dragonflies",
+                          group == "butterflies" ~ "butterflies",
+                          group == "ants" ~ "ants",
+                          group == "mammals" ~ "mammals",
+                          group == "plants" ~ "plants",
+                          TRUE ~ NA_character_))
+sort(unique(taxonomies$year))
 summary(taxonomies$year) 
 # verify there is no NA, there are 4 odonates spp with NA and 2 brachyuran spp with NA, fixed by hand
 # no problem for butterflies and ants
@@ -143,43 +170,18 @@ print(desc_year_plot)
 dev.off()
 
 
-################################################################################
-### 5.Get the silhouette for each group
-################################################################################
-# silhouette uuid are found online on this website: http://phylopic.org/
-# uuid in the webpage url
-
-# get silhouettes & save as png files
-crab_uuid <- image_get(uuid = "01dd976b-f6e9-4204-bae1-c15a32234f73")
-crab_img <- image_data(crab_uuid$uid, size = "512")[[1]]
-save_png(crab_img, target = "figures/silhouette_crabs.png")
-
-dragon_uuid <- image_get(uuid = "8af9c80d-92f9-4ba8-87c0-8ffa026c770c")
-dragon_img <- image_data(dragon_uuid$uid, size="512")[[1]]
-save_png(dragon_img, target = "figures/silhouette_odonates.png")
-
-butter_uuid <- image_get(uuid = "ab6182d2-5093-444b-92e5-84468218ebf0")
-butter_img <- image_data(butter_uuid$uid, size="512")[[1]]
-save_png(butter_img, target = "figures/silhouette_butterflies.png")
-
-ant_uuid <- image_get(uuid = "f4d28481-3b28-4cdb-9877-9b9d4f07e5f2")
-ant_img <- image_data(ant_uuid$uid, size="512")[[1]]
-save_png(ant_img, target = "figures/silhouette_ants.png")
-
-mammal_uuid <- image_get(uuid = "baa41c61-362b-45e0-a3be-b5db2891226f")
-mammal_img <- image_data(mammal_uuid, size="512")[[1]]
-save_png(mammal_img, target = "figures/silhouette_mammals.png")
 
 
 ################################################################################
-### 6.Cumulative descriptions / year / group
+### 5.Cumulative descriptions / year / group
 ################################################################################
 
 # make summary of data with yearly accumulation
 cumul_desc <- taxonomies %>% 
   group_by(taxa, taxonRank, year) %>% 
   summarize(nbr_description = length(canonical)) %>% 
-  mutate(temp_sum=cumsum(nbr_description))
+  mutate(temp_sum=cumsum(nbr_description)) %>% 
+  filter(taxonRank == "species")
 cumul_desc <- data.frame(cumul_desc)
 
 # make figure
