@@ -1,13 +1,13 @@
 ###############################################################################
 #### Figures showing the taxonomic descriptions through time across taxa
-#### Coding and data processing: Aurore Maureaud
+#### Coding and data processing: Aurore A. Maureaud
 #### June 2021
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '7JUN2021'
+date <- '29JUN2021'
 
 # libraries
 library(ggplot2)
@@ -18,6 +18,7 @@ library(egg)
 library(grid)
 library(png)
 library(writexl)
+library(readr)
 
 
 ################################################################################
@@ -86,6 +87,25 @@ unique(mammalia$status) # all ok
 length(unique(mammalia$canonical)) # all ok
 
 
+# Plants
+tracheophyta <- read_delim(file = "data/Vascular.Plants.Master.Taxonomyv5.5-10.06.2021.txt",
+                     delim = "|") %>% 
+  rename(canonical = Accepted_Name,
+         taxonRank = Accepted_Taxon_level,
+         authorship = Publication_Year,
+         status = Status) %>% 
+  mutate(group = "plants",
+         taxonRank = ifelse(taxonRank == "Hybrid", "hybrid", taxonRank),
+         accid = 0,
+         id = NA_integer_) %>% 
+  filter(!is.na(authorship),
+         authorship > 1700, # there is one year that is 188, should be a mistake
+         authorship < 2022, # there are years higher than 2022, up to 9192
+         status == "accepted") %>% 
+  select(accid, canonical, taxonRank, status, authorship, id, group) %>% 
+  distinct()
+
+
 ################################################################################
 ### 2. Merge taxonomies
 ################################################################################
@@ -100,6 +120,8 @@ identical(names(taxonomies),names(formicidae))
 taxonomies <- rbind(taxonomies,formicidae)
 identical(names(taxonomies),names(mammalia))
 taxonomies <- rbind(taxonomies, mammalia)
+identical(names(taxonomies),names(tracheophyta))
+taxonomies <- rbind(taxonomies, tracheophyta)
 unique(taxonomies$group)
 
 taxonomies <- taxonomies %>% 
@@ -111,8 +133,9 @@ taxonomies <- taxonomies %>%
                           group == "butterflies" ~ "butterflies",
                           group == "ants" ~ "ants",
                           group == "mammals" ~ "mammals",
+                          group == "plants" ~ "plants",
                           TRUE ~ NA_character_))
-sort(unique(taxonomies$year)) # problem with years for 5 odonate spp
+sort(unique(taxonomies$year))
 summary(taxonomies$year) 
 
 
@@ -126,10 +149,39 @@ ant_img <- readPNG("figures/silhouette_ants.png")
 butter_img <- readPNG("figures/silhouette_butterflies.png")
 dragon_img <- readPNG("figures/silhouette_odonates.png")
 crab_img <- readPNG("figures/silhouette_crabs.png")
+plant_img <- readPNG("figures/silhouette_plants.png")
 
 
 ################################################################################
-### 4. Load scores
+### 4. Taxonomic completeness
+################################################################################
+
+completeness_a <- taxonomies %>% 
+  filter(taxonRank == "species") %>% # select species only
+  group_by(taxa) %>% 
+  summarize(names_all = length(canonical))
+
+completeness_b <- taxonomies %>% 
+  filter(year>2000,
+         taxonRank == "species") %>% # select species only
+  group_by(taxa) %>% 
+  summarize(names_2dec = length(canonical))
+
+completeness <- left_join(completeness_a, completeness_b, by="taxa") %>% 
+  mutate(completeness_2 = names_2dec/names_all)
+
+completeness_c <- taxonomies %>% 
+  filter(year>2010,
+         taxonRank == "species") %>% # select species only
+  group_by(taxa) %>% 
+  summarize(names_dec = length(canonical))
+
+completeness <- left_join(completeness, completeness_c, by="taxa") %>% 
+  mutate(completeness_1 = names_dec/names_all)
+
+
+################################################################################
+### 5. Load scores
 ################################################################################
 
 scores <- read_excel("data/scoring.xlsx")
