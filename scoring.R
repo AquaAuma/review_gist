@@ -19,6 +19,8 @@ library(grid)
 library(png)
 library(writexl)
 library(readr)
+library(RColorBrewer)
+library(egg)
 
 
 ################################################################################
@@ -217,4 +219,47 @@ plot_scoring <- ggplot(scores[scores$group %in% c("dragonflies","plants","ants",
 ppi <- 300
 png("figures/scoring_plot.png", width = 15*ppi, height = 10*ppi, res=ppi)
 print(plot_scoring)
+dev.off()
+
+
+################################################################################
+### 6. Load scores & make version 2 figures
+################################################################################
+scores <- read_excel("data/scoring.xlsx") %>% 
+  filter(group %in% unique(taxonomies$taxa)) %>% 
+  pivot_longer(cols = 2:9, names_to = "category", values_to = "scores")
+
+# boxplot of scores per group and per category
+
+grades_per_taxa <- ggplot(scores) + geom_boxplot(aes(x = group, y = scores)) + 
+  geom_point(aes(x = group, y = scores, color = category), 
+             position=position_dodge(width = 0.45), alpha = 0.5,
+             size = 8) +
+  scale_color_manual(values = rainbow(8)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(size=24, angle = 45, vjust = 0.75, hjust = 0.75),
+        axis.title = element_text(size = 28),
+        axis.text.y = element_text(size = 24),
+        legend.text = element_text(size = 24),
+        legend.title = element_text(size = 24)) +
+  xlab("") + ylab("")
+
+
+grades_per_category <- ggplot(scores) + geom_boxplot(aes(x = category, y = scores)) + 
+  geom_point(aes(x = category, y = scores, shape = group), 
+             position=position_dodge(width = 0.45), alpha = 0.5,
+             size = 8) +
+  theme_bw() +
+  theme(axis.text.x = element_text(size=24, angle = 45, vjust = 0.75, hjust = 0.75),
+        axis.title = element_text(size = 28),
+        axis.text.y = element_text(size = 24),
+        legend.text = element_text(size = 24),
+        legend.title = element_text(size = 24)) +
+  xlab("") + ylab("")
+
+# save plot
+ppi <- 300
+png("figures/scoring_boxplots.png", width = 25*ppi, height = 15*ppi, res=ppi)
+print(egg::ggarrange(grades_per_taxa, grades_per_category, 
+                     nrow = 2, labels = c("","")))
 dev.off()
