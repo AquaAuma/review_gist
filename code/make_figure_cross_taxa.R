@@ -1,13 +1,13 @@
 ###############################################################################
 #### Figures showing the taxonomic descriptions through time across taxa
 #### Coding and data processing: Aurore Maureaud
-#### June 2021
+#### October 2021
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '29JUN2021'
+date <- '28OCT2021'
 
 # libraries
 library(ggplot2)
@@ -142,6 +142,9 @@ sort(unique(taxonomies$year))
 summary(taxonomies$year) 
 # verify there is no NA, there are 4 odonates spp with NA and 2 brachyuran spp with NA, fixed by hand
 # no problem for butterflies and ants
+
+write.csv(taxonomies, file = paste0("data/taxonomies_",date,".csv"), 
+          row.names = F)
 
 
 ################################################################################
