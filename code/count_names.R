@@ -47,23 +47,27 @@ get_counts <- function (dat, group = group) {
 ################################################################################
 
 ants <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AntsTaxonomy_v2.1.csv") %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies)
+  mutate(group = "ants") %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(ants, group = "ants")
 
 butterflies <- read_csv("E:/Yale data/MOL/taxonomy/MOL_ButterfliesTaxonomy_v3.csv") %>% 
-  mutate(order = NA_character_) %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies)
-get_counts(butterflies, groups = "butterflies")
+  mutate(order = NA_character_,
+         group = "butterflies") %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
+get_counts(butterflies, group = "butterflies")
 
 anomura <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AnomuransTaxonomy_v1.0.csv")
 brachyura <- read_csv("E:/Yale data/MOL/taxonomy/MOL_BrachyuransTaxonomy_v1.0.csv")
 crabs <- rbind(anomura, brachyura) %>% 
-  mutate(subspecies = NA_character_) %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies)
+  mutate(subspecies = NA_character_,
+         group = "crabs") %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(crabs, group = "crabs")
 
 mammals <- read_csv("E:/Yale data/MOL/taxonomy/MOL_MammaliaTaxonomy_v2.1.csv") %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies)
+  mutate(group = "mammals") %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(mammals, group = "mammals")
 
 dragonflies <- read_csv("E:/Yale data/MOL/taxonomy/MOL_OdonataTaxonomy_v3.0.csv") %>% 
@@ -71,7 +75,8 @@ dragonflies <- read_csv("E:/Yale data/MOL/taxonomy/MOL_OdonataTaxonomy_v3.0.csv"
          canonical = Canonical,
          genus = Genus,
          species = Species) %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies)
+  mutate(group = "dragonflies") %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(dragonflies, group = "dragonflies")
 
 
