@@ -79,11 +79,7 @@ dragonflies <- read_excel("E:/Yale data/MOL/taxonomy/MOL_OdonataTaxonomy_v3.0.xl
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(dragonflies, group = "dragonflies")
 
-reptiles <- read_excel("E:/Yale data/MOL/taxonomy/MOL_ReptiliaTaxonomy_v2.0.xlsx") %>% 
-  rename(subspecies = Subspecies,
-         canonical = Canonical,
-         genus = Genus,
-         species = Species) %>% 
+reptiles <- read_csv("E:/Yale data/MOL/taxonomy/MOL_ReptiliaTaxonomy_v2.0_noOddChr.csv") %>% 
   mutate(group = "reptiles") %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(reptiles, group = "reptiles")
@@ -98,10 +94,10 @@ numbers <- rbind(get_counts(ants, group = "ants"),
                  get_counts(butterflies, group = "butterflies"),
                  get_counts(mammals, group = "mammals"),
                  get_counts(crabs, group = "crabs"),
-                 get_counts(dragonflies, group = "dragonflies")
-                 )
+                 get_counts(dragonflies, group = "dragonflies"),
+                 get_counts(dragonflies, group = "reptiles"))
 
-taxonomies <- rbind(dragonflies, ants, mammals, crabs, butterflies)
+taxonomies <- rbind(dragonflies, ants, mammals, crabs, butterflies, reptiles)
 
 write.csv(taxonomies, file = paste0("data/taxonomies_",date,".csv"), row.names = F)
 write.csv(numbers, file = paste0("data/numbers_",date,".csv"), row.names = F)

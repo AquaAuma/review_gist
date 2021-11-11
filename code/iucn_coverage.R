@@ -127,13 +127,37 @@ match_crabs <- match_iucn(taxonomies = taxonomies,
                           families = crab_families)
 
 
+### D. Reptiles ################################################################
+tax_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/taxonomy.csv")
+ass_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/assessments.csv") %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_reptiles <- match_iucn(taxonomies = taxonomies,
+                            tax = tax_mammals, 
+                            ass = ass_mammals,
+                            group = "reptiles")
+
+
+### E.Ants #####################################################################
+tax_ants <- read_csv("E:/Yale data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/taxonomy.csv")
+ass_ants <- read_csv("E:/Yale data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/assessments.csv") %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_ants <- match_iucn(taxonomies = taxonomies,
+                             tax = tax_ants, 
+                             ass = ass_ants,
+                             group = "ants")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
 
 match_iucn_results <- rbind(match_dragonflies,
                             match_mammals,
-                            match_crabs)
+                            match_crabs,
+                            match_reptiles,
+                            match_ants)
 
 
 
