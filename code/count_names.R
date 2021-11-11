@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '10NOV2021'
+date <- '11NOV2021'
 
 # libraries
 library(ggplot2)
@@ -70,7 +70,7 @@ mammals <- read_csv("E:/Yale data/MOL/taxonomy/MOL_MammaliaTaxonomy_v2.1.csv") %
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(mammals, group = "mammals")
 
-dragonflies <- read_csv("E:/Yale data/MOL/taxonomy/MOL_OdonataTaxonomy_v3.0.csv") %>% 
+dragonflies <- read_excel("E:/Yale data/MOL/taxonomy/MOL_OdonataTaxonomy_v3.0.xlsx") %>% 
   rename(subspecies = Subspecies,
          canonical = Canonical,
          genus = Genus,
@@ -78,6 +78,15 @@ dragonflies <- read_csv("E:/Yale data/MOL/taxonomy/MOL_OdonataTaxonomy_v3.0.csv"
   mutate(group = "dragonflies") %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(dragonflies, group = "dragonflies")
+
+reptiles <- read_excel("E:/Yale data/MOL/taxonomy/MOL_ReptiliaTaxonomy_v2.0.xlsx") %>% 
+  rename(subspecies = Subspecies,
+         canonical = Canonical,
+         genus = Genus,
+         species = Species) %>% 
+  mutate(group = "reptiles") %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
+get_counts(reptiles, group = "reptiles")
 
 
 

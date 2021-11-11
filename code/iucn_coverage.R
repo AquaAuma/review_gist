@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '10NOV2021'
+date <- '11NOV2021'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_10NOV2021.csv")
+taxonomies <- read.csv("data/taxonomies_11NOV2021.csv")
 
 
 ################################################################################
