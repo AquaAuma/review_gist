@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '11NOV2021'
+date <- '12NOV2021'
 
 # libraries
 library(ggplot2)
@@ -22,7 +22,7 @@ library(rredlist)
 
 # load data
 taxonomies <- read.csv("data/taxonomies_11NOV2021.csv")
-## test with Maisha
+
 
 ################################################################################
 #### 1. MATCH FUNCTION
@@ -30,8 +30,8 @@ taxonomies <- read.csv("data/taxonomies_11NOV2021.csv")
 
 match_iucn <- function(taxonomies, tax, ass, group, families){
   
-  if(group == "crabs"){
-    iucn <- left_join(tax_decapods, ass_decapods, by = c("internalTaxonId","scientificName")) %>% 
+  if(group %in% c("crabs","butterflies")){
+    iucn <- left_join(tax, ass, by = c("internalTaxonId","scientificName")) %>% 
       mutate(familyName = str_to_sentence(familyName)) %>%
       filter(familyName %in% families) %>% 
       dplyr::select(scientificName, redlistCategory, redlistCriteria)
@@ -119,7 +119,6 @@ crab_families <- taxonomies %>%
   filter(!is.na(family)) %>% 
   distinct() %>% pull()
 
-
 match_crabs <- match_iucn(taxonomies = taxonomies,
                           tax = tax_crabs, 
                           ass = ass_crabs,
@@ -128,13 +127,13 @@ match_crabs <- match_iucn(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
-tax_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/taxonomy.csv")
-ass_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/assessments.csv") %>% 
+tax_rept <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/taxonomy.csv")
+ass_rept <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/assessments.csv") %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
 match_reptiles <- match_iucn(taxonomies = taxonomies,
-                            tax = tax_mammals, 
-                            ass = ass_mammals,
+                            tax = tax_rept, 
+                            ass = ass_rept,
                             group = "reptiles")
 
 
@@ -149,6 +148,24 @@ match_ants <- match_iucn(taxonomies = taxonomies,
                              group = "ants")
 
 
+### F. Butterflies #############################################################
+tax_butt <- read_csv("E:/Yale data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/taxonomy.csv")
+ass_butt <- read_csv("E:/Yale data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/assessments.csv") %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+butt_families <- taxonomies %>% 
+  filter(group == "butterflies") %>% 
+  dplyr::select(family) %>% 
+  filter(!is.na(family)) %>% 
+  distinct() %>% pull()
+
+match_butt <- match_iucn(taxonomies = taxonomies,
+                         tax = tax_butt, 
+                         ass = ass_butt,
+                         group = "butterflies",
+                         families = butt_families)
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
@@ -157,7 +174,8 @@ match_iucn_results <- rbind(match_dragonflies,
                             match_mammals,
                             match_crabs,
                             match_reptiles,
-                            match_ants)
+                            match_ants,
+                            match_butt)
 
 
 
