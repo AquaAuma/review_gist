@@ -120,8 +120,8 @@ crab_families <- taxonomies %>%
   distinct() %>% pull()
 
 match_crabs <- match_iucn(taxonomies = taxonomies,
-                          tax = tax_crabs, 
-                          ass = ass_crabs,
+                          tax = tax_decapods, 
+                          ass = ass_decapods,
                           group = "crabs",
                           families = crab_families)
 
