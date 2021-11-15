@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '12NOV2021'
+date <- '15NOV2021'
 
 # libraries
 library(ggplot2)
@@ -177,5 +177,7 @@ match_iucn_results <- rbind(match_dragonflies,
                             match_ants,
                             match_butt)
 
-
+write.csv(match_iucn_results, 
+          file = paste0("results/match_iucn_results_",date,".csv"),
+          row.names = F)
 
