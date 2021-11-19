@@ -99,7 +99,7 @@ match_ncbi <- function(taxonomies, ncbi_raw, group){
 ################################################################################
 
 ### A. dragonflies #############################################################
-ncbi_dragonflies <- read_csv(file = "C:/Users/auror/Downloads/NCBI_assessment/Perspective_NCBI_taxonomy/Odonata_NCBItaxonomy_result1121.csv")
+ncbi_dragonflies <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Odonata_NCBItaxonomy_result1121.csv")
 
 match_dragonflies <- match_ncbi(taxonomies = taxonomies,
                                 ncbi = ncbi_dragonflies,
@@ -107,7 +107,7 @@ match_dragonflies <- match_ncbi(taxonomies = taxonomies,
 
 
 ### B. mammals #################################################################
-ncbi_mammals <- read_csv(file = "C:/Users/auror/Downloads/NCBI_assessment/Perspective_NCBI_taxonomy/Mammalia_NCBItaxonomy_result1121.csv")
+ncbi_mammals <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Mammalia_NCBItaxonomy_result1121.csv")
 
 match_mammals <- match_ncbi(taxonomies = taxonomies,
                                 ncbi = ncbi_mammals,
@@ -115,7 +115,7 @@ match_mammals <- match_ncbi(taxonomies = taxonomies,
 
 
 ### C. Crabs ###################################################################
-ncbi_crabs <- read_csv(file = "C:/Users/auror/Downloads/NCBI_assessment/Perspective_NCBI_taxonomy/Crabs_NCBItaxonomy_result1121.csv")
+ncbi_crabs <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Crabs_NCBItaxonomy_result1121.csv")
 
 match_crabs <- match_ncbi(taxonomies = taxonomies,
                           ncbi = ncbi_crabs,
@@ -123,7 +123,7 @@ match_crabs <- match_ncbi(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
-ncbi_reptiles <- read_csv(file = "C:/Users/auror/Downloads/NCBI_assessment/Perspective_NCBI_taxonomy/Reptiles_NCBItaxonomy_result1121.csv")
+ncbi_reptiles <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Reptiles_NCBItaxonomy_result1121.csv")
 
 match_reptiles <- match_ncbi(taxonomies = taxonomies,
                              ncbi = ncbi_reptiles,
@@ -131,14 +131,14 @@ match_reptiles <- match_ncbi(taxonomies = taxonomies,
 
 
 ### E.Ants #####################################################################
-ncbi_ants <- read_csv(file = "C:/Users/auror/Downloads/NCBI_assessment/Perspective_NCBI_taxonomy/Formicidae_NCBItaxonomy_result1121.csv")
+ncbi_ants <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Formicidae_NCBItaxonomy_result1121.csv")
 match_ants <- match_ncbi(taxonomies = taxonomies,
                          ncbi = ncbi_ants,
                          group = "ants")
 
 
 ### F. Butterflies #############################################################
-ncbi_butt <- read_csv(file = "C:/Users/auror/Downloads/NCBI_assessment/Perspective_NCBI_taxonomy/Butterflies_NCBItaxonomy_result1121.csv")
+ncbi_butt <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Butterflies_NCBItaxonomy_result1121.csv")
 
 match_butt <- match_ncbi(taxonomies = taxonomies,
                          ncbi = ncbi_butt,
