@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_11NOV2021.csv")
+taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
 
 
 ################################################################################
@@ -99,7 +99,7 @@ match_ncbi <- function(taxonomies, ncbi_raw, group){
 ################################################################################
 
 ### A. dragonflies #############################################################
-ncbi_dragonflies <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Odonata_NCBItaxonomy_result1121.csv")
+ncbi_dragonflies <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Odonata_NCBItaxonomy_result1121.csv")
 
 match_dragonflies <- match_ncbi(taxonomies = taxonomies,
                                 ncbi = ncbi_dragonflies,
@@ -107,7 +107,7 @@ match_dragonflies <- match_ncbi(taxonomies = taxonomies,
 
 
 ### B. mammals #################################################################
-ncbi_mammals <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Mammalia_NCBItaxonomy_result1121.csv")
+ncbi_mammals <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Mammalia_NCBItaxonomy_result1121.csv")
 
 match_mammals <- match_ncbi(taxonomies = taxonomies,
                                 ncbi = ncbi_mammals,
@@ -115,7 +115,7 @@ match_mammals <- match_ncbi(taxonomies = taxonomies,
 
 
 ### C. Crabs ###################################################################
-ncbi_crabs <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Crabs_NCBItaxonomy_result1121.csv")
+ncbi_crabs <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Crabs_NCBItaxonomy_result1121.csv")
 
 match_crabs <- match_ncbi(taxonomies = taxonomies,
                           ncbi = ncbi_crabs,
@@ -123,7 +123,7 @@ match_crabs <- match_ncbi(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
-ncbi_reptiles <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Reptiles_NCBItaxonomy_result1121.csv")
+ncbi_reptiles <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Reptiles_NCBItaxonomy_result1121.csv")
 
 match_reptiles <- match_ncbi(taxonomies = taxonomies,
                              ncbi = ncbi_reptiles,
@@ -131,18 +131,26 @@ match_reptiles <- match_ncbi(taxonomies = taxonomies,
 
 
 ### E.Ants #####################################################################
-ncbi_ants <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Formicidae_NCBItaxonomy_result1121.csv")
+ncbi_ants <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Formicidae_NCBItaxonomy_result1121.csv")
 match_ants <- match_ncbi(taxonomies = taxonomies,
                          ncbi = ncbi_ants,
                          group = "ants")
 
 
 ### F. Butterflies #############################################################
-ncbi_butt <- read_csv(file = "E:/NCBI_assessment/Perspective_NCBI_taxonomy/Butterflies_NCBItaxonomy_result1121.csv")
+ncbi_butt <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Butterflies_NCBItaxonomy_result1121.csv")
 
 match_butt <- match_ncbi(taxonomies = taxonomies,
                          ncbi = ncbi_butt,
                          group = "butterflies")
+
+
+### G. Birds ###################################################################
+ncbi_birds <- read.delim("E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Aves_taxonomy_result1121.txt")
+
+match_birds <- match_ncbi(taxonomies = taxonomies,
+                         ncbi = ncbi_birds,
+                         group = "birds")
 
 
 ################################################################################
@@ -154,7 +162,8 @@ match_ncbi_results <- rbind(match_dragonflies,
                             match_crabs,
                             match_reptiles,
                             match_ants,
-                            match_butt)
+                            match_butt,
+                            match_birds)
 
 write.csv(match_ncbi_results, 
           file = paste0("results/match_ncbi_results_",date,".csv"),
