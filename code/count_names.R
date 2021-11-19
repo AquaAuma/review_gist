@@ -1,5 +1,5 @@
 ################################################################################
-#### Assessment of IUCN coverage per group
+#### Assessment names from MOL taxonomies and make taxonomies file
 #### Coding and data processing: Aurore Maureaud
 #### November 2021
 ################################################################################
@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '11NOV2021'
+date <- '19NOV2021'
 
 # libraries
 library(ggplot2)
@@ -84,6 +84,11 @@ reptiles <- read_csv("E:/Yale data/MOL/taxonomy/MOL_ReptiliaTaxonomy_v2.0_noOddC
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
 get_counts(reptiles, group = "reptiles")
 
+birds <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AvesTaxonomy_v2.1.csv",
+                  col_types = list(authorship = col_character())) %>% 
+  mutate(group = "birds") %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group)
+get_counts(birds, group = "birds")
 
 
 ################################################################################
@@ -95,9 +100,10 @@ numbers <- rbind(get_counts(ants, group = "ants"),
                  get_counts(mammals, group = "mammals"),
                  get_counts(crabs, group = "crabs"),
                  get_counts(dragonflies, group = "dragonflies"),
-                 get_counts(dragonflies, group = "reptiles"))
+                 get_counts(dragonflies, group = "reptiles"),
+                 get_counts(birds, group = "birds"))
 
-taxonomies <- rbind(dragonflies, ants, mammals, crabs, butterflies, reptiles)
+taxonomies <- rbind(dragonflies, ants, mammals, crabs, butterflies, reptiles, birds)
 
 write.csv(taxonomies, file = paste0("data/taxonomies_",date,".csv"), row.names = F)
-write.csv(numbers, file = paste0("data/numbers_",date,".csv"), row.names = F)
+write.csv(numbers, file = paste0("results/numbers_",date,".csv"), row.names = F)
