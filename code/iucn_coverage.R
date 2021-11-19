@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '15NOV2021'
+date <- '19NOV2021'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_11NOV2021.csv")
+taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
 
 
 ################################################################################
@@ -86,7 +86,8 @@ match_iucn <- function(taxonomies, tax, ass, group, families){
 
 ### A. dragonflies #############################################################
 tax_dragonflies <- read_csv("E:/Yale data/IUCN/redlist_species_data_e9cb6b0f-6979-4077-bc50-d8f32d305e87_DRAGONFLIES/taxonomy.csv")
-ass_dragonflies <- read_csv("E:/Yale data/IUCN/redlist_species_data_e9cb6b0f-6979-4077-bc50-d8f32d305e87_DRAGONFLIES/assessments.csv") %>% 
+ass_dragonflies <- read_csv("E:/Yale data/IUCN/redlist_species_data_e9cb6b0f-6979-4077-bc50-d8f32d305e87_DRAGONFLIES/assessments.csv",
+                            col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
 match_dragonflies <- match_iucn(taxonomies = taxonomies,
@@ -99,7 +100,8 @@ match_dragonflies <- match_iucn(taxonomies = taxonomies,
 
 ### B. Mammals #################################################################
 tax_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_aa70253a-9caa-4c42-aa49-2d3a0f5ecbc3_MAMMALS/taxonomy.csv")
-ass_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_aa70253a-9caa-4c42-aa49-2d3a0f5ecbc3_MAMMALS/assessments.csv") %>% 
+ass_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_aa70253a-9caa-4c42-aa49-2d3a0f5ecbc3_MAMMALS/assessments.csv",
+                        col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
 match_mammals <- match_iucn(taxonomies = taxonomies,
@@ -110,7 +112,8 @@ match_mammals <- match_iucn(taxonomies = taxonomies,
   
 ### C. Crabs ###################################################################
 tax_decapods <- read_csv("E:/Yale data/IUCN/redlist_species_data_35ee6bb5-f5c4-431b-8d34-48c63dbc89d0_DECAPODS/taxonomy.csv")
-ass_decapods <- read_csv("E:/Yale data/IUCN/redlist_species_data_35ee6bb5-f5c4-431b-8d34-48c63dbc89d0_DECAPODS/assessments.csv") %>% 
+ass_decapods <- read_csv("E:/Yale data/IUCN/redlist_species_data_35ee6bb5-f5c4-431b-8d34-48c63dbc89d0_DECAPODS/assessments.csv",
+                         col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
 crab_families <- taxonomies %>% 
@@ -128,7 +131,8 @@ match_crabs <- match_iucn(taxonomies = taxonomies,
 
 ### D. Reptiles ################################################################
 tax_rept <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/taxonomy.csv")
-ass_rept <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/assessments.csv") %>% 
+ass_rept <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/assessments.csv",
+                     col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
 match_reptiles <- match_iucn(taxonomies = taxonomies,
@@ -139,7 +143,8 @@ match_reptiles <- match_iucn(taxonomies = taxonomies,
 
 ### E.Ants #####################################################################
 tax_ants <- read_csv("E:/Yale data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/taxonomy.csv")
-ass_ants <- read_csv("E:/Yale data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/assessments.csv") %>% 
+ass_ants <- read_csv("E:/Yale data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/assessments.csv",
+                     col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
 match_ants <- match_iucn(taxonomies = taxonomies,
@@ -150,7 +155,8 @@ match_ants <- match_iucn(taxonomies = taxonomies,
 
 ### F. Butterflies #############################################################
 tax_butt <- read_csv("E:/Yale data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/taxonomy.csv")
-ass_butt <- read_csv("E:/Yale data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/assessments.csv") %>% 
+ass_butt <- read_csv("E:/Yale data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/assessments.csv",
+                     col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
 butt_families <- taxonomies %>% 
@@ -166,6 +172,19 @@ match_butt <- match_iucn(taxonomies = taxonomies,
                          families = butt_families)
 
 
+### G. Birds ###################################################################
+tax_birds <- read_csv("E:/Yale data/IUCN/redlist_species_data_777b34ad-89eb-4267-a576-237f9de31476_BIRDS/taxonomy.csv")
+ass_birds <- read_csv("E:/Yale data/IUCN/redlist_species_data_777b34ad-89eb-4267-a576-237f9de31476_BIRDS/assessments.csv",
+                      col_types = list(yearLastSeen = col_character())) %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_birds <- match_iucn(taxonomies = taxonomies,
+                         tax = tax_birds, 
+                         ass = ass_birds,
+                         group = "birds")
+
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
@@ -175,7 +194,8 @@ match_iucn_results <- rbind(match_dragonflies,
                             match_crabs,
                             match_reptiles,
                             match_ants,
-                            match_butt)
+                            match_butt,
+                            match_birds)
 
 write.csv(match_iucn_results, 
           file = paste0("results/match_iucn_results_",date,".csv"),
