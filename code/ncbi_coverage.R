@@ -1,6 +1,6 @@
 ################################################################################
 #### Assessment of IUCN coverage per group
-#### Coding and data processing: Aurore Maureaud
+#### Coding and data processing: Aurore Maureaud & Emily Sandall
 #### November 2021
 ################################################################################
 
