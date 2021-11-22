@@ -106,7 +106,7 @@ numbers <- rbind(get_counts(ants, group = "ants"),
                  get_counts(mammals, group = "mammals"),
                  get_counts(crabs, group = "crabs"),
                  get_counts(dragonflies, group = "dragonflies"),
-                 get_counts(dragonflies, group = "reptiles"),
+                 get_counts(reptiles, group = "reptiles"),
                  get_counts(birds, group = "birds"))
 
 taxonomies <- rbind(dragonflies, ants, mammals, crabs, butterflies, reptiles, birds)
