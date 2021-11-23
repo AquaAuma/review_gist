@@ -146,7 +146,7 @@ match_crabs <- match_tree(taxonomies = taxonomies,
 match_reptiles <- match_tree(taxonomies = taxonomies,
                              phylotree = phylotree,
                              group = "reptiles",
-                             parent = "Reptilia")
+                             parent = c("Lepidosauria","Testudines","Crocodylia"))
 
 
 ### E.Ants #####################################################################
