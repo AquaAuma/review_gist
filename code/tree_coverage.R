@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # set date
-date <- '22NOV2021'
+date <- '24NOV2021'
 
 # libraries
 library(ggplot2)
@@ -56,7 +56,8 @@ match_tree <- function(taxonomies, phylotree, group, parent) {
   }
   
   tree <- tree %>% 
-    filter(rank !="no rank",
+    filter(!str_detect(rank, pattern="no rank"),
+           !str_detect(flags, pattern = "extinct"),
            rank == "species")
   
   ## a. Canonical from NCBI without match as the species level
@@ -123,10 +124,16 @@ match_dragonflies <- match_tree(taxonomies = taxonomies,
 
 
 ### B. mammals #################################################################
+mammals_families <- taxonomies %>% 
+  filter(group == "mammals") %>% 
+  dplyr::select(family) %>% 
+  filter(!is.na(family)) %>% 
+  distinct() %>% pull()
+
 match_mammals <- match_tree(taxonomies = taxonomies,
                             phylotree = phylotree,
                             group = "mammals",
-                            parent = "Mammalia")
+                            parent = mammals_families)
 
 
 ### C. Crabs ###################################################################
@@ -143,6 +150,12 @@ match_crabs <- match_tree(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
+butt_families <- taxonomies %>% 
+  filter(group == "butterflies") %>% 
+  dplyr::select(family) %>% 
+  filter(!is.na(family)) %>% 
+  distinct() %>% pull()
+
 match_reptiles <- match_tree(taxonomies = taxonomies,
                              phylotree = phylotree,
                              group = "reptiles",
