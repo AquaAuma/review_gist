@@ -1,5 +1,5 @@
 ################################################################################
-#### Assessment of IUCN coverage per group
+#### Assessment of OpenTree coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily Sandall
 #### November 2021
 ################################################################################
