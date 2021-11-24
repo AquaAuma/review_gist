@@ -6,10 +6,11 @@
 
 rm(list = ls())
 
-install.packages(c("rphylopic","egg","grid","png","writexl","rredlist"))
+library(tidyverse)
+library(readr)
 
 # set date
-date <- '11NOV2021'
+date <- '24NOV2021'
 
 # libraries
 library(ggplot2)
@@ -23,10 +24,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_11NOV2021.csv")
-
-<<<<<<< HEAD
-=======
+taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
 griis <- read.csv("data/GRIIS_2020_03_01.csv")
 
 
@@ -46,13 +44,13 @@ match_griis <- function(taxonomies, griis, group, parent, level){
   
   group <- group
   
-  ## c. Summary
-  
+  ## c. Anti join to get the non-matched names
   no_match <- anti_join(griis_tax, mol_tax, by = c("sciname" = "canonical")) 
   
+  nbr_spp <- nrow(griis_tax)
   prop_no_match <- round(nrow(no_match)  / nrow(griis_tax)*100,2)
   
-  return(data.frame(cbind(group, prop_no_match)))
+  return(data.frame(cbind(group, nbr_spp, prop_no_match)))
   
 }
 
@@ -122,6 +120,14 @@ match_butterflies <- match_griis(taxonomies = taxonomies,
                                  parent = butterfly_families,
                                  level = "accepted.family")
 
+### G. Birds #############################################################
+
+match_birds <- match_griis(taxonomies = taxonomies,
+                                 griis = griis,
+                                 group = "birds",
+                                 parent = "Aves",
+                                 level = "accepted.class")
+
 
 
 ################################################################################
@@ -133,26 +139,9 @@ match_griis_results <- rbind (match_dragonflies,
                               match_crabs,
                               match_reptiles,
                               match_ants,
-                              match_butterflies)
+                              match_butterflies,
+                              match_birds)
 
 write.csv(match_griis_results, 
           file = paste0("results/match_griis_results_",date,".csv"),
           row.names = F)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 6f2325eeb142dff3b254dfdb52f3a0a2bfecd54c
