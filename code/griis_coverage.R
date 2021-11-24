@@ -6,6 +6,8 @@
 
 rm(list = ls())
 
+install.packages(c("rphylopic","egg","grid","png","writexl","rredlist"))
+
 # set date
 date <- '11NOV2021'
 
@@ -23,3 +25,134 @@ library(rredlist)
 # load data
 taxonomies <- read.csv("data/taxonomies_11NOV2021.csv")
 
+<<<<<<< HEAD
+=======
+griis <- read.csv("data/GRIIS_2020_03_01.csv")
+
+
+################################################################################
+#### 1. MATCH FUNCTION
+################################################################################
+
+match_griis <- function(taxonomies, griis, group, parent, level){
+
+  ## a. Create GRIIS filter function
+  griis_tax <- griis %>% 
+    filter(get(level) %in% parent)
+  
+  ## b. Create MOL filter function
+  mol_tax <- taxonomies %>% 
+    filter(group == group)
+  
+  group <- group
+  
+  ## c. Summary
+  
+  no_match <- anti_join(griis_tax, mol_tax, by = c("sciname" = "canonical")) 
+  
+  prop_no_match <- round(nrow(no_match)  / nrow(griis_tax)*100,2)
+  
+  return(data.frame(cbind(group, prop_no_match)))
+  
+}
+
+
+################################################################################
+#### 2. APPLY TO GROUPS
+################################################################################
+
+### A. dragonflies #############################################################
+
+match_dragonflies <- match_griis(taxonomies = taxonomies,
+                                 griis = griis,
+                                 group = "dragonflies",
+                                 parent = "Odonata",
+                                 level = "accepted.order")
+
+### B. Mammals #################################################################
+
+match_mammals <- match_griis(taxonomies = taxonomies,
+                             griis = griis,
+                             group = "mammals",
+                             parent = "Mammalia",
+                             level = "accepted.class")
+
+
+### C. Crabs ###################################################################
+
+crab_families <- taxonomies %>%
+  filter(group == "crabs") %>%
+  dplyr::select(family) %>%
+  filter(!is.na(family)) %>%
+  distinct() %>% pull()
+
+match_crabs <- match_griis(taxonomies = taxonomies,
+                           griis = griis,
+                           group = "crabs",
+                           parent = crab_families,
+                           level = "accepted.family")
+
+### D. Reptiles ################################################################
+
+match_reptiles <- match_griis(taxonomies = taxonomies,
+                              griis = griis,
+                              group = "reptiles",
+                              parent = "Reptilia",
+                              level = "accepted.class")
+
+### E.Ants ##################################################################### 
+
+match_ants <- match_griis(taxonomies = taxonomies,
+                          griis = griis,
+                          group = "ants",
+                          parent = "Formicidae",
+                          level = "accepted.family")
+
+### F. Butterflies #############################################################
+
+butterfly_families <- taxonomies %>%
+  filter(group == 'butterflies') %>%
+  dplyr::select(family) %>%
+  filter(!is.na(family))%>%
+  distinct() %>% pull()
+
+match_butterflies <- match_griis(taxonomies = taxonomies,
+                                 griis = griis,
+                                 group = "butterflies",
+                                 parent = butterfly_families,
+                                 level = "accepted.family")
+
+
+
+################################################################################
+#### 3. SUMMARIZE INFORMATION
+################################################################################
+
+match_griis_results <- rbind (match_dragonflies,
+                              match_mammals,
+                              match_crabs,
+                              match_reptiles,
+                              match_ants,
+                              match_butterflies)
+
+write.csv(match_griis_results, 
+          file = paste0("results/match_griis_results_",date,".csv"),
+          row.names = F)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 6f2325eeb142dff3b254dfdb52f3a0a2bfecd54c
