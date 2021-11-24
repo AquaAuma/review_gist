@@ -73,12 +73,13 @@ mammals <- read_csv("E:/Yale data/MOL/taxonomy/MOL_MammaliaTaxonomy_v2.1.csv",
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 get_counts(mammals, group = "mammals")
 
-dragonflies <- read_excel("E:/Yale data/MOL/taxonomy/MOL_OdonataTaxonomy_v3.0.xlsx") %>% 
+dragonflies <- read_excel("E:/Yale data/MOL/taxonomy/MOL_OdonataTaxonomy_v3.0.xlsx",
+                          col_types = c(rep("text", times = 3),rep("numeric",times = 2),
+                                        rep("text", times = 15))) %>% 
   rename(subspecies = Subspecies,
          canonical = Canonical,
          genus = Genus,
-         species = Species,
-         authorship = Authorship) %>% 
+         species = Species) %>% 
   mutate(group = "dragonflies",
          subspecies = ifelse(subspecies == "NA",NA_character_,subspecies)) %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
