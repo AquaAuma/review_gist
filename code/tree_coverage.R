@@ -56,17 +56,20 @@ match_tree <- function(taxonomies, phylotree, group, parent) {
   }
   
   tree <- tree %>% 
-    filter(!str_detect(rank, pattern="no rank"),
-           !str_detect(flags, pattern = "extinct"),
-           rank == "species")
+    filter(rank == "species")
   
   ## a. Canonical from NCBI without match as the species level
   tree_no_match <- tree %>% 
-    filter(str_detect(name, pattern = " sp.") | str_detect(name, pattern = " sample"))
+    filter(str_detect(name, pattern = " sp.") | str_detect(name, pattern = " sample") |
+             str_detect(name, pattern = "[0-9]") | str_detect(name, pattern = " aff.") |
+             str_detect(name, pattern = " cf."))
   
   ## b. Match with all names
   tree_spp <- tree %>% 
-    filter(!str_detect(name, pattern = " sp.",),
+    filter(!str_detect(name, pattern = " sp."),
+           !str_detect(name, pattern = " cf."),
+           !str_detect(name, pattern = " aff."),
+           !str_detect(name, pattern = "[0-9]"),
            !str_detect(name, pattern = " sample"))
   
   mol_m <- taxonomies[taxonomies$group==group,] %>% 
@@ -103,11 +106,12 @@ match_tree <- function(taxonomies, phylotree, group, parent) {
   ## g. Summary
   prop_no_possible_match <- round(nrow(tree_no_match)/nrow(tree)*100,2)
   prop_no_match <- round(nrow(no_match)/nrow(tree)*100,2)
+  nbr_spp <- nrow(tree_spp)
   prop_tot <- round(nrow(match_tot[!is.na(match_tot$phylo),])/nrow(match_tot)*100,2)
   prop_acc <- round(nrow(match_acc[!is.na(match_acc$phylo),])/nrow(match_acc)*100,2)
   prop_acc_syn <- round(nrow(match_acc_syn[!is.na(match_acc_syn$phylo),])/nrow(match_acc_syn)*100,2)
   group <- group
-  return(data.frame(cbind(group, prop_tot, prop_acc, prop_acc_syn,
+  return(data.frame(cbind(group, nbr_spp, prop_tot, prop_acc, prop_acc_syn,
                           prop_no_match, prop_no_possible_match)))
 }
 
@@ -124,16 +128,16 @@ match_dragonflies <- match_tree(taxonomies = taxonomies,
 
 
 ### B. mammals #################################################################
-mammals_families <- taxonomies %>% 
+mammals_order <- taxonomies %>% 
   filter(group == "mammals") %>% 
-  dplyr::select(family) %>% 
-  filter(!is.na(family)) %>% 
+  dplyr::select(order) %>% 
+  filter(!is.na(order)) %>% 
   distinct() %>% pull()
 
 match_mammals <- match_tree(taxonomies = taxonomies,
                             phylotree = phylotree,
                             group = "mammals",
-                            parent = mammals_families)
+                            parent = mammals_order)
 
 
 ### C. Crabs ###################################################################
@@ -142,6 +146,7 @@ crab_families <- taxonomies %>%
   dplyr::select(family) %>% 
   filter(!is.na(family)) %>% 
   distinct() %>% pull()
+# all families match except one not found
 
 match_crabs <- match_tree(taxonomies = taxonomies,
                           phylotree = phylotree,
@@ -150,16 +155,11 @@ match_crabs <- match_tree(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
-butt_families <- taxonomies %>% 
-  filter(group == "butterflies") %>% 
-  dplyr::select(family) %>% 
-  filter(!is.na(family)) %>% 
-  distinct() %>% pull()
-
 match_reptiles <- match_tree(taxonomies = taxonomies,
                              phylotree = phylotree,
                              group = "reptiles",
                              parent = c("Lepidosauria","Testudines","Crocodylia"))
+# the three higher ranks are found
 
 
 ### E.Ants #####################################################################
@@ -175,6 +175,7 @@ butt_families <- taxonomies %>%
   dplyr::select(family) %>% 
   filter(!is.na(family)) %>% 
   distinct() %>% pull()
+# all families are found correctly
 
 match_butt <- match_tree(taxonomies = taxonomies,
                          phylotree = phylotree,
