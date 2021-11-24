@@ -35,6 +35,8 @@ match_iucn <- function(taxonomies, tax, ass, group, families){
       mutate(familyName = str_to_sentence(familyName)) %>%
       filter(familyName %in% families) %>% 
       dplyr::select(scientificName, redlistCategory, redlistCriteria)
+    
+    
   } else{
     iucn <- left_join(tax, ass, by = c("internalTaxonId","scientificName")) %>% 
       dplyr::select(scientificName, redlistCategory, redlistCriteria)
