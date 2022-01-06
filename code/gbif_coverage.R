@@ -36,7 +36,9 @@ match_gbif <- function(taxonomies, gbif, group) {
   if(group == "crabs"){
     gbif_spp <- gbif %>% 
       filter(order == "Decapoda",
-             family %in% unique(mol_m$family))
+             family %in% unique(mol_m$family),
+             taxonRank %in% c("SPECIES","SUBSPECIES","VARIETY","FORM")) %>% 
+      select(!verbatimScientificName) %>% distinct()
   } else {
     gbif_spp <- gbif %>% 
       filter(taxa == group,
