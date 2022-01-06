@@ -1,13 +1,14 @@
 ###############################################################################
 #### Get the silhouette for each group
 #### Coding and data processing: Aurore Maureaud
-#### June 2021
+#### January 2022
 ################################################################################
 
 rm(list = ls())
+library(rphylopic)
 
 # set date
-date <- '29JUN2021'
+date <- '6JAN2022'
 # silhouette uuid are found online on this website: http://phylopic.org/
 # uuid in the webpage url
 
@@ -35,3 +36,20 @@ save_png(mammal_img, target = "figures/silhouette_mammals.png")
 plant_uuid <- image_get(uuid = "39335c0c-f879-4df6-90d5-e4f65d90d04e")
 plant_img <- image_data(plant_uuid, size = "512")[[1]]
 save_png(plant_img, target = "figures/silhouette_plants.png")
+
+reptile_uuid <- image_get(uuid = "7dee5849-e764-4694-abf7-d0ae4cc8cabe")
+reptile_img <- image_data(reptile_uuid, size = "512")[[1]]
+save_png(reptile_img, target = "figures/silhouette_reptiles.png")
+
+birds_uuid <- image_get(uuid = "5bddf6be-2335-4ad9-9524-db7cf5d2eb1a")
+birds_img <- image_data(birds_uuid, size = "512")[[1]]
+save_png(birds_img, target = "figures/silhouette_birds.png")
+
+amphi_uuid <- image_get(uuid = "79a65a4a-abf2-4bff-9410-934042affef1")
+amphi_img <- image_data(amphi_uuid, size = "512")[[1]]
+save_png(amphi_img, target = "figures/silhouette_amphibians.png")
+
+fish_uuid <- image_get(uuid = "4c2220b9-68a8-4594-8dd8-229643e11c84")
+fish_img <- image_data(fish_uuid, size = "512")[[1]]
+save_png(fish_img, target = "figures/silhouette_fish.png")
+
