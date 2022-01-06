@@ -133,6 +133,8 @@ mammals_order <- taxonomies %>%
   dplyr::select(order) %>% 
   filter(!is.na(order)) %>% 
   distinct() %>% pull()
+mammals_order <- c(mammals_order, "Manidae", "Nesophontidae", "Solenodontidae",
+                   "Soricidae", "Talpidae")
 
 match_mammals <- match_tree(taxonomies = taxonomies,
                             phylotree = phylotree,
