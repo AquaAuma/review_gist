@@ -110,7 +110,9 @@ match_mammals <- match_col(taxonomies = taxonomies,
 
 
 ### C. Crabs ###################################################################
-col_crabs <- 
+col_crabs <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Brachyura_122021/NameUsage.tsv", 
+                        delim = "\t", escape_double = FALSE, 
+                        trim_ws = TRUE)
  
 crab_families <- taxonomies %>% 
   filter(group == "crabs") %>% 
