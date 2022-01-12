@@ -77,15 +77,13 @@ match_col <- function(taxonomies, col, group, families) {
 #### 2. APPLY TO GROUPS
 ################################################################################
 
-### A. dragonflies #############################################################
-col_dragonflies <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Odonata_DWC_122021/Taxon.tsv",
-                              delim = "\t", escape_double = FALSE,
-                              trim_ws = TRUE)%>% 
-  filter(`dwc:taxonRank` == "species",
-         `dwc:taxonomicStatus` == "accepted") %>% 
-  rename(scientificName = `dwc:scientificName`) %>% 
-  mutate(genus = str_split(scientificName, pattern = " ", simplify = T)[,1],
-         canonical_col = paste(genus, `dwc:specificEpithet`, sep = " "),
+### A. Dragonflies #############################################################
+col_dragonflies <- read_delim("E:/Yale data/COL/COL_taxonomy/OdonataTaxonomy_COL2021.tsv", 
+                              delim = "\t", escape_double = FALSE, 
+                              trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
          col = "COL") %>% 
   select(canonical_col, col) %>% 
   distinct()
@@ -150,17 +148,75 @@ match_ants <- match_col(taxonomies = taxonomies,
 
 
 ### F. Butterflies #############################################################
-col_dragonflies <- 
+fam1 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Riodinidae_122021/NameUsage.tsv", 
+                   delim = "\t", escape_double = FALSE, 
+                   trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+fam2 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Pieridae_122021/NameUsage.tsv", 
+                   delim = "\t", escape_double = FALSE, 
+                   trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+fam3 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Papilionidae_122021/NameUsage.tsv", 
+                   delim = "\t", escape_double = FALSE, 
+                   trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+fam4 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Nymphalidae_122021/NameUsage.tsv", 
+                   delim = "\t", escape_double = FALSE, 
+                   trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+fam5 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Lycaenidae_122021/NameUsage.tsv", 
+                   delim = "\t", escape_double = FALSE, 
+                   trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+fam6 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Hesperiidae_122021/NameUsage.tsv", 
+                   delim = "\t", escape_double = FALSE, 
+                   trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+fam7 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Hedylidae_122021/NameUsage.tsv", 
+                   delim = "\t", escape_double = FALSE, 
+                   trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
 
-butt_families <- taxonomies %>% 
-  filter(group == "butterflies") %>% 
-  dplyr::select(family) %>% 
-  filter(!is.na(family)) %>% 
-  distinct() %>% pull()
+col_butt <- rbind(fam1, fam2, fam3, fam4, fam5)
 
-match_dragonflies <- match_col(taxonomies = taxonomies,
-                                 col = ,
-                                 group = "dragonflies")
+match_butterflies <- match_col(taxonomies = taxonomies,
+                               col = col_butt,
+                               group = "butterflies")
 
 
 ### G. Birds ###################################################################
@@ -184,6 +240,7 @@ match_birds <- match_col(taxonomies = taxonomies,
 match_col_results <- rbind(match_dragonflies,
                             match_mammals,
                             match_ants,
+                            match_butterflies,
                             match_birds)
 
 write.csv(match_col_results, 
