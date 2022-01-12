@@ -1,0 +1,192 @@
+################################################################################
+#### Assessment of GBIF coverage per group
+#### Coding and data processing: Aurore Maureaud & Emily L. Sandall
+#### January 2022
+################################################################################
+
+rm(list = ls())
+
+# set date
+date <- '12JAN2022'
+
+# libraries
+library(ggplot2)
+library(tidyverse)
+library(readxl)
+library(egg)
+library(grid)
+library(png)
+library(writexl)
+library(rredlist)
+library(readr)
+
+# load data
+taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
+
+
+################################################################################
+#### 1. MATCH FUNCTION
+################################################################################
+match_col <- function(taxonomies, col, group, families) {
+    
+  ## subset both datasets for the taxa in focus
+  mol_m <- taxonomies[taxonomies$group==group,] %>% 
+    dplyr::select(canonical, family, group) %>% 
+    distinct() # to remove the duplicates from different sources
+  
+  ## a. Match with all names
+  match_tot <- full_join(mol_m, col, by = c("canonical" = "canonical_col"),keep = TRUE) %>% 
+    filter(!is.na(canonical))
+  
+  ## b. No match
+  no_match <- anti_join(col, mol_m, by = c("canonical_col" = "canonical"))
+  
+  ## c. Accepted names match
+  mol_acc <- taxonomies[taxonomies$group==group,] %>% 
+    filter(accid == 0)
+  match_acc <- left_join(mol_acc, col, by = c("canonical" = "canonical_col"),keep=TRUE)
+  
+  ## d. Synonyms match
+  mol_syn <- taxonomies[taxonomies$group==group,] %>% 
+    filter(accid != 0)
+  match_syn <- left_join(mol_syn, col, by = c("canonical" = "canonical_col"),keep=TRUE) %>% 
+    filter(!is.na(canonical_col)) %>% 
+    mutate(col_syn = "COL") %>% 
+    dplyr::select(accid, col_syn) %>% 
+    distinct()
+  
+  ## e. Total accepted species match
+  match_acc_syn <- left_join(match_acc, match_syn,
+                             by = c("id" = "accid")) %>% 
+    mutate(col = ifelse(is.na(col), col_syn, col))
+  
+  ## f. Summary
+  prop_no_match <- round(nrow(no_match)/nrow(col)*100,2)
+  nbr_spp_col <- length(unique(col$canonical_col))
+  nbr_spp_mol <- length(unique(mol_acc$canonical))
+  prop_tot <- round(nrow(match_tot[!is.na(match_tot$col),])/nrow(match_tot)*100,2)
+  prop_acc <- round(nrow(match_acc[!is.na(match_acc$col),])/nrow(match_acc)*100,2)
+  prop_acc_syn <- round(nrow(match_acc_syn[!is.na(match_acc_syn$col),])/nrow(match_acc_syn)*100,2)
+  group <- group
+  return(data.frame(cbind(group, nbr_spp_col, nbr_spp_mol, prop_tot, prop_acc, 
+                          prop_acc_syn, prop_no_match)))
+}
+
+
+################################################################################
+#### 2. APPLY TO GROUPS
+################################################################################
+
+### A. dragonflies #############################################################
+col_dragonflies <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Odonata_DWC_122021/Taxon.tsv",
+                              delim = "\t", escape_double = FALSE,
+                              trim_ws = TRUE)%>% 
+  filter(`dwc:taxonRank` == "species",
+         `dwc:taxonomicStatus` == "accepted") %>% 
+  rename(scientificName = `dwc:scientificName`) %>% 
+  mutate(genus = str_split(scientificName, pattern = " ", simplify = T)[,1],
+         canonical_col = paste(genus, `dwc:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+
+match_dragonflies <- match_col(taxonomies = taxonomies,
+                               col = col_dragonflies,
+                               group = "dragonflies")
+
+
+### B. Mammals #################################################################
+col_mammals <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Mammalia_DWC_122021/NameUsage.tsv", 
+                          delim = "\t", escape_double = FALSE, 
+                          trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+  
+match_mammals <- match_col(taxonomies = taxonomies,
+                           col = col_mammals,
+                           group = "mammals")
+
+
+### C. Crabs ###################################################################
+col_crabs <- 
+ 
+crab_families <- taxonomies %>% 
+  filter(group == "crabs") %>% 
+  dplyr::select(family) %>% 
+  filter(!is.na(family)) %>% 
+  distinct() %>% pull() 
+
+match_crabs <- match_col(taxonomies = taxonomies,
+                         col = ,
+                         group = "dragonflies")
+
+
+### D. Reptiles ################################################################
+col_dragonflies <- 
+  
+  match_dragonflies <- match_col(taxonomies = taxonomies,
+                                 col = ,
+                                 group = "dragonflies")
+
+
+### E.Ants #####################################################################
+col_ants <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Formicidae_122021/NameUsage.tsv", 
+                       delim = "\t", escape_double = FALSE, 
+                       trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+  
+match_ants <- match_col(taxonomies = taxonomies,
+                        col = col_ants,
+                        group = "ants")
+
+
+### F. Butterflies #############################################################
+col_dragonflies <- 
+
+butt_families <- taxonomies %>% 
+  filter(group == "butterflies") %>% 
+  dplyr::select(family) %>% 
+  filter(!is.na(family)) %>% 
+  distinct() %>% pull()
+
+match_dragonflies <- match_col(taxonomies = taxonomies,
+                                 col = ,
+                                 group = "dragonflies")
+
+
+### G. Birds ###################################################################
+col_birds <- read_csv("E:/Yale data/COL/COL_taxonomy/AvesTaxonomy_COL2021.csv") %>% 
+  filter(`dwc:taxonRank` == "species",
+         `dwc:taxonomicStatus` == "accepted") %>% 
+  mutate(canonical_col = paste(`dwc:genericName`,`dwc:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+  
+match_birds <- match_col(taxonomies = taxonomies,
+                         col = col_birds,
+                         group = "birds")
+
+
+################################################################################
+#### 3. SUMMARIZE INFORMATION
+################################################################################
+
+match_col_results <- rbind(match_dragonflies,
+                            match_mammals,
+                            match_ants,
+                            match_birds)
+
+write.csv(match_col_results, 
+          file = paste0("results/match_col_results_",date,".csv"),
+          row.names = F)
+
