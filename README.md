@@ -1,7 +1,7 @@
-## Taxonomy: the foundation of global biodiversity synthesis
+## Why taxonomy has a much larger impact on biodiversity and conservation science than you think
 
-Code to produce figures for the manuscript
-Contributors to analyses: A.A. Maureaud, M. Lucas, Y. Sica, E.L. Sandall
+- Code to produce figures for the manuscript
+- Contributors to analyses: A.A. Maureaud, M. Lucas, Y. Sica, E.L. Sandall
 
 ## Code
 
