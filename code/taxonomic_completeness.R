@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment names from MOL taxonomies and make taxonomies file
 #### Coding and data processing: Aurore Maureaud
-#### November 2021
+#### April 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '23NOV2021'
+date <- '25APR2022'
 
 # libraries
 library(ggplot2)
@@ -21,14 +21,14 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_19NOV2021.csv") %>% 
-  mutate(year = str_extract(authorship, "[0-9]+"),
+taxonomies <- read.csv("data/taxonomies_25APR2022.csv") %>% 
+  mutate(year = as.numeric(str_extract(authorship, "[0-9]+")),
          year = ifelse(year<1693 | year>2021 & length(str_extract_all(authorship,"[0-9]+")[[1]])>1,
                        str_extract_all(authorship, "[0-9]+")[[1]][2],year),
          year = ifelse(year<1693 | year>2021 & length(str_extract_all(authorship,"[0-9]+")[[1]])>2,
                        str_extract_all(authorship,"[0-9]+")[[1]][3],year),
-         year = ifelse(year<1693 | year>2021, NA, year),
-         year = as.numeric(year))
+         year = ifelse(year<1693, NA, year),
+         year = ifelse(year>2021, NA, year))
 
 
 problems <- taxonomies %>% 
@@ -43,14 +43,8 @@ missing_year <- taxonomies %>%
 
 
 ################################################################################
-### 1. Completeness function
+### 1. Completeness assessment
 ################################################################################
-assess_completeness <- function(taxonomies,group){
-  
-  
-  
-}
-
 
 # a. total number of accepted species names
 spp_nbr <- taxonomies %>% 

@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of GBIF coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily L. Sandall
-#### January 2022
+#### April 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '12JAN2022'
+date <- '25APR2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(rredlist)
 library(readr)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
+taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
 
 
 ################################################################################
@@ -121,8 +121,8 @@ crab_families <- taxonomies %>%
   distinct() %>% pull() 
 
 match_crabs <- match_col(taxonomies = taxonomies,
-                         col = ,
-                         group = "dragonflies")
+                         col = col_crabs,
+                         group = "crabs")
 
 
 ### D. Reptiles ################################################################
@@ -235,6 +235,22 @@ match_birds <- match_col(taxonomies = taxonomies,
                          group = "birds")
 
 
+### G. Birds ###################################################################
+col_amphi <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Amphibia_DWC_122021/NameUsage.tsv", 
+                        delim = "\t", escape_double = FALSE, 
+                        trim_ws = TRUE) %>% 
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>% 
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+
+match_amphi <- match_col(taxonomies = taxonomies,
+                         col = col_amphi,
+                         group = "amphibians")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
@@ -243,7 +259,8 @@ match_col_results <- rbind(match_dragonflies,
                             match_mammals,
                             match_ants,
                             match_butterflies,
-                            match_birds)
+                            match_birds,
+                            match_amphi)
 
 write.csv(match_col_results, 
           file = paste0("results/match_col_results_",date,".csv"),
