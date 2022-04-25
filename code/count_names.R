@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment names from MOL taxonomies and make taxonomies file
 #### Coding and data processing: Aurore Maureaud
-#### April 2022
+#### November 2021
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '25APR2022'
+date <- '19NOV2021'
 
 # libraries
 library(ggplot2)
@@ -46,24 +46,16 @@ get_counts <- function (dat, group = group) {
 ### 1. Load data
 ################################################################################
 
-ants <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AntsTaxonomy_v2.1.csv")
-syn_sub <- subset(ants, accid==0 & !is.na(subspecies))$id
-ants <- ants %>% 
+ants <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AntsTaxonomy_v2.1.csv") %>% 
   mutate(group = "ants") %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship) %>% 
-  filter(!accid %in% syn_sub,
-         !id %in% syn_sub)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 get_counts(ants, group = "ants")
 
 butterflies <- read_csv("E:/Yale data/MOL/taxonomy/MOL_ButterfliesTaxonomy_v3.csv",
-                        col_types = list(flag = col_character()))
-syn_sub <- subset(butterflies, accid==0 & !is.na(subspecies))$id
-butterflies <- butterflies %>% 
+                        col_types = list(flag = col_character())) %>% 
   mutate(order = NA_character_,
          group = "butterflies") %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship) %>% 
-  filter(!accid %in% syn_sub,
-         !id %in% syn_sub)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 get_counts(butterflies, group = "butterflies")
 
 anomura <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AnomuransTaxonomy_v1.0.csv")
@@ -106,36 +98,11 @@ birds <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AvesTaxonomy_v2.1.csv",
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 get_counts(birds, group = "birds")
 
-amphi <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AmphibiaTaxonomy_v2.0.csv") %>% 
-  mutate(group = "amphibians") %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
-get_counts(amphi, group = "amphibians")
-
-trees <- read_csv("E:/Yale data/MOL/taxonomy/NA_Trees_canonical.csv")
-syn_sub <- subset(trees, AccId==0 & taxon_rank != "species")$Id
-trees <- trees %>% 
-  filter(!AccId %in% syn_sub,
-         !Id %in% syn_sub) %>% 
-  rename(accid = AccId,
-         id = Id,) %>% 
-  mutate(group = "trees",
-         order = NA_character_,
-         family = NA_character_,
-         genus = ,
-         species = ,
-         subspecies = ,
-         authorship = 
-         ) %>% 
-  dplyr::select()
-
-plants <- read_delim("E:/Yale data/MOL/taxonomy/Vascular.Plants.Master.Taxonomyv6.1-31.01.2022.txt", 
-                     delim = "|", escape_double = FALSE, trim_ws = TRUE)
-  
 
 ################################################################################
 ### 2. Merge taxonomies
 ################################################################################
-taxonomies <- rbind(dragonflies, ants, mammals, crabs, butterflies, reptiles, birds, amphi)
+taxonomies <- rbind(dragonflies, ants, mammals, crabs, butterflies, reptiles, birds)
 write.csv(taxonomies, file = paste0("data/taxonomies_",date,".csv"), row.names = F)
 
 
@@ -148,7 +115,6 @@ numbers <- rbind(get_counts(ants, group = "ants"),
                  get_counts(crabs, group = "crabs"),
                  get_counts(dragonflies, group = "dragonflies"),
                  get_counts(reptiles, group = "reptiles"),
-                 get_counts(birds, group = "birds"),
-                 get_counts(amphi, group = "amphibians"))
+                 get_counts(birds, group = "birds"))
 write.csv(numbers, file = paste0("results/numbers_",date,".csv"), row.names = F)
 
