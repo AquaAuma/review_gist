@@ -110,27 +110,38 @@ match_mammals <- match_col(taxonomies = taxonomies,
 
 
 ### C. Crabs ###################################################################
-col_crabs <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Brachyura_122021/NameUsage.tsv", 
-                        delim = "\t", escape_double = FALSE, 
-                        trim_ws = TRUE)
- 
-crab_families <- taxonomies %>% 
-  filter(group == "crabs") %>% 
-  dplyr::select(family) %>% 
-  filter(!is.na(family)) %>% 
-  distinct() %>% pull() 
-
-match_crabs <- match_col(taxonomies = taxonomies,
-                         col = col_crabs,
-                         group = "crabs")
+# crab_families <- taxonomies %>% 
+#   filter(group == "crabs") %>% 
+#   dplyr::select(family) %>% 
+#   filter(!is.na(family)) %>% 
+#   distinct() %>% pull()
+# 
+# col_crabs <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Brachyura_122021/NameUsage.tsv", 
+#                         delim = "\t", escape_double = FALSE, 
+#                         trim_ws = TRUE) %>% 
+#   filter(`col:rank` == "species",
+#          `col:status` == "accepted",
+#          `col:family` %in% crab_families) %>%
+#   mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+#          col = "COL") %>% 
+#   select(canonical_col, col) %>% 
+#   distinct()
+#  
+#  
+# 
+# match_crabs <- match_col(taxonomies = taxonomies,
+#                          col = col_crabs,
+#                          group = "crabs")
+# there is no high ranking reported so no possibility to do this assessment
 
 
 ### D. Reptiles ################################################################
-col_dragonflies <- 
-  
-  match_dragonflies <- match_col(taxonomies = taxonomies,
-                                 col = ,
-                                 group = "dragonflies")
+# col_dragonflies <- 
+#   
+#   match_dragonflies <- match_col(taxonomies = taxonomies,
+#                                  col = ,
+#                                  group = "dragonflies")
+# reptiles are not a formal group easy to extract from COL, so we cannot assess
 
 
 ### E.Ants #####################################################################
