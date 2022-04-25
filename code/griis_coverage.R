@@ -1,7 +1,7 @@
 ################################################################################
 #### Assessment of IUCN coverage per group
 #### Coding and data processing: Maisha Lucas
-#### November 2021
+#### April 2022
 ################################################################################
 
 rm(list = ls())
@@ -10,7 +10,7 @@ library(tidyverse)
 library(readr)
 
 # set date
-date <- '24NOV2021'
+date <- '25APR2022'
 
 # libraries
 library(ggplot2)
@@ -24,7 +24,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
+taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
 griis <- read.csv("data/GRIIS_2020_03_01.csv")
 
 
@@ -60,7 +60,6 @@ match_griis <- function(taxonomies, griis, group, parent, level){
 ################################################################################
 
 ### A. dragonflies #############################################################
-
 match_dragonflies <- match_griis(taxonomies = taxonomies,
                                  griis = griis,
                                  group = "dragonflies",
@@ -68,7 +67,6 @@ match_dragonflies <- match_griis(taxonomies = taxonomies,
                                  level = "accepted.order")
 
 ### B. Mammals #################################################################
-
 match_mammals <- match_griis(taxonomies = taxonomies,
                              griis = griis,
                              group = "mammals",
@@ -77,7 +75,6 @@ match_mammals <- match_griis(taxonomies = taxonomies,
 
 
 ### C. Crabs ###################################################################
-
 crab_families <- taxonomies %>%
   filter(group == "crabs") %>%
   dplyr::select(family) %>%
@@ -91,7 +88,6 @@ match_crabs <- match_griis(taxonomies = taxonomies,
                            level = "accepted.family")
 
 ### D. Reptiles ################################################################
-
 match_reptiles <- match_griis(taxonomies = taxonomies,
                               griis = griis,
                               group = "reptiles",
@@ -99,7 +95,6 @@ match_reptiles <- match_griis(taxonomies = taxonomies,
                               level = "accepted.class")
 
 ### E.Ants ##################################################################### 
-
 match_ants <- match_griis(taxonomies = taxonomies,
                           griis = griis,
                           group = "ants",
@@ -107,7 +102,6 @@ match_ants <- match_griis(taxonomies = taxonomies,
                           level = "accepted.family")
 
 ### F. Butterflies #############################################################
-
 butterfly_families <- taxonomies %>%
   filter(group == 'butterflies') %>%
   dplyr::select(family) %>%
@@ -121,13 +115,18 @@ match_butterflies <- match_griis(taxonomies = taxonomies,
                                  level = "accepted.family")
 
 ### G. Birds #############################################################
-
 match_birds <- match_griis(taxonomies = taxonomies,
                                  griis = griis,
                                  group = "birds",
                                  parent = "Aves",
                                  level = "accepted.class")
 
+### G. Amphibians #########################################################
+match_amphi <- match_griis(taxonomies = taxonomies,
+                           griis = griis,
+                           group = "amphibians",
+                           parent = "Amphibia",
+                           level = "accepted.class")
 
 
 ################################################################################
@@ -140,7 +139,8 @@ match_griis_results <- rbind (match_dragonflies,
                               match_reptiles,
                               match_ants,
                               match_butterflies,
-                              match_birds)
+                              match_birds,
+                              match_amphi)
 
 write.csv(match_griis_results, 
           file = paste0("results/match_griis_results_",date,".csv"),

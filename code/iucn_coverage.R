@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of IUCN coverage per group
 #### Coding and data processing: Aurore Maureaud
-#### November 2021
+#### April 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '19NOV2021'
+date <- '25APR2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
+taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
 
 
 ################################################################################
@@ -186,6 +186,18 @@ match_birds <- match_iucn(taxonomies = taxonomies,
                          group = "birds")
 
 
+### H. Amphibians ##############################################################
+tax_amphi <- read_csv("E:/Yale data/IUCN/redlist_species_data_a16e218d-dd3b-43a8-b979-00cf40f276c8_AMPHIBIANS/taxonomy.csv")
+ass_amphi <- read_csv("E:/Yale data/IUCN/redlist_species_data_a16e218d-dd3b-43a8-b979-00cf40f276c8_AMPHIBIANS/assessments.csv",
+                      col_types = list(yearLastSeen = col_character())) %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_amphi <- match_iucn(taxonomies = taxonomies,
+                          tax = tax_amphi, 
+                          ass = ass_amphi,
+                          group = "amphibians")
+
+
 
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
@@ -197,7 +209,8 @@ match_iucn_results <- rbind(match_dragonflies,
                             match_reptiles,
                             match_ants,
                             match_butt,
-                            match_birds)
+                            match_birds,
+                            match_amphi)
 
 write.csv(match_iucn_results, 
           file = paste0("results/match_iucn_results_",date,".csv"),

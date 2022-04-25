@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of NCBI coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily Sandall
-#### November 2021
+#### April 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '19NOV2021'
+date <- '25APR2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
+taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
 
 
 ################################################################################
@@ -153,6 +153,14 @@ match_birds <- match_ncbi(taxonomies = taxonomies,
                          group = "birds")
 
 
+### H. Amphibians ##############################################################
+ncbi_amphi <- read.delim("E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Amphibia_NCBItaxonomy_result1121.csv")
+
+match_amphi <- match_ncbi(taxonomies = taxonomies,
+                          ncbi = ncbi_amphi,
+                          group = "amphibians")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
@@ -163,7 +171,8 @@ match_ncbi_results <- rbind(match_dragonflies,
                             match_reptiles,
                             match_ants,
                             match_butt,
-                            match_birds)
+                            match_birds,
+                            match_amphi)
 
 write.csv(match_ncbi_results, 
           file = paste0("results/match_ncbi_results_",date,".csv"),

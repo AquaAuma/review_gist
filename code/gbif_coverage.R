@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of GBIF coverage per group
 #### Coding and data processing: Aurore Maureaud & Yanina Sica
-#### January 2022
+#### April 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '6JAN2022'
+date <- '25APR2022'
 
 # libraries
 library(ggplot2)
@@ -20,8 +20,9 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_19NOV2021.csv")
+taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
 gbif <- read.csv("E:/Yale data/GBIF/perspective_extract/gbif_unique_names.csv")
+
 
 ################################################################################
 #### 1. MATCH FUNCTION
@@ -81,7 +82,7 @@ match_gbif <- function(taxonomies, gbif, group) {
   prop_acc <- round(nrow(match_acc[!is.na(match_acc$gbif),])/nrow(match_acc)*100,2)
   prop_acc_syn <- round(nrow(match_acc_syn[!is.na(match_acc_syn$gbif),])/nrow(match_acc_syn)*100,2)
   group <- group
-  return(data.frame(cbind(group, nbr_spp, prop_tot, prop_acc, prop_acc_syn,
+  return(data.frame(cbind(group, nbr_spp_gbif, prop_tot, prop_acc, prop_acc_syn,
                        prop_no_match)))
 }
 
@@ -133,6 +134,12 @@ match_birds <- match_gbif(taxonomies = taxonomies,
                           group = "birds")
 
 
+### H. Amphibians ##############################################################
+match_amphi <- match_gbif(taxonomies = taxonomies,
+                          gbif = gbif,
+                          group = "amphibians")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
@@ -143,7 +150,8 @@ match_gbif_results <- rbind(match_dragonflies,
                             match_reptiles,
                             match_ants,
                             match_butt,
-                            match_birds)
+                            match_birds,
+                            match_amphi)
 
 write.csv(match_gbif_results, 
           file = paste0("results/match_gbif_results_",date,".csv"),
