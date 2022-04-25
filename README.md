@@ -17,7 +17,7 @@
 - *tree_coverage.R*: assess taxonomic match and phylogenetic affiliation with TreeOfLife
 
 ## Results
-- Tables with coverage and data gaps results per taxonomic group and database (either COL, GBIF, GRIIS, IUCM, NCBI, TreeOfLife).
+- Tables with coverage and data gaps results per taxonomic group and database (either COL, GBIF, GRIIS, IUCN, NCBI, TreeOfLife).
 - Table with completeness results
 - Table with number of names
 
