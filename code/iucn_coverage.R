@@ -198,6 +198,66 @@ match_amphi <- match_iucn(taxonomies = taxonomies,
                           group = "amphibians")
 
 
+### I. Bees ####################################################################
+tax_bees <- read_csv("E:/Yale data/IUCN/redlist_species_data_a2da6bba-6e39-4d84-a324-387b6917334b_BEES/taxonomy.csv")
+ass_bees <- read_csv("E:/Yale data/IUCN/redlist_species_data_a2da6bba-6e39-4d84-a324-387b6917334b_BEES/assessments.csv",
+                      col_types = list(yearLastSeen = col_character())) %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_bees <- match_iucn(taxonomies = taxonomies,
+                          tax = tax_bees, 
+                          ass = ass_bees,
+                          group = "bees")
+
+
+### J. Daisies #################################################################
+tax_daisies <- read_csv("E:/Yale data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/taxonomy.csv")
+ass_daisies <- read_csv("E:/Yale data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/assessments.csv",
+                     col_types = list(yearLastSeen = col_character())) %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_daisies <- match_iucn(taxonomies = taxonomies,
+                         tax = tax_daisies, 
+                         ass = ass_daisies,
+                         group = "daisies")
+
+
+### K. Palms ###################################################################
+tax_palms <- read_csv("E:/Yale data/IUCN/redlist_species_data_3cfd7c65-c851-4b6b-ae78-5efa01c8b4ae_CONIFERS/taxonomy.csv")
+ass_palms <- read_csv("E:/Yale data/IUCN/redlist_species_data_3cfd7c65-c851-4b6b-ae78-5efa01c8b4ae_CONIFERS/assessments.csv",
+                        col_types = list(yearLastSeen = col_character())) %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_palms <- match_iucn(taxonomies = taxonomies,
+                            tax = tax_palms, 
+                            ass = ass_palms,
+                            group = "palms")
+
+
+### L. Conifers ################################################################
+tax_conifers <- read_csv("E:/Yale data/IUCN/redlist_species_data_625ddfe7-229f-44cd-8f38-3fd33dcca8f4_PALM/taxonomy.csv")
+ass_conifers <- read_csv("E:/Yale data/IUCN/redlist_species_data_625ddfe7-229f-44cd-8f38-3fd33dcca8f4_PALM/assessments.csv",
+                      col_types = list(yearLastSeen = col_character())) %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_conifers <- match_iucn(taxonomies = taxonomies,
+                          tax = tax_conifers, 
+                          ass = ass_conifers,
+                          group = "conifers")
+
+
+### M. Cacti ###################################################################
+tax_cacti <- read_csv("E:/Yale data/IUCN/redlist_species_data_5b88273d-499e-44ab-a52a-06caa26fc5fc_CACTI/taxonomy.csv")
+ass_cacti <- read_csv("E:/Yale data/IUCN/redlist_species_data_5b88273d-499e-44ab-a52a-06caa26fc5fc_CACTI/assessments.csv",
+                         col_types = list(yearLastSeen = col_character())) %>% 
+  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+
+match_cacti <- match_iucn(taxonomies = taxonomies,
+                             tax = tax_cacti, 
+                             ass = ass_cacti,
+                             group = "cacti")
+
+
 
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
@@ -210,7 +270,12 @@ match_iucn_results <- rbind(match_dragonflies,
                             match_ants,
                             match_butt,
                             match_birds,
-                            match_amphi)
+                            match_amphi,
+                            match_bees,
+                            match_conifers,
+                            match_cacti,
+                            match_daisies,
+                            match_palms)
 
 write.csv(match_iucn_results, 
           file = paste0("results/match_iucn_results_",date,".csv"),

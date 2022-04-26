@@ -161,6 +161,46 @@ match_amphi <- match_ncbi(taxonomies = taxonomies,
                           group = "amphibians")
 
 
+### I. Bees ####################################################################
+ncbi_bees <- read.delim()
+
+match_bees <- match_ncbi(taxonomies = taxonomies,
+                          ncbi = ncbi_bees,
+                          group = "bees")
+
+
+### J. Daisies #################################################################
+ncbi_daisies <- read.delim("E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Compositae_NCBItaxonomy_result1121.csv")
+
+match_daisies <- match_ncbi(taxonomies = taxonomies,
+                          ncbi = ncbi_daisies,
+                          group = "daisies")
+
+
+### K. Palms ###################################################################
+ncbi_palms <- read.delim()
+
+match_palms <- match_ncbi(taxonomies = taxonomies,
+                          ncbi = ncbi_palms,
+                          group = "palms")
+
+
+### L. Conifers ################################################################
+ncbi_conifers <- read.delim()
+
+match_conifers <- match_ncbi(taxonomies = taxonomies,
+                          ncbi = ncbi_conifers,
+                          group = "conifers")
+
+
+### M. Cacti ###################################################################
+ncbi_cacti <- read.delim()
+
+match_cacti <- match_ncbi(taxonomies = taxonomies,
+                          ncbi = ncbi_cacti,
+                          group = "cacti")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
@@ -172,7 +212,9 @@ match_ncbi_results <- rbind(match_dragonflies,
                             match_ants,
                             match_butt,
                             match_birds,
-                            match_amphi)
+                            match_amphi,
+                            #match_bees,
+                            match_daisies)
 
 write.csv(match_ncbi_results, 
           file = paste0("results/match_ncbi_results_",date,".csv"),

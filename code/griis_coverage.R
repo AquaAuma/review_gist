@@ -114,14 +114,14 @@ match_butterflies <- match_griis(taxonomies = taxonomies,
                                  parent = butterfly_families,
                                  level = "accepted.family")
 
-### G. Birds #############################################################
+### G. Birds ###################################################################
 match_birds <- match_griis(taxonomies = taxonomies,
                                  griis = griis,
                                  group = "birds",
                                  parent = "Aves",
                                  level = "accepted.class")
 
-### G. Amphibians #########################################################
+### H. Amphibians ##############################################################
 match_amphi <- match_griis(taxonomies = taxonomies,
                            griis = griis,
                            group = "amphibians",
@@ -129,18 +129,63 @@ match_amphi <- match_griis(taxonomies = taxonomies,
                            level = "accepted.class")
 
 
+### I. Bees ####################################################################
+match_bees <- match_griis(taxonomies = taxonomies,
+                         griis = griis,
+                         group = "bees",
+                         parent = "Hymenoptera",
+                         level = "accepted.order")
+
+
+### J. Daisies #################################################################
+match_daisies <- match_griis(taxonomies = taxonomies,
+                            griis = griis,
+                            group = "daisies",
+                            parent = "Asterales",
+                            level = "accepted.order")
+
+
+### K. Palms ###################################################################
+match_palms <- match_griis(taxonomies = taxonomies,
+                             griis = griis,
+                             group = "palms",
+                             parent = "Arecales",
+                             level = "accepted.order")
+
+
+### L. Conifers ################################################################
+match_conifers <- match_griis(taxonomies = taxonomies,
+                             griis = griis,
+                             group = "conifers",
+                             parent = "Pinales",
+                             level = "accepted.order")
+
+
+### JM. Cacti ##################################################################
+match_cacti <- match_griis(taxonomies = taxonomies,
+                             griis = griis,
+                             group = "cacti",
+                             parent = "Cactaceae",
+                             level = "accepted.family")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
 
-match_griis_results <- rbind (match_dragonflies,
-                              match_mammals,
-                              match_crabs,
-                              match_reptiles,
-                              match_ants,
-                              match_butterflies,
-                              match_birds,
-                              match_amphi)
+match_griis_results <- rbind(match_dragonflies,
+                             match_mammals,
+                             match_crabs,
+                             match_reptiles,
+                             match_ants,
+                             match_butterflies,
+                             match_birds,
+                             match_amphi,
+                             match_bees,
+                             match_conifers,
+                             match_cacti,
+                             match_daisies,
+                             match_palms)
 
 write.csv(match_griis_results, 
           file = paste0("results/match_griis_results_",date,".csv"),

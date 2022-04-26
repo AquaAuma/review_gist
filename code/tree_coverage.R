@@ -199,18 +199,58 @@ match_amphi <- match_tree(taxonomies = taxonomies,
                           parent = "Amphibia")
 
 
+### I. Bees ####################################################################
+match_bees <- match_tree(taxonomies = taxonomies,
+                          phylotree = phylotree,
+                          group = "bees",
+                          parent = "Hymenoptera")
+
+
+### J. Daisies #################################################################
+match_daisies <- match_tree(taxonomies = taxonomies,
+                          phylotree = phylotree,
+                          group = "daisies",
+                          parent = "Asterales")
+
+
+### K. Palms ###################################################################
+match_palms <- match_tree(taxonomies = taxonomies,
+                          phylotree = phylotree,
+                          group = "palms",
+                          parent = "Arecales")
+
+
+### L. Conifers ################################################################
+match_conifers <- match_tree(taxonomies = taxonomies,
+                          phylotree = phylotree,
+                          group = "conifers",
+                          parent = "Pinales")
+
+
+### M. Cacti ###################################################################
+match_cacti <- match_tree(taxonomies = taxonomies,
+                          phylotree = phylotree,
+                          group = "cacti",
+                          parent = "Cactaceae")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
 
 match_phylotree_results <- rbind(match_dragonflies,
-                            match_mammals,
-                            match_crabs,
-                            match_reptiles,
-                            match_ants,
-                            match_butt,
-                            match_birds,
-                            match_amphi)
+                                 match_mammals,
+                                 match_crabs,
+                                 match_reptiles,
+                                 match_ants,
+                                 match_butt,
+                                 match_birds,
+                                 match_amphi,
+                                 match_bees,
+                                 match_conifers,
+                                 match_cacti,
+                                 match_daisies,
+                                 match_palms)
 
 write.csv(match_phylotree_results, 
           file = paste0("results/match_phylotree_results_",date,".csv"),

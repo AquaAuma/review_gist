@@ -21,7 +21,8 @@ library(rredlist)
 
 # load data
 taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
-gbif <- read.csv("E:/Yale data/GBIF/perspective_extract/gbif_unique_names.csv")
+gbif <- read.csv("E:/Yale data/GBIF/perspective_extract/gbif_unique_names.csv") %>% 
+  mutate(taxa = ifelse(order == "Asterales", "daisies", taxa))
 
 
 ################################################################################
@@ -97,7 +98,6 @@ match_dragonflies <- match_gbif(taxonomies = taxonomies,
                                 group = "dragonflies")
 
 
-
 ### B. Mammals #################################################################
 match_mammals <- match_gbif(taxonomies = taxonomies,
                             gbif = gbif,
@@ -140,6 +140,33 @@ match_amphi <- match_gbif(taxonomies = taxonomies,
                           group = "amphibians")
 
 
+### I. Bees ####################################################################
+match_bees <- match_gbif(taxonomies = taxonomies,
+                          gbif = gbif,
+                          group = "bees")
+
+
+### J. Daisies #################################################################
+match_daisies <- match_gbif(taxonomies = taxonomies,
+                          gbif = gbif,
+                          group = "daisies")
+
+### K. Palms ###################################################################
+match_palms <- match_gbif(taxonomies = taxonomies,
+                            gbif = gbif,
+                            group = "palms")
+
+### L. Conifers ################################################################
+match_conifers <- match_gbif(taxonomies = taxonomies,
+                            gbif = gbif,
+                            group = "conifers")
+
+### JM. Cacti ##################################################################
+match_cacti <- match_gbif(taxonomies = taxonomies,
+                            gbif = gbif,
+                            group = "cacti")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
@@ -151,7 +178,12 @@ match_gbif_results <- rbind(match_dragonflies,
                             match_ants,
                             match_butt,
                             match_birds,
-                            match_amphi)
+                            match_amphi,
+                            match_bees,
+                            match_conifers,
+                            match_cacti,
+                            match_daisies,
+                            match_palms)
 
 write.csv(match_gbif_results, 
           file = paste0("results/match_gbif_results_",date,".csv"),
