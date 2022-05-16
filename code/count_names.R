@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment names from MOL taxonomies and make taxonomies file
 #### Coding and data processing: Aurore Maureaud
-#### April 2022
+#### May 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '25APR2022'
+date <- '16MAY2022'
 
 # libraries
 library(ggplot2)
@@ -127,10 +127,10 @@ get_counts(amphi, group = "amphibians")
 
 
 ### I. Bees ####################################################################
-bees <- read_csv("E:/Yale data/MOL/taxonomy/DLdf_2022-03-02.csv") %>% 
-  mutate(group = "bees",
-         subspecies = infraspecies) %>%
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+# bees <- read_csv("E:/Yale data/MOL/taxonomy/DLdf_2022-03-02.csv") %>% 
+#   mutate(group = "bees",
+#          subspecies = infraspecies) %>%
+#   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 
 
 ### J. Plants ##################################################################
@@ -151,7 +151,7 @@ plants <- read_delim("E:/Yale data/MOL/taxonomy/Vascular.Plants.Master.Taxonomyv
 ## Compositae
 compo <- plants %>% 
   mutate(group = "daisies") %>% 
-  filter(order == "Asterales")
+  filter(family == "Asteraceae")
 compo$id <- 1:nrow(compo)
 compo <- compo %>% 
   mutate(accid = ifelse(status == "accepted", 0, NA))
@@ -334,7 +334,7 @@ get_counts(palms, group = "palms")
 ### 2. Merge taxonomies
 ################################################################################
 taxonomies <- rbind(dragonflies, ants, mammals, crabs, butterflies, reptiles, 
-                    birds, amphi, bees, conifers, palms, cacti, compo)
+                    birds, amphi, conifers, palms, cacti, compo)
 write.csv(taxonomies, file = paste0("data/taxonomies_",date,".csv"), row.names = F)
 
 
@@ -349,7 +349,7 @@ numbers <- rbind(get_counts(ants, group = "ants"),
                  get_counts(reptiles, group = "reptiles"),
                  get_counts(birds, group = "birds"),
                  get_counts(amphi, group = "amphibians"),
-                 get_counts(bees, group = "bees"),
+                 #get_counts(bees, group = "bees"),
                  get_counts(compo, group = "daisies"),
                  get_counts(palms, group = "palms"),
                  get_counts(cacti, group = "cacti"),
