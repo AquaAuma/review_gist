@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of OpenTree coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily Sandall
-#### April 2022
+#### May 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '25APR2022'
+date <- '16MAY2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
+taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
 phylotree <- read_csv(file = "E:/Yale data/OpenTreePhylogeny_assessment/OpenZoom_PhylogeneticTaxonomy1121.csv") %>% 
   select(-`...1`,-`...9`)
 
@@ -200,17 +200,17 @@ match_amphi <- match_tree(taxonomies = taxonomies,
 
 
 ### I. Bees ####################################################################
-match_bees <- match_tree(taxonomies = taxonomies,
-                          phylotree = phylotree,
-                          group = "bees",
-                          parent = "Hymenoptera")
+# match_bees <- match_tree(taxonomies = taxonomies,
+#                           phylotree = phylotree,
+#                           group = "bees",
+#                           parent = "Hymenoptera")
 
 
 ### J. Daisies #################################################################
 match_daisies <- match_tree(taxonomies = taxonomies,
                           phylotree = phylotree,
                           group = "daisies",
-                          parent = "Asterales")
+                          parent = "Asteraceae")
 
 
 ### K. Palms ###################################################################
@@ -246,7 +246,7 @@ match_phylotree_results <- rbind(match_dragonflies,
                                  match_butt,
                                  match_birds,
                                  match_amphi,
-                                 match_bees,
+                                 #match_bees,
                                  match_conifers,
                                  match_cacti,
                                  match_daisies,

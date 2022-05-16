@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of GBIF coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily L. Sandall
-#### April 2022
+#### May 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '25APR2022'
+date <- '16MAY2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(rredlist)
 library(readr)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
+taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
 
 
 ################################################################################
@@ -262,6 +262,22 @@ match_amphi <- match_col(taxonomies = taxonomies,
                          group = "amphibians")
 
 
+### H. Compositae ##############################################################
+col_compo <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_ Asteraceae_DWC_0422022/Taxon.tsv",
+                        delim = "\t", escape_double = FALSE,
+                        trim_ws = TRUE) %>% 
+  filter(`dwc:taxonRank` == "species",
+         `dwc:taxonomicStatus` == "accepted") %>% 
+  mutate(canonical_col = paste(`dwc:genericName`,`dwc:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+
+match_compo <- match_col(taxonomies = taxonomies,
+                         col = col_compo,
+                         group = "daisies")
+
+
 ################################################################################
 #### 3. SUMMARIZE INFORMATION
 ################################################################################
@@ -271,7 +287,8 @@ match_col_results <- rbind(match_dragonflies,
                             match_ants,
                             match_butterflies,
                             match_birds,
-                            match_amphi)
+                            match_amphi,
+                            match_compo)
 
 write.csv(match_col_results, 
           file = paste0("results/match_col_results_",date,".csv"),

@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of NCBI coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily Sandall
-#### April 2022
+#### May 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '25APR2022'
+date <- '16MAY2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
+taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
 
 
 ################################################################################
@@ -162,11 +162,11 @@ match_amphi <- match_ncbi(taxonomies = taxonomies,
 
 
 ### I. Bees ####################################################################
-ncbi_bees <- read.delim()
-
-match_bees <- match_ncbi(taxonomies = taxonomies,
-                          ncbi = ncbi_bees,
-                          group = "bees")
+# ncbi_bees <- read.delim()
+# 
+# match_bees <- match_ncbi(taxonomies = taxonomies,
+#                           ncbi = ncbi_bees,
+#                           group = "bees")
 
 
 ### J. Daisies #################################################################

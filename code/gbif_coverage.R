@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of GBIF coverage per group
 #### Coding and data processing: Aurore Maureaud & Yanina Sica
-#### April 2022
+#### May 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '25APR2022'
+date <- '16MAY2022'
 
 # libraries
 library(ggplot2)
@@ -20,9 +20,9 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
+taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
 gbif <- read.csv("E:/Yale data/GBIF/perspective_extract/gbif_unique_names.csv") %>% 
-  mutate(taxa = ifelse(order == "Asterales", "daisies", taxa))
+  mutate(taxa = ifelse(family == "Asteraceae", "daisies", taxa))
 
 
 ################################################################################
@@ -141,9 +141,9 @@ match_amphi <- match_gbif(taxonomies = taxonomies,
 
 
 ### I. Bees ####################################################################
-match_bees <- match_gbif(taxonomies = taxonomies,
-                          gbif = gbif,
-                          group = "bees")
+# match_bees <- match_gbif(taxonomies = taxonomies,
+#                           gbif = gbif,
+#                           group = "bees")
 
 
 ### J. Daisies #################################################################
@@ -179,7 +179,7 @@ match_gbif_results <- rbind(match_dragonflies,
                             match_butt,
                             match_birds,
                             match_amphi,
-                            match_bees,
+                            #match_bees,
                             match_conifers,
                             match_cacti,
                             match_daisies,
