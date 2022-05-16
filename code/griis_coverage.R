@@ -1,7 +1,7 @@
 ################################################################################
 #### Assessment of IUCN coverage per group
 #### Coding and data processing: Maisha Lucas
-#### April 2022
+#### May 2022
 ################################################################################
 
 rm(list = ls())
@@ -10,7 +10,7 @@ library(tidyverse)
 library(readr)
 
 # set date
-date <- '25APR2022'
+date <- '16MAY2022'
 
 # libraries
 library(ggplot2)
@@ -24,7 +24,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
+taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
 griis <- read.csv("data/GRIIS_2020_03_01.csv")
 
 
@@ -130,19 +130,19 @@ match_amphi <- match_griis(taxonomies = taxonomies,
 
 
 ### I. Bees ####################################################################
-match_bees <- match_griis(taxonomies = taxonomies,
-                         griis = griis,
-                         group = "bees",
-                         parent = "Hymenoptera",
-                         level = "accepted.order")
+# match_bees <- match_griis(taxonomies = taxonomies,
+#                          griis = griis,
+#                          group = "bees",
+#                          parent = "Hymenoptera",
+#                          level = "accepted.order")
 
 
 ### J. Daisies #################################################################
 match_daisies <- match_griis(taxonomies = taxonomies,
                             griis = griis,
                             group = "daisies",
-                            parent = "Asterales",
-                            level = "accepted.order")
+                            parent = "Asteraceae",
+                            level = "accepted.family")
 
 
 ### K. Palms ###################################################################
@@ -181,7 +181,7 @@ match_griis_results <- rbind(match_dragonflies,
                              match_butterflies,
                              match_birds,
                              match_amphi,
-                             match_bees,
+                             #match_bees,
                              match_conifers,
                              match_cacti,
                              match_daisies,

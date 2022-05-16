@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of IUCN coverage per group
 #### Coding and data processing: Aurore Maureaud
-#### April 2022
+#### May 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '25APR2022'
+date <- '16MAY2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_25APR2022.csv")
+taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
 
 
 ################################################################################
@@ -96,8 +96,6 @@ match_dragonflies <- match_iucn(taxonomies = taxonomies,
                                 tax = tax_dragonflies, 
                                 ass = ass_dragonflies,
                                 group = "dragonflies")
-
-
 
 
 ### B. Mammals #################################################################
@@ -199,21 +197,23 @@ match_amphi <- match_iucn(taxonomies = taxonomies,
 
 
 ### I. Bees ####################################################################
-tax_bees <- read_csv("E:/Yale data/IUCN/redlist_species_data_a2da6bba-6e39-4d84-a324-387b6917334b_BEES/taxonomy.csv")
-ass_bees <- read_csv("E:/Yale data/IUCN/redlist_species_data_a2da6bba-6e39-4d84-a324-387b6917334b_BEES/assessments.csv",
-                      col_types = list(yearLastSeen = col_character())) %>% 
-  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
-
-match_bees <- match_iucn(taxonomies = taxonomies,
-                          tax = tax_bees, 
-                          ass = ass_bees,
-                          group = "bees")
+# tax_bees <- read_csv("E:/Yale data/IUCN/redlist_species_data_a2da6bba-6e39-4d84-a324-387b6917334b_BEES/taxonomy.csv")
+# ass_bees <- read_csv("E:/Yale data/IUCN/redlist_species_data_a2da6bba-6e39-4d84-a324-387b6917334b_BEES/assessments.csv",
+#                       col_types = list(yearLastSeen = col_character())) %>% 
+#   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
+# 
+# match_bees <- match_iucn(taxonomies = taxonomies,
+#                           tax = tax_bees, 
+#                           ass = ass_bees,
+#                           group = "bees")
 
 
 ### J. Daisies #################################################################
-tax_daisies <- read_csv("E:/Yale data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/taxonomy.csv")
+tax_daisies <- read_csv("E:/Yale data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/taxonomy.csv") %>% 
+  filter(familyName == "ASTERACEAE")
 ass_daisies <- read_csv("E:/Yale data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/assessments.csv",
                      col_types = list(yearLastSeen = col_character())) %>% 
+  filter(internalTaxonId %in% tax_daisies$internalTaxonId) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
 match_daisies <- match_iucn(taxonomies = taxonomies,
@@ -271,7 +271,7 @@ match_iucn_results <- rbind(match_dragonflies,
                             match_butt,
                             match_birds,
                             match_amphi,
-                            match_bees,
+                            #match_bees,
                             match_conifers,
                             match_cacti,
                             match_daisies,
