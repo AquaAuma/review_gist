@@ -1,5 +1,5 @@
 ################################################################################
-#### Assessment of GBIF coverage per group
+#### Assessment of COL coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily L. Sandall
 #### May 2022
 ################################################################################
