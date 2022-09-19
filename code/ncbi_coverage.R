@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of NCBI coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily Sandall
-#### May 2022
+#### September 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '16MAY2022'
+date <- 'SEPT2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
+taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
 
 
 ################################################################################
@@ -99,7 +99,7 @@ match_ncbi <- function(taxonomies, ncbi_raw, group){
 ################################################################################
 
 ### A. dragonflies #############################################################
-ncbi_dragonflies <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Odonata_NCBItaxonomy_result1121.csv")
+ncbi_dragonflies <- read_csv(file = "data/NCBI/Perspective_NCBI_taxonomy/Odonata_NCBItaxonomy_result1121.csv")
 
 match_dragonflies <- match_ncbi(taxonomies = taxonomies,
                                 ncbi = ncbi_dragonflies,
@@ -107,7 +107,7 @@ match_dragonflies <- match_ncbi(taxonomies = taxonomies,
 
 
 ### B. mammals #################################################################
-ncbi_mammals <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Mammalia_NCBItaxonomy_result1121.csv")
+ncbi_mammals <- read_csv(file = "data/NCBI/Perspective_NCBI_taxonomy/Mammalia_NCBItaxonomy_result1121.csv")
 
 match_mammals <- match_ncbi(taxonomies = taxonomies,
                                 ncbi = ncbi_mammals,
@@ -115,7 +115,7 @@ match_mammals <- match_ncbi(taxonomies = taxonomies,
 
 
 ### C. Crabs ###################################################################
-ncbi_crabs <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Crabs_NCBItaxonomy_result1121.csv")
+ncbi_crabs <- read_csv(file = "data/NCBI/Perspective_NCBI_taxonomy/Crabs_NCBItaxonomy_result1121.csv")
 
 match_crabs <- match_ncbi(taxonomies = taxonomies,
                           ncbi = ncbi_crabs,
@@ -123,7 +123,7 @@ match_crabs <- match_ncbi(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
-ncbi_reptiles <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Reptiles_NCBItaxonomy_result1121.csv")
+ncbi_reptiles <- read_csv(file = "data/NCBI/Perspective_NCBI_taxonomy/Reptiles_NCBItaxonomy_result1121.csv")
 
 match_reptiles <- match_ncbi(taxonomies = taxonomies,
                              ncbi = ncbi_reptiles,
@@ -131,14 +131,14 @@ match_reptiles <- match_ncbi(taxonomies = taxonomies,
 
 
 ### E.Ants #####################################################################
-ncbi_ants <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Formicidae_NCBItaxonomy_result1121.csv")
+ncbi_ants <- read_csv(file = "data/NCBI/Perspective_NCBI_taxonomy/Formicidae_NCBItaxonomy_result1121.csv")
 match_ants <- match_ncbi(taxonomies = taxonomies,
                          ncbi = ncbi_ants,
                          group = "ants")
 
 
 ### F. Butterflies #############################################################
-ncbi_butt <- read_csv(file = "E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Butterflies_NCBItaxonomy_result1121.csv")
+ncbi_butt <- read_csv(file = "data/NCBI/Perspective_NCBI_taxonomy/Butterflies_NCBItaxonomy_result1121.csv")
 
 match_butt <- match_ncbi(taxonomies = taxonomies,
                          ncbi = ncbi_butt,
@@ -146,7 +146,7 @@ match_butt <- match_ncbi(taxonomies = taxonomies,
 
 
 ### G. Birds ###################################################################
-ncbi_birds <- read.delim("E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Aves_taxonomy_result1121.txt")
+ncbi_birds <- read.delim("data/NCBI/Perspective_NCBI_taxonomy/Aves_taxonomy_result1121.txt")
 
 match_birds <- match_ncbi(taxonomies = taxonomies,
                          ncbi = ncbi_birds,
@@ -154,51 +154,19 @@ match_birds <- match_ncbi(taxonomies = taxonomies,
 
 
 ### H. Amphibians ##############################################################
-ncbi_amphi <- read.delim("E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Amphibia_NCBItaxonomy_result1121.csv")
+ncbi_amphi <- read.delim("data/NCBI/Perspective_NCBI_taxonomy/Amphibia_NCBItaxonomy_result1121.csv")
 
 match_amphi <- match_ncbi(taxonomies = taxonomies,
                           ncbi = ncbi_amphi,
                           group = "amphibians")
 
 
-### I. Bees ####################################################################
-# ncbi_bees <- read.delim()
-# 
-# match_bees <- match_ncbi(taxonomies = taxonomies,
-#                           ncbi = ncbi_bees,
-#                           group = "bees")
-
-
-### J. Daisies #################################################################
-ncbi_daisies <- read.delim("E:/Yale data/NCBI_assessment/Perspective_NCBI_taxonomy/Compositae_NCBItaxonomy_result1121.csv")
+### I. Daisies #################################################################
+ncbi_daisies <- read.delim("data/NCBI/Perspective_NCBI_taxonomy/Compositae_NCBItaxonomy_result1121.csv")
 
 match_daisies <- match_ncbi(taxonomies = taxonomies,
                           ncbi = ncbi_daisies,
                           group = "daisies")
-
-
-### K. Palms ###################################################################
-ncbi_palms <- read.delim()
-
-match_palms <- match_ncbi(taxonomies = taxonomies,
-                          ncbi = ncbi_palms,
-                          group = "palms")
-
-
-### L. Conifers ################################################################
-ncbi_conifers <- read.delim()
-
-match_conifers <- match_ncbi(taxonomies = taxonomies,
-                          ncbi = ncbi_conifers,
-                          group = "conifers")
-
-
-### M. Cacti ###################################################################
-ncbi_cacti <- read.delim()
-
-match_cacti <- match_ncbi(taxonomies = taxonomies,
-                          ncbi = ncbi_cacti,
-                          group = "cacti")
 
 
 ################################################################################
@@ -213,16 +181,8 @@ match_ncbi_results <- rbind(match_dragonflies,
                             match_butt,
                             match_birds,
                             match_amphi,
-                            #match_bees,
                             match_daisies)
 
 write.csv(match_ncbi_results, 
           file = paste0("results/match_ncbi_results_",date,".csv"),
           row.names = F)
-
-
-
-
-
-
-

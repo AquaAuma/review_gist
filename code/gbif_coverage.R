@@ -21,7 +21,7 @@ library(rredlist)
 
 # load data
 taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
-gbif <- read.csv("E:/Yale data/GBIF/perspective_extract/gbif_unique_names.csv") %>% 
+gbif <- read.csv("data/GBIF/perspective_extract/gbif_unique_names.csv") %>% 
   mutate(taxa = ifelse(family == "Asteraceae", "daisies", taxa))
 
 
