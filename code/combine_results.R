@@ -55,7 +55,7 @@ results <- data.frame(results)
 results <- results[2:nrow(results),] %>% 
   dplyr::select(ants, butterflies, crabs, dragonflies, mammals, birds, reptiles, amphibians, daisies)
 
-write.csv(results, file = "results/matching_results.csv", row.names = FALSE)
+write.csv(results, file = "results/matching_results.csv", row.names = TRUE)
 
 
 
