@@ -10,15 +10,8 @@ rm(list = ls())
 date <- 'SEPT2022'
 
 # libraries
-library(ggplot2)
 library(tidyverse)
 library(readxl)
-library(rphylopic)
-library(egg)
-library(grid)
-library(png)
-library(writexl)
-library(rredlist)
 
 # load data
 
@@ -129,65 +122,12 @@ amphi <- read_csv("data/MOL/Copy of MOL_AmphibiaTaxonomy_v2.1.csv") %>%
 get_counts(amphi, group = "amphibians")
 
 
-### J. Plants ##################################################################
-# plants <- read_delim("E:/Yale data/MOL/taxonomy/Vascular.Plants.Master.Taxonomyv6.1-31.01.2022.txt", 
-#                      delim = "|", escape_double = FALSE, trim_ws = TRUE) %>% 
-#   rename(order = Accepted_Name_Order,
-#          family = Accepted_Name_Family,
-#          authorship = auth_name,
-#          authorship_year = Publication_Year,
-#          canonical = nom_nude, 
-#          subspecies = infrasp_name,
-#          status = Status,
-#          rank = Accepted_Taxon_Level,
-#          accepted_name = Accepted_Nom_Nude_Binomial)%>% 
-#   dplyr::select(canonical, order, family, genus, species, subspecies, authorship,
-#                 authorship_year, status, rank, accepted_name)
-# 
-# ## Compositae
-# compo <- plants %>% 
-#   mutate(group = "daisies") %>% 
-#   filter(family == "Asteraceae")
-# compo$id <- 1:nrow(compo)
-# compo <- compo %>% 
-#   mutate(accid = ifelse(status == "accepted", 0, NA))
-# 
-# # remove synonyms not matched to accepted names
-# for(i in 1:nrow(compo)){
-#   if(is.na(compo$accid[i])){
-#     j <- which(compo$canonical == compo$accepted_name[i])
-#     sub_j <- compo[j,]
-#     sub_j <- subset(sub_j, status == "accepted")
-#     
-#     if(nrow(sub_j)==1){
-#       compo$accid[i] <- sub_j$id
-#     }
-#     if(nrow(sub_j)>1){
-#       print(paste0("More than one accepted name for i=",i))
-#     }
-#     if(nrow(sub_j)==0){
-#       print(paste0("No corresponding accepted name for i=",i))
-#     }
-#     rm(j, sub_j)
-#   }
-# }
-# 
-# # remove infraspecies and synonyms considered accepted in the mastertaxonomy
-# syn_sub <- subset(compo, accid==0 & !is.na(subspecies))$id
-# syn_sub2 <- subset(compo, accid==0 & rank!="species")$id
-# syn_sub <- unique(c(syn_sub, syn_sub2))
-# 
-# compo <- compo %>% 
-#   filter(!accid %in% syn_sub,
-#          !id %in% syn_sub,
-#          !is.na(accid)) %>% 
-#   mutate(authorship = ifelse(!is.na(authorship_year),
-#                              paste(authorship, authorship_year, sep = " "),
-#                              authorship)) %>% 
-#   select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
-# 
-# 
-# get_counts(compo, group = "daisies")
+### I. Plants ##################################################################
+compo <- read_csv("data/MOL/MOL_AsteraceaeTaxonomy_v6.1.csv") %>% 
+  rename(subspecies = infraspecies) %>% 
+  mutate(group = "daisies") %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+get_counts(compo, group = "daisies")
 
 
 ################################################################################
@@ -200,8 +140,8 @@ taxonomies <- rbind(dragonflies,
                     butterflies, 
                     reptiles, 
                     #birds, 
-                    amphi 
-                    #compo
+                    amphi, 
+                    compo
                     )
 write.csv(taxonomies, file = paste0("data/taxonomies_",date,".csv"), row.names = F)
 
@@ -216,8 +156,8 @@ numbers <- rbind(get_counts(ants, group = "ants"),
                  get_counts(dragonflies, group = "dragonflies"),
                  get_counts(reptiles, group = "reptiles"),
                  #get_counts(birds, group = "birds"),
-                 get_counts(amphi, group = "amphibians")
-                 #get_counts(compo, group = "daisies")
+                 get_counts(amphi, group = "amphibians"),
+                 get_counts(compo, group = "daisies")
                  )
 write.csv(numbers, file = paste0("results/numbers_",date,".csv"), row.names = F)
 
