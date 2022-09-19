@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of OpenTree coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily Sandall
-#### May 2022
+#### September 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '16MAY2022'
+date <- 'SEPT2022'
 
 # libraries
 library(ggplot2)
@@ -21,8 +21,8 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
-phylotree <- read_csv(file = "E:/Yale data/OpenTreePhylogeny_assessment/OpenZoom_PhylogeneticTaxonomy1121.csv") %>% 
+taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
+phylotree <- read_csv(file = "data/OpenTreePhylogeny/OpenZoom_PhylogeneticTaxonomy1121.csv") %>% 
   select(-`...1`,-`...9`)
 
 
@@ -199,39 +199,11 @@ match_amphi <- match_tree(taxonomies = taxonomies,
                           parent = "Amphibia")
 
 
-### I. Bees ####################################################################
-# match_bees <- match_tree(taxonomies = taxonomies,
-#                           phylotree = phylotree,
-#                           group = "bees",
-#                           parent = "Hymenoptera")
-
-
-### J. Daisies #################################################################
+### I. Daisies #################################################################
 match_daisies <- match_tree(taxonomies = taxonomies,
                           phylotree = phylotree,
                           group = "daisies",
                           parent = "Asteraceae")
-
-
-### K. Palms ###################################################################
-match_palms <- match_tree(taxonomies = taxonomies,
-                          phylotree = phylotree,
-                          group = "palms",
-                          parent = "Arecales")
-
-
-### L. Conifers ################################################################
-match_conifers <- match_tree(taxonomies = taxonomies,
-                          phylotree = phylotree,
-                          group = "conifers",
-                          parent = "Pinales")
-
-
-### M. Cacti ###################################################################
-match_cacti <- match_tree(taxonomies = taxonomies,
-                          phylotree = phylotree,
-                          group = "cacti",
-                          parent = "Cactaceae")
 
 
 ################################################################################
@@ -246,11 +218,7 @@ match_phylotree_results <- rbind(match_dragonflies,
                                  match_butt,
                                  match_birds,
                                  match_amphi,
-                                 #match_bees,
-                                 match_conifers,
-                                 match_cacti,
-                                 match_daisies,
-                                 match_palms)
+                                 match_daisies)
 
 write.csv(match_phylotree_results, 
           file = paste0("results/match_phylotree_results_",date,".csv"),
