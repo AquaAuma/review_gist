@@ -136,7 +136,8 @@ match_mammals <- match_col(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
-
+# reptiles are a paraphyletic group, so they are not searchable by that term.
+# the higher classification term (Sauropsida) is also not searchable.
 
 
 ### E.Ants #####################################################################
