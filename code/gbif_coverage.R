@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of GBIF coverage per group
 #### Coding and data processing: Aurore Maureaud & Yanina Sica
-#### May 2022
+#### September 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '16MAY2022'
+date <- 'SEPT2022'
 
 # libraries
 library(ggplot2)
@@ -20,7 +20,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
+taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
 gbif <- read.csv("E:/Yale data/GBIF/perspective_extract/gbif_unique_names.csv") %>% 
   mutate(taxa = ifelse(family == "Asteraceae", "daisies", taxa))
 
@@ -140,31 +140,10 @@ match_amphi <- match_gbif(taxonomies = taxonomies,
                           group = "amphibians")
 
 
-### I. Bees ####################################################################
-# match_bees <- match_gbif(taxonomies = taxonomies,
-#                           gbif = gbif,
-#                           group = "bees")
-
-
-### J. Daisies #################################################################
+### I. Daisies #################################################################
 match_daisies <- match_gbif(taxonomies = taxonomies,
                           gbif = gbif,
                           group = "daisies")
-
-### K. Palms ###################################################################
-match_palms <- match_gbif(taxonomies = taxonomies,
-                            gbif = gbif,
-                            group = "palms")
-
-### L. Conifers ################################################################
-match_conifers <- match_gbif(taxonomies = taxonomies,
-                            gbif = gbif,
-                            group = "conifers")
-
-### JM. Cacti ##################################################################
-match_cacti <- match_gbif(taxonomies = taxonomies,
-                            gbif = gbif,
-                            group = "cacti")
 
 
 ################################################################################
@@ -179,23 +158,8 @@ match_gbif_results <- rbind(match_dragonflies,
                             match_butt,
                             match_birds,
                             match_amphi,
-                            #match_bees,
-                            match_conifers,
-                            match_cacti,
-                            match_daisies,
-                            match_palms)
+                            match_daisies)
 
 write.csv(match_gbif_results, 
           file = paste0("results/match_gbif_results_",date,".csv"),
           row.names = F)
-
-
-
-
-
-
-
-
-
-
-
