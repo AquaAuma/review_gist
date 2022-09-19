@@ -49,7 +49,3 @@ amphi_uuid <- image_get(uuid = "79a65a4a-abf2-4bff-9410-934042affef1")
 amphi_img <- image_data(amphi_uuid, size = "512")[[1]]
 save_png(amphi_img, target = "figures/silhouette_amphibians.png")
 
-fish_uuid <- image_get(uuid = "4c2220b9-68a8-4594-8dd8-229643e11c84")
-fish_img <- image_data(fish_uuid, size = "512")[[1]]
-save_png(fish_img, target = "figures/silhouette_fish.png")
-
