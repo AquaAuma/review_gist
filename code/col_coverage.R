@@ -136,12 +136,7 @@ match_mammals <- match_col(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
-# col_dragonflies <- 
-#   
-#   match_dragonflies <- match_col(taxonomies = taxonomies,
-#                                  col = ,
-#                                  group = "dragonflies")
-# reptiles are not a formal group easy to extract from COL, so we cannot assess
+
 
 
 ### E.Ants #####################################################################
