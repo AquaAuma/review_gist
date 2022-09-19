@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of IUCN coverage per group
 #### Coding and data processing: Aurore Maureaud
-#### May 2022
+#### September 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '16MAY2022'
+date <- 'SEPT2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
+taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
 
 
 ################################################################################
@@ -87,8 +87,8 @@ match_iucn <- function(taxonomies, tax, ass, group, families){
 ################################################################################
 
 ### A. dragonflies #############################################################
-tax_dragonflies <- read_csv("E:/Yale data/IUCN/redlist_species_data_e9cb6b0f-6979-4077-bc50-d8f32d305e87_DRAGONFLIES/taxonomy.csv")
-ass_dragonflies <- read_csv("E:/Yale data/IUCN/redlist_species_data_e9cb6b0f-6979-4077-bc50-d8f32d305e87_DRAGONFLIES/assessments.csv",
+tax_dragonflies <- read_csv("data/IUCN/redlist_species_data_e9cb6b0f-6979-4077-bc50-d8f32d305e87_DRAGONFLIES/taxonomy.csv")
+ass_dragonflies <- read_csv("data/IUCN/redlist_species_data_e9cb6b0f-6979-4077-bc50-d8f32d305e87_DRAGONFLIES/assessments.csv",
                             col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
@@ -99,8 +99,8 @@ match_dragonflies <- match_iucn(taxonomies = taxonomies,
 
 
 ### B. Mammals #################################################################
-tax_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_aa70253a-9caa-4c42-aa49-2d3a0f5ecbc3_MAMMALS/taxonomy.csv")
-ass_mammals <- read_csv("E:/Yale data/IUCN/redlist_species_data_aa70253a-9caa-4c42-aa49-2d3a0f5ecbc3_MAMMALS/assessments.csv",
+tax_mammals <- read_csv("data/IUCN/redlist_species_data_aa70253a-9caa-4c42-aa49-2d3a0f5ecbc3_MAMMALS/taxonomy.csv")
+ass_mammals <- read_csv("data/IUCN/redlist_species_data_aa70253a-9caa-4c42-aa49-2d3a0f5ecbc3_MAMMALS/assessments.csv",
                         col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
@@ -111,8 +111,8 @@ match_mammals <- match_iucn(taxonomies = taxonomies,
   
   
 ### C. Crabs ###################################################################
-tax_decapods <- read_csv("E:/Yale data/IUCN/redlist_species_data_35ee6bb5-f5c4-431b-8d34-48c63dbc89d0_DECAPODS/taxonomy.csv")
-ass_decapods <- read_csv("E:/Yale data/IUCN/redlist_species_data_35ee6bb5-f5c4-431b-8d34-48c63dbc89d0_DECAPODS/assessments.csv",
+tax_decapods <- read_csv("data/IUCN/redlist_species_data_35ee6bb5-f5c4-431b-8d34-48c63dbc89d0_DECAPODS/taxonomy.csv")
+ass_decapods <- read_csv("data/IUCN/redlist_species_data_35ee6bb5-f5c4-431b-8d34-48c63dbc89d0_DECAPODS/assessments.csv",
                          col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
@@ -130,8 +130,8 @@ match_crabs <- match_iucn(taxonomies = taxonomies,
 
 
 ### D. Reptiles ################################################################
-tax_rept <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/taxonomy.csv")
-ass_rept <- read_csv("E:/Yale data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/assessments.csv",
+tax_rept <- read_csv("data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/taxonomy.csv")
+ass_rept <- read_csv("data/IUCN/redlist_species_data_e1397a22-f30b-4a9c-80f0-e1f66cf875a2_REPTILES/assessments.csv",
                      col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
@@ -142,8 +142,8 @@ match_reptiles <- match_iucn(taxonomies = taxonomies,
 
 
 ### E.Ants #####################################################################
-tax_ants <- read_csv("E:/Yale data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/taxonomy.csv")
-ass_ants <- read_csv("E:/Yale data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/assessments.csv",
+tax_ants <- read_csv("data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/taxonomy.csv")
+ass_ants <- read_csv("data/IUCN/redlist_species_data_97d5d52c-af8a-4e5c-b14d-105447dcbb93_ANTS/assessments.csv",
                      col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
@@ -154,8 +154,8 @@ match_ants <- match_iucn(taxonomies = taxonomies,
 
 
 ### F. Butterflies #############################################################
-tax_butt <- read_csv("E:/Yale data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/taxonomy.csv")
-ass_butt <- read_csv("E:/Yale data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/assessments.csv",
+tax_butt <- read_csv("data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/taxonomy.csv")
+ass_butt <- read_csv("data/IUCN/redlist_species_data_70c87c04-d4c0-4398-a692-8b809a4cf472_BUTTERFLIES/assessments.csv",
                      col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
@@ -173,8 +173,8 @@ match_butt <- match_iucn(taxonomies = taxonomies,
 
 
 ### G. Birds ###################################################################
-tax_birds <- read_csv("E:/Yale data/IUCN/redlist_species_data_777b34ad-89eb-4267-a576-237f9de31476_BIRDS/taxonomy.csv")
-ass_birds <- read_csv("E:/Yale data/IUCN/redlist_species_data_777b34ad-89eb-4267-a576-237f9de31476_BIRDS/assessments.csv",
+tax_birds <- read_csv("data/IUCN/redlist_species_data_777b34ad-89eb-4267-a576-237f9de31476_BIRDS/taxonomy.csv")
+ass_birds <- read_csv("data/IUCN/redlist_species_data_777b34ad-89eb-4267-a576-237f9de31476_BIRDS/assessments.csv",
                       col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
@@ -185,8 +185,8 @@ match_birds <- match_iucn(taxonomies = taxonomies,
 
 
 ### H. Amphibians ##############################################################
-tax_amphi <- read_csv("E:/Yale data/IUCN/redlist_species_data_a16e218d-dd3b-43a8-b979-00cf40f276c8_AMPHIBIANS/taxonomy.csv")
-ass_amphi <- read_csv("E:/Yale data/IUCN/redlist_species_data_a16e218d-dd3b-43a8-b979-00cf40f276c8_AMPHIBIANS/assessments.csv",
+tax_amphi <- read_csv("data/IUCN/redlist_species_data_a16e218d-dd3b-43a8-b979-00cf40f276c8_AMPHIBIANS/taxonomy.csv")
+ass_amphi <- read_csv("data/IUCN/redlist_species_data_a16e218d-dd3b-43a8-b979-00cf40f276c8_AMPHIBIANS/assessments.csv",
                       col_types = list(yearLastSeen = col_character())) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
 
@@ -196,22 +196,10 @@ match_amphi <- match_iucn(taxonomies = taxonomies,
                           group = "amphibians")
 
 
-### I. Bees ####################################################################
-# tax_bees <- read_csv("E:/Yale data/IUCN/redlist_species_data_a2da6bba-6e39-4d84-a324-387b6917334b_BEES/taxonomy.csv")
-# ass_bees <- read_csv("E:/Yale data/IUCN/redlist_species_data_a2da6bba-6e39-4d84-a324-387b6917334b_BEES/assessments.csv",
-#                       col_types = list(yearLastSeen = col_character())) %>% 
-#   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
-# 
-# match_bees <- match_iucn(taxonomies = taxonomies,
-#                           tax = tax_bees, 
-#                           ass = ass_bees,
-#                           group = "bees")
-
-
-### J. Daisies #################################################################
-tax_daisies <- read_csv("E:/Yale data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/taxonomy.csv") %>% 
+### I. Daisies #################################################################
+tax_daisies <- read_csv("data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/taxonomy.csv") %>% 
   filter(familyName == "ASTERACEAE")
-ass_daisies <- read_csv("E:/Yale data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/assessments.csv",
+ass_daisies <- read_csv("data/IUCN/redlist_species_data_fbc52331-d601-4aba-abf3-214122d27012_DAISIES/assessments.csv",
                      col_types = list(yearLastSeen = col_character())) %>% 
   filter(internalTaxonId %in% tax_daisies$internalTaxonId) %>% 
   dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
@@ -220,43 +208,6 @@ match_daisies <- match_iucn(taxonomies = taxonomies,
                          tax = tax_daisies, 
                          ass = ass_daisies,
                          group = "daisies")
-
-
-### K. Palms ###################################################################
-tax_palms <- read_csv("E:/Yale data/IUCN/redlist_species_data_3cfd7c65-c851-4b6b-ae78-5efa01c8b4ae_CONIFERS/taxonomy.csv")
-ass_palms <- read_csv("E:/Yale data/IUCN/redlist_species_data_3cfd7c65-c851-4b6b-ae78-5efa01c8b4ae_CONIFERS/assessments.csv",
-                        col_types = list(yearLastSeen = col_character())) %>% 
-  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
-
-match_palms <- match_iucn(taxonomies = taxonomies,
-                            tax = tax_palms, 
-                            ass = ass_palms,
-                            group = "palms")
-
-
-### L. Conifers ################################################################
-tax_conifers <- read_csv("E:/Yale data/IUCN/redlist_species_data_625ddfe7-229f-44cd-8f38-3fd33dcca8f4_PALM/taxonomy.csv")
-ass_conifers <- read_csv("E:/Yale data/IUCN/redlist_species_data_625ddfe7-229f-44cd-8f38-3fd33dcca8f4_PALM/assessments.csv",
-                      col_types = list(yearLastSeen = col_character())) %>% 
-  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
-
-match_conifers <- match_iucn(taxonomies = taxonomies,
-                          tax = tax_conifers, 
-                          ass = ass_conifers,
-                          group = "conifers")
-
-
-### M. Cacti ###################################################################
-tax_cacti <- read_csv("E:/Yale data/IUCN/redlist_species_data_5b88273d-499e-44ab-a52a-06caa26fc5fc_CACTI/taxonomy.csv")
-ass_cacti <- read_csv("E:/Yale data/IUCN/redlist_species_data_5b88273d-499e-44ab-a52a-06caa26fc5fc_CACTI/assessments.csv",
-                         col_types = list(yearLastSeen = col_character())) %>% 
-  dplyr::select(internalTaxonId, scientificName, redlistCategory, redlistCriteria)
-
-match_cacti <- match_iucn(taxonomies = taxonomies,
-                             tax = tax_cacti, 
-                             ass = ass_cacti,
-                             group = "cacti")
-
 
 
 ################################################################################
@@ -271,11 +222,7 @@ match_iucn_results <- rbind(match_dragonflies,
                             match_butt,
                             match_birds,
                             match_amphi,
-                            #match_bees,
-                            match_conifers,
-                            match_cacti,
-                            match_daisies,
-                            match_palms)
+                            match_daisies)
 
 write.csv(match_iucn_results, 
           file = paste0("results/match_iucn_results_",date,".csv"),
