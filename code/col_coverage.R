@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of COL coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily L. Sandall
-#### May 2022
+#### September 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- '16MAY2022'
+date <- 'SEPT2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(rredlist)
 library(readr)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
+taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
 
 
 ################################################################################
@@ -78,7 +78,7 @@ match_col <- function(taxonomies, col, group, families) {
 ################################################################################
 
 ### A. Dragonflies #############################################################
-col_dragonflies <- read_delim("E:/Yale data/COL/COL_taxonomy/OdonataTaxonomy_COL2021.tsv", 
+col_dragonflies <- read_delim("data/COL/COL_taxonomy/OdonataTaxonomy_COL2021.tsv", 
                               delim = "\t", escape_double = FALSE, 
                               trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -94,7 +94,7 @@ match_dragonflies <- match_col(taxonomies = taxonomies,
 
 
 ### B. Mammals #################################################################
-col_mammals <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Mammalia_DWC_122021/NameUsage.tsv", 
+col_mammals <- read_delim("data/COL/COL_taxonomy/COL_Mammalia_DWC_122021/NameUsage.tsv", 
                           delim = "\t", escape_double = FALSE, 
                           trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -145,7 +145,7 @@ match_mammals <- match_col(taxonomies = taxonomies,
 
 
 ### E.Ants #####################################################################
-col_ants <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Formicidae_122021/NameUsage.tsv", 
+col_ants <- read_delim("data/COL/COL_taxonomy/COL_Formicidae_122021/NameUsage.tsv", 
                        delim = "\t", escape_double = FALSE, 
                        trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -161,7 +161,7 @@ match_ants <- match_col(taxonomies = taxonomies,
 
 
 ### F. Butterflies #############################################################
-fam1 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Riodinidae_122021/NameUsage.tsv", 
+fam1 <- read_delim("data/COL/COL_taxonomy/COL_Riodinidae_122021/NameUsage.tsv", 
                    delim = "\t", escape_double = FALSE, 
                    trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -170,7 +170,7 @@ fam1 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Riodinidae_122021/NameUsag
          col = "COL") %>% 
   select(canonical_col, col) %>% 
   distinct()
-fam2 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Pieridae_122021/NameUsage.tsv", 
+fam2 <- read_delim("data/COL/COL_taxonomy/COL_Pieridae_122021/NameUsage.tsv", 
                    delim = "\t", escape_double = FALSE, 
                    trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -179,7 +179,7 @@ fam2 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Pieridae_122021/NameUsage.
          col = "COL") %>% 
   select(canonical_col, col) %>% 
   distinct()
-fam3 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Papilionidae_122021/NameUsage.tsv", 
+fam3 <- read_delim("data/COL/COL_taxonomy/COL_Papilionidae_122021/NameUsage.tsv", 
                    delim = "\t", escape_double = FALSE, 
                    trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -188,7 +188,7 @@ fam3 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Papilionidae_122021/NameUs
          col = "COL") %>% 
   select(canonical_col, col) %>% 
   distinct()
-fam4 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Nymphalidae_122021/NameUsage.tsv", 
+fam4 <- read_delim("data/COL/COL_taxonomy/COL_Nymphalidae_122021/NameUsage.tsv", 
                    delim = "\t", escape_double = FALSE, 
                    trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -197,7 +197,7 @@ fam4 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Nymphalidae_122021/NameUsa
          col = "COL") %>% 
   select(canonical_col, col) %>% 
   distinct()
-fam5 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Lycaenidae_122021/NameUsage.tsv", 
+fam5 <- read_delim("data/COL/COL_taxonomy/COL_Lycaenidae_122021/NameUsage.tsv", 
                    delim = "\t", escape_double = FALSE, 
                    trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -206,7 +206,7 @@ fam5 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Lycaenidae_122021/NameUsag
          col = "COL") %>% 
   select(canonical_col, col) %>% 
   distinct()
-fam6 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Hesperiidae_122021/NameUsage.tsv", 
+fam6 <- read_delim("data/COL/COL_taxonomy/COL_Hesperiidae_122021/NameUsage.tsv", 
                    delim = "\t", escape_double = FALSE, 
                    trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -215,7 +215,7 @@ fam6 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Hesperiidae_122021/NameUsa
          col = "COL") %>% 
   select(canonical_col, col) %>% 
   distinct()
-fam7 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Hedylidae_122021/NameUsage.tsv", 
+fam7 <- read_delim("data/COL/COL_taxonomy/COL_Hedylidae_122021/NameUsage.tsv", 
                    delim = "\t", escape_double = FALSE, 
                    trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -225,7 +225,7 @@ fam7 <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Hedylidae_122021/NameUsage
   select(canonical_col, col) %>% 
   distinct()
 
-col_butt <- rbind(fam1, fam2, fam3, fam4, fam5)
+col_butt <- rbind(fam1, fam2, fam3, fam4, fam5, fam6, fam7)
 
 match_butterflies <- match_col(taxonomies = taxonomies,
                                col = col_butt,
@@ -233,7 +233,7 @@ match_butterflies <- match_col(taxonomies = taxonomies,
 
 
 ### G. Birds ###################################################################
-col_birds <- read_csv("E:/Yale data/COL/COL_taxonomy/AvesTaxonomy_COL2021.csv") %>% 
+col_birds <- read_csv("data/COL/COL_taxonomy/AvesTaxonomy_COL2021.csv") %>% 
   filter(`dwc:taxonRank` == "species",
          `dwc:taxonomicStatus` == "accepted") %>% 
   mutate(canonical_col = paste(`dwc:genericName`,`dwc:specificEpithet`, sep = " "),
@@ -247,7 +247,7 @@ match_birds <- match_col(taxonomies = taxonomies,
 
 
 ### G. Birds ###################################################################
-col_amphi <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Amphibia_DWC_122021/NameUsage.tsv", 
+col_amphi <- read_delim("data/COL/COL_taxonomy/COL_Amphibia_DWC_122021/NameUsage.tsv", 
                         delim = "\t", escape_double = FALSE, 
                         trim_ws = TRUE) %>% 
   filter(`col:rank` == "species",
@@ -263,7 +263,7 @@ match_amphi <- match_col(taxonomies = taxonomies,
 
 
 ### H. Compositae ##############################################################
-col_compo <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_ Asteraceae_DWC_0422022/Taxon.tsv",
+col_compo <- read_delim("data/COL/COL_taxonomy/COL_ Asteraceae_DWC_0422022/Taxon.tsv",
                         delim = "\t", escape_double = FALSE,
                         trim_ws = TRUE) %>% 
   filter(`dwc:taxonRank` == "species",
