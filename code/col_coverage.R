@@ -246,7 +246,7 @@ match_birds <- match_col(taxonomies = taxonomies,
                          group = "birds")
 
 
-### G. Birds ###################################################################
+### H. Amphibians ##############################################################
 col_amphi <- read_delim("data/COL/COL_taxonomy/COL_Amphibia_DWC_122021/NameUsage.tsv", 
                         delim = "\t", escape_double = FALSE, 
                         trim_ws = TRUE) %>% 
@@ -262,7 +262,7 @@ match_amphi <- match_col(taxonomies = taxonomies,
                          group = "amphibians")
 
 
-### H. Compositae ##############################################################
+### I. Compositae ##############################################################
 col_compo <- read_delim("data/COL/COL_taxonomy/COL_ Asteraceae_DWC_0422022/Taxon.tsv",
                         delim = "\t", escape_double = FALSE,
                         trim_ws = TRUE) %>% 
