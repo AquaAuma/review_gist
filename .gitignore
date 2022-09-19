@@ -7,14 +7,10 @@
 data/Vascular.Plants.Master.Taxonomyv5.5-10.06.2021.txt
 
 # taxonomies
-data/taxonomies_28OCT2021.csv
-data/Template.xlsx
-data/Odonata.xlsx
-data/Lepidoptera.xlsx
-data/Formicidae.xlsx
-data/Formicidae.csv
-data/mammals_MDD_May2021.xlsx
-data/Anomura.xlsx
-data/Brachyura.xlsx
-data/taxonomies_25APR2022.csv
-data/taxonomies_216MAY2022.csv
+data/MOL/*
+data/NCBI/*
+data/GBIF/*
+data/IUCN/*
+data/OpenTreePhylogeny/*
+data/COL/*
+data/GRIIS/*
