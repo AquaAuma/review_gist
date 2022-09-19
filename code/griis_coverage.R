@@ -1,7 +1,7 @@
 ################################################################################
 #### Assessment of IUCN coverage per group
 #### Coding and data processing: Maisha Lucas
-#### May 2022
+#### September 2022
 ################################################################################
 
 rm(list = ls())
@@ -10,7 +10,7 @@ library(tidyverse)
 library(readr)
 
 # set date
-date <- '16MAY2022'
+date <- 'SEPT2022'
 
 # libraries
 library(ggplot2)
@@ -24,8 +24,8 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_16MAY2022.csv")
-griis <- read.csv("data/GRIIS_2020_03_01.csv")
+taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
+griis <- read.csv("data/GRIIS/GRIIS_2020_03_01.csv")
 
 
 ################################################################################
@@ -129,44 +129,12 @@ match_amphi <- match_griis(taxonomies = taxonomies,
                            level = "accepted.class")
 
 
-### I. Bees ####################################################################
-# match_bees <- match_griis(taxonomies = taxonomies,
-#                          griis = griis,
-#                          group = "bees",
-#                          parent = "Hymenoptera",
-#                          level = "accepted.order")
-
-
-### J. Daisies #################################################################
+### I. Daisies #################################################################
 match_daisies <- match_griis(taxonomies = taxonomies,
                             griis = griis,
                             group = "daisies",
                             parent = "Asteraceae",
                             level = "accepted.family")
-
-
-### K. Palms ###################################################################
-match_palms <- match_griis(taxonomies = taxonomies,
-                             griis = griis,
-                             group = "palms",
-                             parent = "Arecales",
-                             level = "accepted.order")
-
-
-### L. Conifers ################################################################
-match_conifers <- match_griis(taxonomies = taxonomies,
-                             griis = griis,
-                             group = "conifers",
-                             parent = "Pinales",
-                             level = "accepted.order")
-
-
-### JM. Cacti ##################################################################
-match_cacti <- match_griis(taxonomies = taxonomies,
-                             griis = griis,
-                             group = "cacti",
-                             parent = "Cactaceae",
-                             level = "accepted.family")
 
 
 ################################################################################
@@ -181,11 +149,7 @@ match_griis_results <- rbind(match_dragonflies,
                              match_butterflies,
                              match_birds,
                              match_amphi,
-                             #match_bees,
-                             match_conifers,
-                             match_cacti,
-                             match_daisies,
-                             match_palms)
+                             match_daisies)
 
 write.csv(match_griis_results, 
           file = paste0("results/match_griis_results_",date,".csv"),
