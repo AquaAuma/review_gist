@@ -56,6 +56,7 @@ get_counts(dragonflies, group = "dragonflies")
 mammals <- read_csv("data/MOL/Copy of MOL_MammaliaTaxonomy_v2.3_complete.csv") %>% 
   rename(subspecies = infraspecies) %>% 
   mutate(group = "mammals") %>% 
+  filter(!(accid==0 & source != "MDD")) %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 get_counts(mammals, group = "mammals")
 
@@ -74,6 +75,7 @@ get_counts(mammals, group = "mammals")
 reptiles <- read_csv("data/MOL/Copy of MOL_ReptilesTaxonomy_v2.3_complete.csv",
                      col_types = list(flags = col_character(),
                                       infraspecies = col_character())) %>% 
+  filter(!(accid==0 & source != "ReptileDB")) %>% 
   rename(subspecies = infraspecies) %>% 
   mutate(group = "reptiles") %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
@@ -110,6 +112,7 @@ get_counts(butterflies, group = "butterflies")
 birds <- read_csv("data/MOL/Copy of MOL_AvesTaxonomy_v2.3_complete.csv") %>%
   mutate(group = "birds") %>%
   rename(subspecies = infraspecies) %>% 
+  filter(!(accid==0 & source != "EBIRD")) %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 get_counts(birds, group = "birds")
 
@@ -118,6 +121,7 @@ get_counts(birds, group = "birds")
 amphi <- read_csv("data/MOL/Copy of MOL_AmphibiaTaxonomy_v2.2_complete.csv") %>% 
   rename(subspecies = infraspecies) %>% 
   mutate(group = "amphibians") %>% 
+  filter(!(accid==0 & source !="AmphibiaWeb")) %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 get_counts(amphi, group = "amphibians")
 
