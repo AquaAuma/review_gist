@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of NCBI coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily Sandall
-#### September 2022
+#### October 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- 'SEPT2022'
+date <- 'OCT2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
+taxonomies <- read.csv("data/taxonomies_OCT2022.csv")
 
 
 ################################################################################

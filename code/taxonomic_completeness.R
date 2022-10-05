@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment names from MOL taxonomies and make taxonomies file
 #### Coding and data processing: Aurore Maureaud
-#### September 2022
+#### October 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- 'SEPT2022'
+date <- 'OCT2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_SEPT2022.csv") %>% 
+taxonomies <- read.csv("data/taxonomies_OCT2022.csv") %>% 
   mutate(year = as.numeric(str_extract(authorship, "[0-9]+")),
          year = ifelse(year<1693 | year>2021 & length(str_extract_all(authorship,"[0-9]+")[[1]])>1,
                        str_extract_all(authorship, "[0-9]+")[[1]][2],year),

@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment of COL coverage per group
 #### Coding and data processing: Aurore Maureaud & Emily L. Sandall
-#### September 2022
+#### October 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- 'SEPT2022'
+date <- 'OCT2022'
 
 # libraries
 library(ggplot2)
@@ -21,7 +21,7 @@ library(rredlist)
 library(readr)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
+taxonomies <- read.csv("data/taxonomies_OCT2022.csv")
 
 
 ################################################################################
@@ -139,7 +139,50 @@ match_mammals <- match_col(taxonomies = taxonomies,
 # reptiles are a paraphyletic group, so they are not searchable by that term.
 # the higher classification term (Sauropsida) is also not searchable.
 # groups were searched by sub-groups: Eusuchia, Sphenodon, Squamata, Testuidines
-eusuchia <- read_delim("data/COL/COL_taxonomy/COL_Eusuchia_0922/")
+eusuchia <- read_delim("data/COL/COL_taxonomy/COL_Eusuchia_DwC0922/Taxon.tsv",
+                       delim = "\t", escape_double = FALSE, 
+                       trim_ws = TRUE) %>% 
+  filter(`dwc:taxonRank` == "species",
+         `dwc:taxonomicStatus` == "accepted") %>% 
+  mutate(canonical_col = paste(`dwc:genericName`,`dwc:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+
+squamata <- read_delim("data/COL/COL_taxonomy/COL_Squamata_DwC0922/Taxon.tsv",
+                       delim = "\t", escape_double = FALSE, 
+                       trim_ws = TRUE) %>% 
+  filter(`dwc:taxonRank` == "species",
+         `dwc:taxonomicStatus` == "accepted") %>% 
+  mutate(canonical_col = paste(`dwc:genericName`,`dwc:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+
+sphenodon <- read_delim("data/COL/COL_taxonomy/COL_Sphenodon_DwC0922 2/Taxon.tsv",
+                       delim = "\t", escape_double = FALSE, 
+                       trim_ws = TRUE) %>% 
+  filter(`dwc:taxonRank` == "species",
+         `dwc:taxonomicStatus` == "accepted") %>% 
+  mutate(canonical_col = paste(`dwc:genericName`,`dwc:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+
+testudines <- read_delim("data/COL/COL_taxonomy/COL_Testudines_DwC0922/Taxon.tsv",
+                        delim = "\t", escape_double = FALSE, 
+                        trim_ws = TRUE) %>% 
+  filter(`dwc:taxonRank` == "species",
+         `dwc:taxonomicStatus` == "accepted") %>% 
+  mutate(canonical_col = paste(`dwc:genericName`,`dwc:specificEpithet`, sep = " "),
+         col = "COL") %>% 
+  select(canonical_col, col) %>% 
+  distinct()
+
+col_rept <- rbind(squamata, sphenodon, testudines, eusuchia)
+match_rept <- match_col(taxonomies = taxonomies,
+                               col = col_rept,
+                               group = "reptiles")
 
 
 ### E.Ants #####################################################################
@@ -281,12 +324,13 @@ match_compo <- match_col(taxonomies = taxonomies,
 ################################################################################
 
 match_col_results <- rbind(match_dragonflies,
-                            match_mammals,
-                            match_ants,
-                            match_butterflies,
-                            match_birds,
-                            match_amphi,
-                            match_compo)
+                           match_mammals,
+                           match_rept,
+                           match_ants,
+                           match_butterflies,
+                           match_birds,
+                           match_amphi,
+                           match_compo)
 
 write.csv(match_col_results, 
           file = paste0("results/match_col_results_",date,".csv"),

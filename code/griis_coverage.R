@@ -1,7 +1,7 @@
 ################################################################################
 #### Assessment of IUCN coverage per group
 #### Coding and data processing: Maisha Lucas
-#### September 2022
+#### October 2022
 ################################################################################
 
 rm(list = ls())
@@ -10,7 +10,7 @@ library(tidyverse)
 library(readr)
 
 # set date
-date <- 'SEPT2022'
+date <- 'OCT2022'
 
 # libraries
 library(ggplot2)
@@ -24,7 +24,7 @@ library(writexl)
 library(rredlist)
 
 # load data
-taxonomies <- read.csv("data/taxonomies_SEPT2022.csv")
+taxonomies <- read.csv("data/taxonomies_OCT2022.csv")
 griis <- read.csv("data/GRIIS/GRIIS_2020_03_01.csv")
 
 

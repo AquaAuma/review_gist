@@ -1,41 +1,41 @@
 ################################################################################
 #### Combine results from all tables
 #### Coding and data processing: Aurore Maureaud
-#### September 2022
+#### October 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- 'SEPT2022'
+date <- 'OCT2022'
 
 # libraries
 library(tidyverse)
 library(readxl)
 
 # load results tables
-completeness <- read.csv("results/completeness_SEPT2022.csv") %>% 
+completeness <- read.csv("results/completeness_OCT2022.csv") %>% 
   dplyr::select(group, completeness_2dec)
-col <- read.csv("results/match_col_results_SEPT2022.csv") %>% 
+col <- read.csv("results/match_col_results_OCT2022.csv") %>% 
   dplyr::select(group, prop_acc_syn, prop_no_match) %>% 
   rename(COL_to_MOL = prop_acc_syn,
          COL_no_match = prop_no_match)
-gbif <- read.csv("results/match_gbif_results_SEPT2022.csv") %>% 
+gbif <- read.csv("results/match_gbif_results_OCT2022.csv") %>% 
   dplyr::select(group, prop_acc_syn) %>% 
   rename(GBIF_to_MOL = prop_acc_syn)
-ncbi <- read.csv("results/match_ncbi_results_SEPT2022.csv") %>% 
+ncbi <- read.csv("results/match_ncbi_results_OCT2022.csv") %>% 
   dplyr::select(group, prop_no_match, prop_acc_syn) %>% 
   rename(NCBI_to_MOL = prop_acc_syn,
          NCBI_no_match = prop_no_match)
-tree <- read.csv("results/match_phylotree_results_SEPT2022.csv") %>% 
+tree <- read.csv("results/match_phylotree_results_OCT2022.csv") %>% 
   dplyr::select(group, prop_no_match, prop_acc_syn) %>% 
   rename(TREE_to_MOL = prop_acc_syn,
          TREE_no_match = prop_no_match)
-iucn <- read.csv("results/match_iucn_results_SEPT2022.csv") %>% 
+iucn <- read.csv("results/match_iucn_results_OCT2022.csv") %>% 
   dplyr::select(group, prop_acc_syn, prop_acc_syn_ass) %>% 
   rename(IUCN_to_MOL = prop_acc_syn,
          IUCN_assessed = prop_acc_syn_ass)
-griis <- read.csv("results/match_griis_results_SEPT2022.csv") %>% 
+griis <- read.csv("results/match_griis_results_OCT2022.csv") %>% 
   dplyr::select(group, prop_no_match) %>% 
   rename(GRIIS_no_match = prop_no_match)
 
