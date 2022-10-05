@@ -1,13 +1,13 @@
 ################################################################################
 #### Assessment names from MOL taxonomies and make taxonomies file
 #### Coding and data processing: Aurore Maureaud
-#### September 2022
+#### October 2022
 ################################################################################
 
 rm(list = ls())
 
 # set date
-date <- 'SEPT2022'
+date <- 'OCT2022'
 
 # libraries
 library(tidyverse)
@@ -53,9 +53,8 @@ get_counts(dragonflies, group = "dragonflies")
 
 
 ### B. Mammals #################################################################
-mammals <- read_csv("data/MOL/Copy of MOL_MammaliaTaxonomy_v2.2.csv",
-                    col_types = list(flag = col_character(),
-                                     subspecies = col_character())) %>% 
+mammals <- read_csv("data/MOL/Copy of MOL_MammaliaTaxonomy_v2.3_complete.csv") %>% 
+  rename(subspecies = infraspecies) %>% 
   mutate(group = "mammals") %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
 get_counts(mammals, group = "mammals")
@@ -72,7 +71,7 @@ get_counts(mammals, group = "mammals")
 
 
 ### D. Reptiles ################################################################
-reptiles <- read_csv("data/MOL/Copy of MOL_Reptilia_taxonomy_v2.2_Complete.csv",
+reptiles <- read_csv("data/MOL/Copy of MOL_ReptilesTaxonomy_v2.3_complete.csv",
                      col_types = list(flags = col_character(),
                                       infraspecies = col_character())) %>% 
   rename(subspecies = infraspecies) %>% 
@@ -82,10 +81,11 @@ get_counts(reptiles, group = "reptiles")
 
 
 ### E.Ants #####################################################################
-ants <- read_csv("data/MOL/Copy of MOL_AntsTaxonomy_v3.1.csv")
+ants <- read_csv("data/MOL/Copy of MOL_AntsTaxonomy_v3.1_noinfrasubsp.csv")
 #syn_sub <- subset(ants, accid==0 & !is.na(subspecies))$id
 ants <- ants %>% 
   mutate(group = "ants") %>% 
+  rename(subspecies = infraspecies) %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
   # filter(!accid %in% syn_sub,
   #        !id %in% syn_sub)
@@ -93,7 +93,7 @@ get_counts(ants, group = "ants")
 
 
 ### F. Butterflies #############################################################
-butterflies <- read_csv("data/MOL/Copy of MOL_ButterfliesTaxonomy_v4.csv",
+butterflies <- read_csv("data/MOL/Copy of MOL_ButterfliesTaxonomy_v4.1.csv",
                         col_types = list(flags = col_character())) %>% 
   rename(subspecies = infraspecies)
 #syn_sub <- subset(butterflies, accid==0 & !is.na(subspecies))$id
@@ -107,15 +107,15 @@ get_counts(butterflies, group = "butterflies")
 
 
 ### G. Birds ###################################################################
-# birds <- read_csv("data/MOL/MOL_AvesTaxonomy_v2.1.csv",
-#                   col_types = list(authorship = col_character())) %>% 
-#   mutate(group = "birds") %>% 
-#   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
-# get_counts(birds, group = "birds")
+birds <- read_csv("data/MOL/Copy of MOL_AvesTaxonomy_v2.3_complete.csv") %>%
+  mutate(group = "birds") %>%
+  rename(subspecies = infraspecies) %>% 
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+get_counts(birds, group = "birds")
 
 
 ### H. Amphibians ##############################################################
-amphi <- read_csv("data/MOL/Copy of MOL_AmphibiaTaxonomy_v2.1.csv") %>% 
+amphi <- read_csv("data/MOL/Copy of MOL_AmphibiaTaxonomy_v2.2_complete.csv") %>% 
   rename(subspecies = infraspecies) %>% 
   mutate(group = "amphibians") %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
@@ -139,7 +139,7 @@ taxonomies <- rbind(dragonflies,
                     #crabs, 
                     butterflies, 
                     reptiles, 
-                    #birds, 
+                    birds, 
                     amphi, 
                     compo
                     )
@@ -155,7 +155,7 @@ numbers <- rbind(get_counts(ants, group = "ants"),
                  #get_counts(crabs, group = "crabs"),
                  get_counts(dragonflies, group = "dragonflies"),
                  get_counts(reptiles, group = "reptiles"),
-                 #get_counts(birds, group = "birds"),
+                 get_counts(birds, group = "birds"),
                  get_counts(amphi, group = "amphibians"),
                  get_counts(compo, group = "daisies")
                  )

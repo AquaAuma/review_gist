@@ -138,6 +138,8 @@ match_mammals <- match_col(taxonomies = taxonomies,
 ### D. Reptiles ################################################################
 # reptiles are a paraphyletic group, so they are not searchable by that term.
 # the higher classification term (Sauropsida) is also not searchable.
+# groups were searched by sub-groups: Eusuchia, Sphenodon, Squamata, Testuidines
+eusuchia <- read_delim("data/COL/COL_taxonomy/COL_Eusuchia_0922/")
 
 
 ### E.Ants #####################################################################
