@@ -19,8 +19,16 @@ library(png)
 library(writexl)
 library(rredlist)
 
+# code option
+include_harmonization <- FALSE
+
 # load data
-taxonomies <- read.csv("data/taxonomies_OCT2022.csv")
+if(include_harmonization == TRUE){
+  taxonomies <- read.csv("data/taxonomies_OCT2022.csv")
+} else {
+  taxonomies <- read.csv("data/taxonomies_OCT2022.csv") %>% 
+    filter(source != "GBIF")
+}
 gbif <- read.csv("data/GBIF/gbif_unique_names.csv") %>% 
   mutate(taxa = ifelse(family == "Asteraceae", "daisies", taxa))
 
@@ -160,6 +168,13 @@ match_gbif_results <- rbind(match_dragonflies,
                             match_amphi,
                             match_daisies)
 
-write.csv(match_gbif_results, 
+# load data
+if(include_harmonization == TRUE){
+  write.csv(match_gbif_results, 
           file = paste0("results/match_gbif_results_",date,".csv"),
           row.names = F)
+} else {
+  write.csv(match_gbif_results, 
+            file = paste0("results/match_gbif_results_noharm_",date,".csv"),
+            row.names = F)
+}
