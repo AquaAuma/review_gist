@@ -48,7 +48,7 @@ dragonflies <- read_excel("data/MOL/Copy of MOL_OdonataTaxonomy_v3.1.xlsx") %>%
          authorship = Authorship) %>% 
   mutate(group = "dragonflies",
          subspecies = ifelse(subspecies == "NA",NA_character_,subspecies)) %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
 get_counts(dragonflies, group = "dragonflies")
 
 
@@ -57,7 +57,7 @@ mammals <- read_csv("data/MOL/Copy of MOL_MammaliaTaxonomy_v2.3_complete.csv") %
   rename(subspecies = infraspecies) %>% 
   mutate(group = "mammals") %>% 
   filter(!(accid==0 & source != "MDD")) %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
 get_counts(mammals, group = "mammals")
 
 
@@ -66,7 +66,7 @@ crabs <- read_csv("data/MOL/CRABS_M_F_T_TAXONOMY_WORMS_OCT2022.csv") %>%
   rename(subspecies = infraspecies) %>% 
   mutate(group = "crabs",
          subspecies = ifelse(subspecies == "NULL",NA_character_,subspecies)) %>%
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
 get_counts(crabs, group = "crabs")
 
 
@@ -77,7 +77,7 @@ reptiles <- read_csv("data/MOL/Copy of MOL_ReptilesTaxonomy_v2.3_complete.csv",
   filter(!(accid==0 & source != "ReptileDB")) %>% 
   rename(subspecies = infraspecies) %>% 
   mutate(group = "reptiles") %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
 get_counts(reptiles, group = "reptiles")
 
 
@@ -87,7 +87,7 @@ ants <- read_csv("data/MOL/Copy of MOL_AntsTaxonomy_v3.1_noinfrasubsp.csv")
 ants <- ants %>% 
   mutate(group = "ants") %>% 
   rename(subspecies = infraspecies) %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
   # filter(!accid %in% syn_sub,
   #        !id %in% syn_sub)
 get_counts(ants, group = "ants")
@@ -101,7 +101,7 @@ butterflies <- read_csv("data/MOL/Copy of MOL_ButterfliesTaxonomy_v4.1.csv",
 butterflies <- butterflies %>% 
   mutate(order = NA_character_,
          group = "butterflies") %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
   # filter(!accid %in% syn_sub,
   #        !id %in% syn_sub)
 get_counts(butterflies, group = "butterflies")
@@ -112,7 +112,7 @@ birds <- read_csv("data/MOL/Copy of MOL_AvesTaxonomy_v2.3_complete.csv") %>%
   mutate(group = "birds") %>%
   rename(subspecies = infraspecies) %>% 
   filter(!(accid==0 & source != "EBIRD")) %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
 get_counts(birds, group = "birds")
 
 
@@ -121,7 +121,7 @@ amphi <- read_csv("data/MOL/Copy of MOL_AmphibiaTaxonomy_v2.2_complete.csv") %>%
   rename(subspecies = infraspecies) %>% 
   mutate(group = "amphibians") %>% 
   filter(!(accid==0 & source !="AmphibiaWeb")) %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
 get_counts(amphi, group = "amphibians")
 
 
@@ -129,7 +129,7 @@ get_counts(amphi, group = "amphibians")
 compo <- read_csv("data/MOL/MOL_AsteraceaeTaxonomy_v6.1.csv") %>% 
   rename(subspecies = infraspecies) %>% 
   mutate(group = "daisies") %>% 
-  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
 get_counts(compo, group = "daisies")
 
 
