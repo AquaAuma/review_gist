@@ -52,12 +52,15 @@ match_iucn <- function(taxonomies, tax, ass, group, families){
   match_tot <- full_join(mol_m, iucn, by = c("canonical" = "scientificName"),keep = TRUE) %>% 
     filter(!is.na(canonical))
   
-  ## b. Accepted names match
+  ## b. No match
+  no_match <- anti_join(iucn, mol_m, by = c("scientificName" = "canonical"))
+  
+  ## c. Accepted names match
   mol_acc <- taxonomies[taxonomies$group==group,] %>% 
     filter(accid == 0)
   match_acc <- left_join(mol_acc, iucn, by = c("canonical" = "scientificName"))
   
-  ## c. Synonyms match
+  ## d. Synonyms match
   mol_syn <- taxonomies[taxonomies$group==group,] %>% 
     filter(accid != 0)
   match_syn <- left_join(mol_syn, iucn, by = c("canonical" = "scientificName")) %>% 
@@ -66,18 +69,19 @@ match_iucn <- function(taxonomies, tax, ass, group, families){
     distinct() %>% 
     rename(redlistCategory_syn = redlistCategory)
   
-  ## d. Total accepted species match
+  ## e. Total accepted species match
   match_acc_syn <- left_join(match_acc, match_syn,
                              by = c("id" = "accid")) %>% 
     mutate(redlistCategory_syn = ifelse(is.na(redlistCategory), redlistCategory_syn, redlistCategory))
   
-  ## e. Summary
+  ## f. Summary
+  prop_no_match <- round(nrow(no_match)/nrow(iucn)*100,2)
   prop_tot <- round(nrow(match_tot[!is.na(match_tot$redlistCategory),])/nrow(match_tot)*100,2)
   prop_acc <- round(nrow(match_acc[!is.na(match_acc$redlistCategory),])/nrow(match_acc)*100,2)
   prop_acc_syn <- round(nrow(match_acc_syn[!is.na(match_acc_syn$redlistCategory_syn),])/nrow(match_acc_syn)*100,2)
   prop_acc_syn_ass <- round(nrow(match_acc_syn[!is.na(match_acc_syn$redlistCategory_syn) & match_acc_syn$redlistCategory!="Data Deficient",])/nrow(match_acc_syn)*100,2)
   group <- group
-  return(data.frame(cbind(group, prop_tot, prop_acc, prop_acc_syn, prop_acc_syn_ass)))
+  return(data.frame(cbind(group, prop_tot, prop_acc, prop_acc_syn, prop_acc_syn_ass, prop_no_match)))
   
 }
 
