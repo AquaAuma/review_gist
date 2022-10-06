@@ -204,5 +204,10 @@ scores <- results %>%
                 #IUCN_assessed, score_IUCN_assessed
                 )
 
+results <- t(results)
+colnames(results) <- results[1,]
+results <- data.frame(results)
+results <- results[2:nrow(results),] %>% 
+  dplyr::select(ants, butterflies, crabs, dragonflies, mammals, birds, reptiles, amphibians, daisies)
 write.csv(scores, file = "results/matching_results_scores.csv", row.names = TRUE)
 
