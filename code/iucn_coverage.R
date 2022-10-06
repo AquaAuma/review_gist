@@ -20,8 +20,16 @@ library(png)
 library(writexl)
 library(rredlist)
 
-# load data
-taxonomies <- read.csv("data/taxonomies_OCT2022.csv")
+# code option
+include_harmonization <- FALSE
+
+# load data accordingly
+if(include_harmonization == TRUE){
+  taxonomies <- read.csv("data/taxonomies_OCT2022.csv")
+} else {
+  taxonomies <- read.csv("data/taxonomies_OCT2022.csv") %>% 
+    filter(!source %in% c("IUCN","iucn_odonata_2020","IUCN_odonata_2021"))
+}
 
 
 ################################################################################
@@ -228,7 +236,14 @@ match_iucn_results <- rbind(match_dragonflies,
                             match_amphi,
                             match_daisies)
 
-write.csv(match_iucn_results, 
-          file = paste0("results/match_iucn_results_",date,".csv"),
-          row.names = F)
+if(include_harmonization == TRUE){
+  write.csv(match_iucn_results, 
+            file = paste0("results/match_iucn_results_",date,".csv"),
+            row.names = F)
+} else {
+  write.csv(match_iucn_results, 
+            file = paste0("results/match_iucn_results_noharm_",date,".csv"),
+            row.names = F)
+}
+
 
