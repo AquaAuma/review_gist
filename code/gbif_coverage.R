@@ -20,7 +20,7 @@ library(writexl)
 library(rredlist)
 
 # code option
-include_harmonization <- FALSE
+include_harmonization <- TRUE
 
 # load data
 if(include_harmonization == TRUE){
@@ -29,8 +29,12 @@ if(include_harmonization == TRUE){
   taxonomies <- read.csv("data/taxonomies_OCT2022.csv") %>% 
     filter(source != "GBIF")
 }
+
+gbiff <- read.csv("data/GBIF/gbif202107_fossil.csv")
 gbif <- read.csv("data/GBIF/gbif_unique_names.csv") %>% 
-  mutate(taxa = ifelse(family == "Asteraceae", "daisies", taxa))
+  mutate(taxa = ifelse(family == "Asteraceae", "daisies", taxa)) %>% 
+  filter(!scientificname %in% gbiff$scientificname)
+rm(gbiff)
 
 
 ################################################################################
