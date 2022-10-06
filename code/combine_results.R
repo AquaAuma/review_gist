@@ -199,7 +199,7 @@ scores <- results %>%
                 TREE_no_match, score_TREE_no_match,
                 #GBIF_to_MOL, score_GBIF,
                 GBIF_no_match, score_GBIF_no_match,
-                GBIF_no_match_noharm, GBIF_no_match_noharm,
+                GBIF_no_match_noharm, score_GBIF_no_match_noharm,
                 GRIIS_no_match, score_GRIIS,
                 IUCN_no_match, score_IUCN_no_match,
                 IUCN_no_match_noharm, score_IUCN_no_match_noharm,
