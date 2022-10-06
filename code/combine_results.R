@@ -81,7 +81,7 @@ results <- left_join(results, griis, by = "group") %>%
 scores <- results %>%
   mutate(score_COMPLETENESS = NA_character_,
          score_COMPLETENESS = case_when(completeness_2dec<5 & completeness_2dec>0 ~ "3",
-                   completeness_2dec<5 & completeness_2dec>10 ~ "2",
+                   completeness_2dec<10 & completeness_2dec>5 ~ "2",
                    completeness_2dec<20 & completeness_2dec>10 ~ "1",
                    completeness_2dec>20 ~ "0",
                    is.na(completeness_2dec) ~ "0*",
@@ -204,10 +204,10 @@ scores <- results %>%
                 #IUCN_assessed, score_IUCN_assessed
                 )
 
-results <- t(results)
-colnames(results) <- results[1,]
-results <- data.frame(results)
-results <- results[2:nrow(results),] %>% 
+scores <- t(scores)
+colnames(scores) <- scores[1,]
+scores <- data.frame(scores)
+scores <- scores[2:nrow(scores),] %>% 
   dplyr::select(ants, butterflies, crabs, dragonflies, mammals, birds, reptiles, amphibians, daisies)
 write.csv(scores, file = "results/matching_results_scores.csv", row.names = TRUE)
 

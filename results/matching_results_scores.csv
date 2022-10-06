@@ -1,6 +1,6 @@
 "","ants","butterflies","crabs","dragonflies","mammals","birds","reptiles","amphibians","daisies"
 "completeness_2dec","26"," 9","22","17","11",NA,"24",NA," 0"
-"score_COMPLETENESS","0",NA,"0","1","1","0*","0","0*","0*"
+"score_COMPLETENESS","0","2","0","1","1","0*","0","0*","0*"
 "COL_no_match"," 5.72","15.52"," 1.04"," 2.84"," 2.31"," 0.71"," 1.10"," 0.73","11.58"
 "score_COL_no_match","2",NA,"3","3","3","3","3","3",NA
 "NCBI_no_match"," 0.86","14.77"," 1.87"," 0.96","15.74"," 4.75"," 1.67"," 2.61"," 4.51"
