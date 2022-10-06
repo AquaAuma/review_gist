@@ -110,29 +110,35 @@ match_mammals <- match_col(taxonomies = taxonomies,
 
 
 ### C. Crabs ###################################################################
-# crab_families <- taxonomies %>% 
-#   filter(group == "crabs") %>% 
-#   dplyr::select(family) %>% 
-#   filter(!is.na(family)) %>% 
-#   distinct() %>% pull()
-# 
-# col_crabs <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Brachyura_122021/NameUsage.tsv", 
-#                         delim = "\t", escape_double = FALSE, 
-#                         trim_ws = TRUE) %>% 
+crab_families <- taxonomies %>%
+  filter(group == "crabs") %>%
+  dplyr::select(family) %>%
+  filter(!is.na(family)) %>%
+  distinct() %>% pull()
+
+col_crabs <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Brachyura_122021/NameUsage.tsv",
+                        delim = "\t", escape_double = FALSE,
+                        trim_ws = TRUE) %>%
+  filter(`col:rank` == "species",
+         `col:status` == "accepted") %>%
+  mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
+         col = "COL") %>%
+  select(canonical_col, col) %>%
+  distinct()
+# col_anomura <- read_delim("E:/Yale data/COL/COL_taxonomy/COL_Anomura_122021/NameUsage.tsv",
+#                             delim = "\t", escape_double = FALSE,
+#                             trim_ws = TRUE) %>%
 #   filter(`col:rank` == "species",
-#          `col:status` == "accepted",
-#          `col:family` %in% crab_families) %>%
+#          `col:status` == "accepted") %>%
 #   mutate(canonical_col = paste(`col:genericName`,`col:specificEpithet`, sep = " "),
-#          col = "COL") %>% 
-#   select(canonical_col, col) %>% 
+#          col = "COL") %>%
+#   select(canonical_col, col) %>%
 #   distinct()
-#  
-#  
-# 
-# match_crabs <- match_col(taxonomies = taxonomies,
-#                          col = col_crabs,
-#                          group = "crabs")
-# there is no high ranking reported so no possibility to do this assessment
+
+
+match_crabs <- match_col(taxonomies = taxonomies,
+                         col = col_crabs,
+                         group = "crabs")
 
 
 ### D. Reptiles ################################################################
@@ -325,6 +331,7 @@ match_compo <- match_col(taxonomies = taxonomies,
 
 match_col_results <- rbind(match_dragonflies,
                            match_mammals,
+                           match_crabs,
                            match_rept,
                            match_ants,
                            match_butterflies,

@@ -1,7 +1,7 @@
 "group","prop_tot","prop_acc","prop_acc_syn","prop_acc_syn_ass"
 "dragonflies","46.26","90.53","91.05","65.91"
 "mammals","20.35","84.62","89.34","77.69"
-"crabs","NaN","NaN","NaN","NaN"
+"crabs","5.97","9.41","10.71","6.07"
 "reptiles","19.36","75.01","81.08","70.7"
 "ants","0.44","0.57","0.8","0.8"
 "butterflies","1.23","3.03","3.46","3.33"

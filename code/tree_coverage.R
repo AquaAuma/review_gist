@@ -22,8 +22,9 @@ library(rredlist)
 
 # load data
 taxonomies <- read.csv("data/taxonomies_OCT2022.csv")
-phylotree <- read_csv(file = "data/OpenTreePhylogeny/OpenZoom_PhylogeneticTaxonomy1121.csv") %>% 
-  select(-`...1`,-`...9`)
+phylotree <- read_csv(file = "data/OpenTreePhylogeny/OpenZoom_PhylogeneticTaxonomy1121.csv") 
+# %>% 
+#   select(-`...1`,-`...9`)
 
 
 ################################################################################

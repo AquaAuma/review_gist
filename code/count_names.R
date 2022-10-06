@@ -62,13 +62,12 @@ get_counts(mammals, group = "mammals")
 
 
 ### C. Crabs ###################################################################
-# anomura <- read_csv("E:/Yale data/MOL/taxonomy/MOL_AnomuransTaxonomy_v1.0.csv")
-# brachyura <- read_csv("E:/Yale data/MOL/taxonomy/MOL_BrachyuransTaxonomy_v1.0.csv")
-# crabs <- rbind(anomura, brachyura) %>% 
-#   mutate(subspecies = NA_character_,
-#          group = "crabs") %>% 
-#   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
-# get_counts(crabs, group = "crabs")
+crabs <- read_csv("data/MOL/CRABS_M_F_T_TAXONOMY_WORMS_OCT2022.csv") %>%
+  rename(subspecies = infraspecies) %>% 
+  mutate(group = "crabs",
+         subspecies = ifelse(subspecies == "NULL",NA_character_,subspecies)) %>%
+  dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship)
+get_counts(crabs, group = "crabs")
 
 
 ### D. Reptiles ################################################################
@@ -140,7 +139,7 @@ get_counts(compo, group = "daisies")
 taxonomies <- rbind(dragonflies, 
                     ants, 
                     mammals, 
-                    #crabs, 
+                    crabs, 
                     butterflies, 
                     reptiles, 
                     birds, 
@@ -156,7 +155,7 @@ write.csv(taxonomies, file = paste0("data/taxonomies_",date,".csv"), row.names =
 numbers <- rbind(get_counts(ants, group = "ants"),
                  get_counts(butterflies, group = "butterflies"),
                  get_counts(mammals, group = "mammals"),
-                 #get_counts(crabs, group = "crabs"),
+                 get_counts(crabs, group = "crabs"),
                  get_counts(dragonflies, group = "dragonflies"),
                  get_counts(reptiles, group = "reptiles"),
                  get_counts(birds, group = "birds"),
