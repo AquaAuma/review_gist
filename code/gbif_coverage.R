@@ -30,7 +30,7 @@ if(include_harmonization == TRUE){
     filter(source != "GBIF")
 }
 
-gbiff <- read.csv("data/GBIF/gbif202107_fossil.csv")
+gbiff <- read.csv("data/GBIF/gbif202107_fossil2.csv")
 gbif <- read.csv("data/GBIF/gbif_unique_names.csv") %>% 
   mutate(taxa = ifelse(family == "Asteraceae", "daisies", taxa)) %>% 
   filter(!scientificname %in% gbiff$scientificname)
