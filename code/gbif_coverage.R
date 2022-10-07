@@ -20,7 +20,7 @@ library(writexl)
 library(rredlist)
 
 # code option
-include_harmonization <- TRUE
+include_harmonization <- FALSE
 
 # load data
 if(include_harmonization == TRUE){
