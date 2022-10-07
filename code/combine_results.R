@@ -216,3 +216,20 @@ scores <- scores[2:nrow(scores),] %>%
   dplyr::select(ants, butterflies, crabs, dragonflies, mammals, birds, reptiles, amphibians, daisies)
 write.csv(scores, file = "results/matching_results_scores.csv", row.names = TRUE)
 
+
+################################################################################
+#### MAKE PLOT OF RELATIONHSIP BETWEEN SCORES
+################################################################################
+
+library(ggplot2)
+library(ggrepel)
+
+gist <- c(67,40,73,53,73,60,73,53,40)
+inter <- c(71,67,50,79,63,71,63,83,54)
+groups <- c("ants","butterflies","crabs","dragonflies","mammals","birds","reptiles","amphibians","daisies")
+scores <- as.data.frame(cbind(gist, inter))
+scores <- cbind(scores, groups)
+
+ggplot(scores, aes(x = gist, y = inter, group = groups)) + geom_point() + theme_bw() + 
+  geom_abline(slope = 1, intercept = 0) + xlim(0,100) + ylim(0,100) + 
+  geom_text_repel(aes(label = groups))
