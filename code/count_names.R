@@ -126,7 +126,10 @@ get_counts(amphi, group = "amphibians")
 
 
 ### I. Plants ##################################################################
-compo <- read_csv("data/MOL/MOL_AsteraceaeTaxonomy_v6.1.csv") %>% 
+compo_1 <- read_csv("data/MOL/MOL_AsteraceaeTaxonomy_v6.1.csv")
+compo_2 <- read_csv("data/MOL/MOL_AsteraceaeTaxonomy_v6.1_part2.csv")
+
+compo <- rbind(compo_1, compo_2) %>% 
   rename(subspecies = infraspecies) %>% 
   mutate(group = "daisies") %>% 
   dplyr::select(id, accid, canonical, order, family, genus, species, subspecies, group, authorship, source)
