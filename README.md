@@ -1,4 +1,4 @@
-## A Global Integrated Structure of Taxonomy supporting biodiversity
+## A Global Integrated Structure of Taxonomy supporting biodiversity science and conservation
 
 - Code to produce analysis of Box 1 and 2
 - Contributors to analyses: A.A. Maureaud, M. Lucas, Y.V. Sica, E.L. Sandall
