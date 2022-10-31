@@ -29,8 +29,8 @@
 - `match_XX_results.csv`: tables with coverage and data gaps results per taxonomic group and database (either COL, GBIF, GRIIS, IUCN, NCBI, TreeOfLife)
 - `completeness.csv`: table with completeness results
 - `numbers.csv`: table with number of names
-- `matching_results.csv`: table with matching results from all data sources, detailed in Table S5 and Text S2
-- `matching_results_scores.csv`: table with matching results from all data sources and associated scores, detailed in Table S5
+- `matching_results.csv`: table with matching results from all data sources, grading detailed in Table S5 and Text S2
+- `matching_results_scores.csv`: table with matching results from all data sources and associated scores, grading detailed in Table S5
 
 ## Figures
 - All silhouettes downloaded from rphylopic
