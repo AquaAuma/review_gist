@@ -150,6 +150,7 @@ taxonomies <- rbind(dragonflies,
                     compo
                     )
 write.csv(taxonomies, file = paste0("data/taxonomies_",date,".csv"), row.names = F)
+save.image(taxonomies, file = paste0("data/taxonomies_",date,".RData"))
 
 
 ################################################################################
