@@ -14,6 +14,20 @@
 - `OpenTreePhylogeny`: downloaded data from the Tree Of Life http://www.onezoom.org/
 - `taxonomies.csv`: outputs from *count_names.R*
 
+## Metadata
+Description of the column names in the MOL taxonomy files:
+`id` unique name id per `group`
+`accid` value is 0 is name is considered accepted, `id` if synonym (or alternative name)
+`canonical` combination of `genus`, `species`, and `subspecies` if relevant
+`order` follows DwC standard terms (https://dwc.tdwg.org/terms/)
+`family` follows DwC standard terms
+`genus` follows DwC standard terms
+`species` follows DwC standard terms
+`subspecies` correspond to `infraspecificEpithet` according to DwC standard terms
+`group` taxonomic group considered
+`authorship` correspond to `scientificNameAuthorship` according to DwC standard terms
+`source` data source used to access the names
+
 ## Code
 - *count_names.R*: create the taxonomy file for all MOL groups, including dragonflies, crabs, ants, daisies, mammals, reptiles, amphibians, birds, butterflies, and get simple summary of number of names per taxonomic group. Methods for compiling taxonomies are available in Text S1 and Table S3.
 - *get_silhouettes.R*: for each taxonomic group, download and store a silhouette use for Box 1 and 2 from the rphylopic package http://phylopic.org/
