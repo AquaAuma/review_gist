@@ -1,5 +1,7 @@
 ## A Global Integrated Structure of Taxonomy supporting biodiversity science and conservation
 
+OSF related project and underlying data [![DOI](DOI 10.17605/OSF.IO/9RPTQ)](https://osf.io/9rptq/)
+
 - Code to produce analysis of Box 1 and 2
 - Contributors to analyses: A.A. Maureaud, M. Lucas, Y.V. Sica, E.L. Sandall
 - Contributors to MOL taxonomies: Y.V. Sica, M.S Rogan, D.B. Booher, R. Edwards, M. Lucas, S. Pinkert, A. Ranipeta, A.A. Maureaud, E.L. Sandall
