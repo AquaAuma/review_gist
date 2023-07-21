@@ -1,6 +1,6 @@
 ## A Global Integrated Structure of Taxonomy supporting biodiversity science and conservation
 
-OSF related project and underlying data [![DOI](DOI 10.17605/OSF.IO/9RPTQ)](https://osf.io/9rptq/)
+OSF related project and underlying data [![DOI](https://osf.io/9rptq/))](DOI 10.17605/OSF.IO/9RPTQ)
 
 - Code to produce analysis of Box 1 and 2
 - Contributors to analyses: A.A. Maureaud, M. Lucas, Y.V. Sica, E.L. Sandall
