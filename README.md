@@ -1,7 +1,7 @@
 ## A Global Integrated Structure of Taxonomy supporting biodiversity science and conservation
 
 OSF related project and underlying data https://osf.io/9rptq/
-
+![DOI](https://zenodo.org/badge/364930417.svg)](https://zenodo.org/badge/latestdoi/364930417)
 
 Repository content and contributions:
 - Code to produce analysis of Box 1 and 2
