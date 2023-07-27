@@ -11,7 +11,9 @@ Repository content and contributions:
 
 ## Data
 
-*All data files used for the analysis can be found on the OSF project linked at the top, except for butterfly synonym names that are not public ( https://doi.org/10.1111/geb.13475). Data and project should be cited as indicated on OSF as following: Sandall, E. L., Maureaud, A. A., Guralnick, R., McGeoch, M. A., Sica, Y. V., Rogan, M. S., … Jetz, W. (2023, July 27). Project data and code access underlying the globally integrated taxonomic structure. https://doi.org/10.17605/OSF.IO/9RPTQ*
+*All data files used for the analysis can be found on the OSF project linked at the top, except for butterfly synonym names that are not public (https://doi.org/10.1111/geb.13475).*
+
+*Data and project should be cited as indicated on OSF as following: Sandall, E. L., Maureaud, A. A., Guralnick, R., McGeoch, M. A., Sica, Y. V., Rogan, M. S., … Jetz, W. (2023, July 27). Project data and code access underlying the globally integrated taxonomic structure. https://doi.org/10.17605/OSF.IO/9RPTQ*
 
 - `MOL/`: taxonomies from Map of Life (MOL) https://mol.org/
 - `COL/`: downloaded data from Catalogue of Life (COL) for selected groups https://www.catalogueoflife.org/
@@ -20,12 +22,12 @@ Repository content and contributions:
 - `IUCN/`: downloaded data from the International Union for the Conservation of Nature (IUCN) https://www.iucnredlist.org/
 - `NCBI/`: downloaded data from the National Center for Biotechnology Information https://www.ncbi.nlm.nih.gov/
 - `OpenTreePhylogeny`: downloaded data from the Tree Of Life http://www.onezoom.org/
-- `taxonomies.csv`: outputs from *count_names.R*
+- `taxonomies.csv`: outputs file created when running *count_names.R*
 
 ## Metadata
 Description of the column names in the MOL taxonomy files:
 - `id` unique name id per `group`
-- `accid` value is 0 is name is considered accepted, `id` if synonym (or alternative name)
+- `accid` value is 0 is name is considered accepted, `id` if synonym
 - `canonical` combination of `genus`, `species`, and `subspecies` if relevant
 - `order` follows DwC standard terms (https://dwc.tdwg.org/terms/)
 - `family` follows DwC standard terms
