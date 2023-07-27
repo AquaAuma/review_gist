@@ -10,6 +10,9 @@ Repository content and contributions:
 - Contributors to MOL taxonomies: Y.V. Sica, M.S Rogan, D.B. Booher, R. Edwards, M. Lucas, S. Pinkert, A. Ranipeta, A.A. Maureaud, E.L. Sandall
 
 ## Data
+
+*All data files used for the analysis can be found on the OSF project linked at the top, except for butterfly synonym names that are not public ( https://doi.org/10.1111/geb.13475). Data and project should be cited as indicated on OSF as following: Sandall, E. L., Maureaud, A. A., Guralnick, R., McGeoch, M. A., Sica, Y. V., Rogan, M. S., … Jetz, W. (2023, July 27). Project data and code access underlying the globally integrated taxonomic structure. https://doi.org/10.17605/OSF.IO/9RPTQ*
+
 - `MOL/`: taxonomies from Map of Life (MOL) https://mol.org/
 - `COL/`: downloaded data from Catalogue of Life (COL) for selected groups https://www.catalogueoflife.org/
 - `GBIF/`: downloaded data from the Global Biodiversity Information Facility (GBIF) https://www.gbif.org/
