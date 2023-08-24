@@ -1,4 +1,4 @@
-## A Global Integrated Structure of Taxonomy supporting biodiversity science and conservation
+## A globally integrated structure of taxonomy supporting biodiversity science and conservation
 
 OSF related project and underlying data https://osf.io/9rptq/
 
